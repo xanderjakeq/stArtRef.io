@@ -10,7 +10,7 @@ const styles = {
 const Footer = (props) => {
     return(
         <footer className = {props.className}>
-            <h5>Made with ❤️ by <a href="https://medium.com/@xanderjakeq" target="_blank">xanderjakeq</a></h5>
+            <h4>Made with ❤️ by <a href="https://medium.com/@xanderjakeq" target="_blank">xanderjakeq</a></h4>
         </footer>
     );
 }

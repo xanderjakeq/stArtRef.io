@@ -5,7 +5,9 @@ import './App.css';
 import Ref from './components/Ref/Ref';
 import Footer from './components/Footer/Footer';
 import SearchForm from './components/SearchForm/SearchForm';
-import OptionButton from './components/OptionButton/OptionButton'
+import OptionButton from './components/OptionButton/OptionButton';
+
+import seedJson from './seed';
 
 //use for user management later.
 import * as firebase from 'firebase';
@@ -35,84 +37,27 @@ class App extends Component {
     super(props);    
 
     this.state = {
-      activeOption: "",
-      searchFieldValuePlaceholder: "What do you want to draw",
-      searchFieldValue: "",
-      totalPages: 1,
-      randomEdge: 3,
-      json: {
-        results: [
-          {
-            urls:{
-              small: "https://images.unsplash.com/photo-1517250777203-905993e9060d?ixlib=rb-0.3.5&q=85&fm=jpg&crop=entropy&cs=srgb&ixid=eyJhcHBfaWQiOjM2OTIyfQ&s=2fb09059653d6fc0c8701d6cfd55d67b"
-            },
-            user:{
-              first_name: "author",
-              links: {
-                html: "#",
-              }
-            }
-          },
-          {
-            urls:{
-              small: "https://images.unsplash.com/photo-1517250777203-905993e9060d?ixlib=rb-0.3.5&q=85&fm=jpg&crop=entropy&cs=srgb&ixid=eyJhcHBfaWQiOjM2OTIyfQ&s=2fb09059653d6fc0c8701d6cfd55d67b"
-            },
-            user:{
-              first_name: "author",
-              links: {
-                html: "#",
-              }
-            }
-          },
-          {
-            urls:{
-              small: "https://images.unsplash.com/photo-1517250777203-905993e9060d?ixlib=rb-0.3.5&q=85&fm=jpg&crop=entropy&cs=srgb&ixid=eyJhcHBfaWQiOjM2OTIyfQ&s=2fb09059653d6fc0c8701d6cfd55d67b"
-            },
-            user:{
-              first_name: "author",
-              links: {
-                html: "#",
-              }
-            }
-          },
-        ]
-      }
+      photos: seedJson
     }
 
-    this.handleOptionClick = this.handleOptionClick.bind(this);
     this.handleGenerateClick = this.handleGenerateClick.bind(this);
-    this.handleSearchOnChange = this.handleSearchOnChange.bind(this);
   }
 
-  handleOptionClick(option){
-    this.setState({
-      activeOption: option
-    });
-  }
 
   handleGenerateClick(){
     const total = this.state.clicks; 
-    unsplash.search.photos( this.state.searchFieldValue != "" ? this.state.searchFieldValue : this.state.searchFieldValuePlaceholder, Math.floor(Math.random() * this.state.totalPages +1), 30)
-    .then(toJson)
-      .then(json => {
-        // Your code
-        console.log(json)
-        this.setState({
-          json: json,
-          randomEdge: json.results.length,
-          totalPages: json.total_pages
-        })
-    });
+    unsplash.photos.getRandomPhoto({count:"3"})
+      .then(toJson)
+        .then(json => {
+          // Your code
+          this.setState({
+            photos: json
+          })
+      });
   }
 
-  handleSearchOnChange(e){
-    this.setState({
-      searchFieldValue: e.target.value
-    })
-  }
 
   render() {
-    
     return (
       <div className="App">
         <header className="App-header">
@@ -120,20 +65,21 @@ class App extends Component {
           <h1 className="App-title">stArtref</h1>
           <p>draw something new inspired by 2-3 refs</p>
         </header>
-        <p className="App-intro">
-           What do you want to draw?
-        </p>
-        
-        <OptionButton option = "#characters" onClick = {this.handleOptionClick} className = {this.state.activeOption === "#characters"? "option-btn-active" : "option-btn"}/>
-        <OptionButton option = "#environments" onClick = {this.handleOptionClick} className = {this.state.activeOption === "#environments"? "option-btn-active" : "option-btn"}/>    
+        <h3 className="App-intro">
+        Just draw! (•̀o•́)ง
+        </h3>
+            
         <br/>
-        {/* <SearchForm onChange = {this.handleSearchOnChange} onSubmit = {this.handleGenerateClick} placeholder = {this.state.searchFieldValuePlaceholder} value = {this.state.searchFieldValue}/> */}
+
         <button onClick = {this.handleGenerateClick} className = "generate-btn">generate</button> 
         <div className="ref-wrapper">
-          <Ref photoInfo = {this.state.json.results[Math.floor(Math.random() * this.state.randomEdge)]}/>
-          <Ref photoInfo = {this.state.json.results[Math.floor(Math.random() * this.state.randomEdge)]}/>
-          <Ref photoInfo = {this.state.json.results[Math.floor(Math.random() * this.state.randomEdge)]}/>
+          <Ref photoInfo = {this.state.photos[0]}/>
+          <Ref photoInfo = {this.state.photos[1]}/>
+          <Ref photoInfo = {this.state.photos[2]}/>
         </div>
+
+        <h5>All photos are from <a href="https://unsplash.com/?utm_source=startref&utm_medium=referral">Unsplash</a></h5>
+        <p>Share what you drew or see what others did. Tag your post with #startrefio <br/> <a href= "https://www.instagram.com/explore/tags/startrefio/" target="blank" >👉</a></p>
 
         <Footer className = "footer"/>
       </div>
