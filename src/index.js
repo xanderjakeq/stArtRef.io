@@ -5,7 +5,6 @@ import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 
 import * as firebase from 'firebase';
-import unsplash from 'unsplash-js';
 
 const config = {
     apiKey: "AIzaSyAGIkRHXMQUv3ODM56v6WGGIlGrVW12QsE",

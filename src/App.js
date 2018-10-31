@@ -4,8 +4,6 @@ import './App.css';
 
 import Ref from './components/Ref/Ref';
 import Footer from './components/Footer/Footer';
-import SearchForm from './components/SearchForm/SearchForm';
-import OptionButton from './components/OptionButton/OptionButton';
 
 import seedJson from './seed';
 
@@ -14,22 +12,12 @@ import * as firebase from 'firebase';
 
 import Unsplash, {toJson} from 'unsplash-js';
 
+// TODO: Create backend for this
 const unsplash = new Unsplash({
   applicationId: "2ad52822b76c86f81277427123910eb1eafbe981acd64ef570481310aa46b024",
   secret: "5bdbad8893f8f07c3eb393dc2d4ef73894caf6494a4da5ab65214f04b37c34ec",
   callbackUrl: "urn:ietf:wg:oauth:2.0:oob",
 });
-
-var defaultPhotos;
-
-let initJson;
-    unsplash.search.photos("portraits", 7, 30)
-    .then(toJson)
-      .then(json => {
-
-        defaultPhotos = json;
-        
-    });
 
 class App extends Component {
 
@@ -43,19 +31,20 @@ class App extends Component {
     this.handleGenerateClick = this.handleGenerateClick.bind(this);
   }
 
-
   handleGenerateClick(){
-    const total = this.state.clicks; 
+    // TODO: limit user to 5 generates. Force  them to get drawing!
+    const totalClicks = 0; 
     unsplash.photos.getRandomPhoto({count:"3"})
       .then(toJson)
         .then(json => {
-          // Your code
+          //change photos state to new photos
           this.setState({
             photos: json
           })
       });
   }
 
+  
 
   render() {
     return (
@@ -79,7 +68,12 @@ class App extends Component {
         </div>
 
         <h5>All photos are from <a href="https://unsplash.com/?utm_source=startref&utm_medium=referral">Unsplash</a></h5>
-        <p>Share what you drew or see what others did. Tag your post with #startrefio <br/> <a href= "https://www.instagram.com/explore/tags/startrefio/" target="blank" >👉</a></p>
+        <p>
+          Share what you drew or see what others did. Tag your post with #startrefio <br/> 
+          <a href= "https://www.instagram.com/explore/tags/startrefio/" target="_blank" rel="noopener noreferrer">
+            <span role="img" aria-label="Link to community artwork">👉</span>
+          </a>
+        </p>
 
         <Footer className = "footer"/>
       </div>
