@@ -29,6 +29,7 @@ class App extends Component {
     }
 
     this.handleGenerateClick = this.handleGenerateClick.bind(this);
+    this.testFetch = this.testFetch.bind(this);
   }
 
   handleGenerateClick(){
@@ -42,6 +43,16 @@ class App extends Component {
             photos: json
           })
       });
+  }
+
+  testFetch(){
+    fetch('/random-photos')
+      .then(function(response) {
+        return response.json();
+      })
+      .then(function(myJson) {
+        console.log(JSON.stringify(myJson));
+    });
   }
 
   
@@ -60,7 +71,7 @@ class App extends Component {
             
         <br/>
 
-        <button onClick = {this.handleGenerateClick} className = "generate-btn">generate</button> 
+        <button onClick = {this.testFetch} className = "generate-btn">generate</button> 
         <div className="ref-wrapper">
           <Ref photoInfo = {this.state.photos[0]}/>
           <Ref photoInfo = {this.state.photos[1]}/>
