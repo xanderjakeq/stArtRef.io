@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { toJson } from "unsplash-js";
+
 import logo from './logo.svg';
 import './App.css';
 
@@ -10,15 +12,6 @@ import seedJson from './seed';
 //use for user management later.
 import * as firebase from 'firebase';
 
-import Unsplash, {toJson} from 'unsplash-js';
-
-// TODO: Create backend for this
-const unsplash = new Unsplash({
-  applicationId: "2ad52822b76c86f81277427123910eb1eafbe981acd64ef570481310aa46b024",
-  secret: "5bdbad8893f8f07c3eb393dc2d4ef73894caf6494a4da5ab65214f04b37c34ec",
-  callbackUrl: "urn:ietf:wg:oauth:2.0:oob",
-});
-
 class App extends Component {
 
   constructor(props){
@@ -29,33 +22,20 @@ class App extends Component {
     }
 
     this.handleGenerateClick = this.handleGenerateClick.bind(this);
-    this.testFetch = this.testFetch.bind(this);
   }
 
   handleGenerateClick(){
     // TODO: limit user to 5 generates. Force  them to get drawing!
-    const totalClicks = 0; 
-    unsplash.photos.getRandomPhoto({count:"3"})
-      .then(toJson)
-        .then(json => {
-          //change photos state to new photos
-          this.setState({
-            photos: json
-          })
+    fetch("https://strtrf-backend.herokuapp.com/random-photos")
+    .then(toJson)
+      .then(json => {
+        //change photos state to new photos
+        //the json for unsplash getrandomphotos api with count parameter is an array
+        this.setState({
+          photos: json
+        })
       });
   }
-
-  testFetch(){
-    fetch('/random-photos')
-      .then(function(response) {
-        return response.json();
-      })
-      .then(function(myJson) {
-        console.log(JSON.stringify(myJson));
-    });
-  }
-
-  
 
   render() {
     return (
@@ -71,7 +51,7 @@ class App extends Component {
             
         <br/>
 
-        <button onClick = {this.testFetch} className = "generate-btn">generate</button> 
+        <button onClick = {this.handleGenerateClick} className = "generate-btn">generate</button> 
         <div className="ref-wrapper">
           <Ref photoInfo = {this.state.photos[0]}/>
           <Ref photoInfo = {this.state.photos[1]}/>
