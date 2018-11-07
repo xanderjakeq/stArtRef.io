@@ -26,7 +26,9 @@ class App extends Component {
 
   handleGenerateClick(){
     // TODO: limit user to 5 generates. Force  them to get drawing!
-    fetch("https://strtrf-backend.herokuapp.com/random-photos")
+    let local = "http://localhost:3001/random-photos";
+    let production = "https://strtrf-backend.herokuapp.com/random-photos";
+    fetch(local)
     .then(toJson)
       .then(json => {
         //change photos state to new photos
@@ -35,6 +37,10 @@ class App extends Component {
           photos: json
         })
       });
+  }
+
+  componentDidMount(){
+    this.handleGenerateClick();
   }
 
   render() {
