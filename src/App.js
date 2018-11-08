@@ -18,23 +18,35 @@ class App extends Component {
     super(props);    
 
     this.state = {
-      photos: seedJson
+      unsplashPhotos: seedJson,
+      scribble: '' 
     }
 
     this.handleGenerateClick = this.handleGenerateClick.bind(this);
+    this.getScribble = this.getScribble.bind(this);
+  }
+
+  getScribble(){
+    let local = "http://localhost:3001/scribbles";
+    fetch(local)
+    .then(toJson)
+      .then(json => {
+        console.log(json);
+      });
   }
 
   handleGenerateClick(){
     // TODO: limit user to 5 generates. Force  them to get drawing!
     let local = "http://localhost:3001/random-photos";
     let production = "https://strtrf-backend.herokuapp.com/random-photos";
+    this.getScribble();
     fetch(local)
     .then(toJson)
       .then(json => {
         //change photos state to new photos
         //the json for unsplash getrandomphotos api with count parameter is an array
         this.setState({
-          photos: json
+          unsplashPhotos: json,
         })
       });
   }
@@ -57,11 +69,14 @@ class App extends Component {
             
         <br/>
 
-        <button onClick = {this.handleGenerateClick} className = "generate-btn">generate</button> 
+        <button onClick = {this.handleGenerateClick} className = "generate-btn">generate</button>
+        <div className="scribbles">
+          {/* <Ref photoInfo = {}/> */}
+        </div>
         <div className="ref-wrapper">
-          <Ref photoInfo = {this.state.photos[0]}/>
-          <Ref photoInfo = {this.state.photos[1]}/>
-          <Ref photoInfo = {this.state.photos[2]}/>
+          <Ref photoInfo = {this.state.unsplashPhotos[0]}/>
+          <Ref photoInfo = {this.state.unsplashPhotos[1]}/>
+          <Ref photoInfo = {this.state.unsplashPhotos[2]}/>
         </div>
 
         <h5>All photos are from <a href="https://unsplash.com/?utm_source=startref&utm_medium=referral">Unsplash</a></h5>
