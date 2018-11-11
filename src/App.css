@@ -56,6 +56,24 @@ img{
   overflow: hidden;
 }
 
+.scribble{
+  margin-left: auto;
+  margin-right: auto;
+  width: 35%;
+  height: 35%;
+  overflow: hidden;
+  margin-top: 1%;
+  margin-bottom: 3%;
+}
+.scribble > a > img{
+  border-radius: 2%;
+
+  /* border-radius: 8px 8px 8px 8px; */
+  -moz-border-radius: 8px 8px 8px 8px;
+  -webkit-border-radius: 8px 8px 8px 8px;
+  border: .5em outset #000000;
+}
+
 .btn{
   /* positioning */
   /* display: block;
@@ -151,7 +169,7 @@ a:active{
   width: 100%;
   height: var(--footer-height);
   bottom: 0px;
-  background-color: rgb(70,83,98, .5);
+  background-color: rgb(70,83,98, .9);
 }
 
 .author{

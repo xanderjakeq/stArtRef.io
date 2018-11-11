@@ -5,6 +5,7 @@ import logo from './logo.svg';
 import './App.css';
 
 import Ref from './components/Ref/Ref';
+import Scribble from './components/Scribble/Scribble';
 import Footer from './components/Footer/Footer';
 
 import seedJson from './seed';
@@ -32,6 +33,9 @@ class App extends Component {
     .then(toJson)
       .then(json => {
         console.log(json);
+        this.setState({
+          scribble: json
+        })
       });
   }
 
@@ -61,7 +65,7 @@ class App extends Component {
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">stArtref</h1>
-          <p>draw something new inspired by 2-3 refs</p>
+          <p>Finish the Scribble</p>
         </header>
         <h3 className="App-intro">
         Just draw! (•̀o•́)ง
@@ -71,7 +75,7 @@ class App extends Component {
 
         <button onClick = {this.handleGenerateClick} className = "generate-btn">generate</button>
         <div className="scribbles">
-          {/* <Ref photoInfo = {}/> */}
+          <Scribble scribbleUrl = {this.state.scribble}/>
         </div>
         <div className="ref-wrapper">
           <Ref photoInfo = {this.state.unsplashPhotos[0]}/>
@@ -83,7 +87,8 @@ class App extends Component {
         <p>
           Share what you drew or see what others did. Tag your post with #startrefio on<br/> 
           <a href= "https://www.instagram.com/explore/tags/startrefio/" target="_blank" rel="noopener noreferrer">
-            <span role="img" aria-label="Link to community artwork">👉 Instagram</span>
+            <span role="img" aria-label="Link to community artwork">👉</span>
+            Instagram
           </a>
         </p>
 
