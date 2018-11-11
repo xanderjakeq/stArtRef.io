@@ -66,9 +66,9 @@ class App extends Component {
 
         <h5>All photos are from <a href="https://unsplash.com/?utm_source=startref&utm_medium=referral">Unsplash</a></h5>
         <p>
-          Share what you drew or see what others did. Tag your post with #startrefio <br/> 
+          Share what you drew or see what others did. Tag your post with #startrefio on<br/> 
           <a href= "https://www.instagram.com/explore/tags/startrefio/" target="_blank" rel="noopener noreferrer">
-            <span role="img" aria-label="Link to community artwork">👉</span>
+            <span role="img" aria-label="Link to community artwork">👉 Instagram</span>
           </a>
         </p>
 
