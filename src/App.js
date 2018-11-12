@@ -10,10 +10,10 @@ import Footer from './components/Footer/Footer';
 
 import seedJson from './seed';
 
-const rootUrl = "https://strtrf-backend.herokuapp.com/";
-
 //use for user management later.
 import * as firebase from 'firebase';
+
+const rootUrl = "https://strtrf-backend.herokuapp.com/";
 
 class App extends Component {
 
@@ -32,7 +32,7 @@ class App extends Component {
   getScribble(){
     let local = "http://localhost:3001/scribbles";
     let production = rootUrl + "scribbles";
-    fetch(production)
+    fetch(local)
     .then(toJson)
       .then(json => {
         console.log(json);
@@ -47,7 +47,7 @@ class App extends Component {
     let local = "http://localhost:3001/random-photos";
     let production = "https://strtrf-backend.herokuapp.com/random-photos";
     this.getScribble();
-    fetch(production)
+    fetch(local)
     .then(toJson)
       .then(json => {
         //change photos state to new photos
@@ -86,13 +86,17 @@ class App extends Component {
           <Ref photoInfo = {this.state.unsplashPhotos[1]}/>
         </div>
 
-        <h5>All photos are from <a href="https://unsplash.com/?utm_source=startref&utm_medium=referral">Unsplash</a></h5>
+        <h5>Photos are from <a href="https://unsplash.com/?utm_source=startref&utm_medium=referral">Unsplash</a></h5>
         <p>
           Share what you drew or see what others did. Tag your post with #startrefio on<br/> 
           <a href= "https://www.instagram.com/explore/tags/startrefio/" target="_blank" rel="noopener noreferrer">
             <span role="img" aria-label="Link to community artwork">👉</span>
             Instagram
           </a>
+        </p>
+
+        <p>
+          Contribute by submitting your own scribbles on <a href="https://startrefio.tumblr.com/submit" target="_blank">Tumblr</a>
         </p>
 
         <Footer className = "footer"/>
