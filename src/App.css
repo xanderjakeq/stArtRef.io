@@ -57,21 +57,18 @@ img{
 }
 
 .scribble{
-  margin-left: auto;
-  margin-right: auto;
-  width: 35%;
-  height: 35%;
   overflow: hidden;
   margin-top: 1%;
   margin-bottom: 3%;
+  width: 28%;
+  height: 28%;
 }
 .scribble > a > img{
   border-radius: 2%;
-
   /* border-radius: 8px 8px 8px 8px; */
   -moz-border-radius: 8px 8px 8px 8px;
   -webkit-border-radius: 8px 8px 8px 8px;
-  border: .5em outset #000000;
+  border: .3em outset #000000;
 }
 
 .btn{

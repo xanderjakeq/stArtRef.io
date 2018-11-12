@@ -75,12 +75,13 @@ class App extends Component {
 
         <button onClick = {this.handleGenerateClick} className = "generate-btn">generate</button>
         <div className="scribbles">
-          <Scribble scribbleUrl = {this.state.scribble}/>
+          {/* <Scribble scribbleUrl = {this.state.scribble}/> */}
         </div>
         <div className="ref-wrapper">
           <Ref photoInfo = {this.state.unsplashPhotos[0]}/>
+          <Scribble scribbleUrl = {this.state.scribble}/>
           <Ref photoInfo = {this.state.unsplashPhotos[1]}/>
-          <Ref photoInfo = {this.state.unsplashPhotos[2]}/>
+          {/* <Ref photoInfo = {this.state.unsplashPhotos[2]}/> */}
         </div>
 
         <h5>All photos are from <a href="https://unsplash.com/?utm_source=startref&utm_medium=referral">Unsplash</a></h5>
