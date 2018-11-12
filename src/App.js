@@ -10,6 +10,8 @@ import Footer from './components/Footer/Footer';
 
 import seedJson from './seed';
 
+const rootUrl = "https://strtrf-backend.herokuapp.com/";
+
 //use for user management later.
 import * as firebase from 'firebase';
 
@@ -29,7 +31,8 @@ class App extends Component {
 
   getScribble(){
     let local = "http://localhost:3001/scribbles";
-    fetch(local)
+    let production = rootUrl + "scribbles";
+    fetch(production)
     .then(toJson)
       .then(json => {
         console.log(json);
@@ -44,7 +47,7 @@ class App extends Component {
     let local = "http://localhost:3001/random-photos";
     let production = "https://strtrf-backend.herokuapp.com/random-photos";
     this.getScribble();
-    fetch(local)
+    fetch(production)
     .then(toJson)
       .then(json => {
         //change photos state to new photos
@@ -65,7 +68,10 @@ class App extends Component {
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">stArtref</h1>
-          <p>Finish the Scribble</p>
+          <p>
+            Finish the Scribble <br/>
+            Draw something new with 2-3 refs.
+          </p>
         </header>
         <h3 className="App-intro">
         Just draw! (•̀o•́)ง
@@ -74,14 +80,10 @@ class App extends Component {
         <br/>
 
         <button onClick = {this.handleGenerateClick} className = "generate-btn">generate</button>
-        <div className="scribbles">
-          {/* <Scribble scribbleUrl = {this.state.scribble}/> */}
-        </div>
         <div className="ref-wrapper">
           <Ref photoInfo = {this.state.unsplashPhotos[0]}/>
           <Scribble scribbleUrl = {this.state.scribble}/>
           <Ref photoInfo = {this.state.unsplashPhotos[1]}/>
-          {/* <Ref photoInfo = {this.state.unsplashPhotos[2]}/> */}
         </div>
 
         <h5>All photos are from <a href="https://unsplash.com/?utm_source=startref&utm_medium=referral">Unsplash</a></h5>
