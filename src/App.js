@@ -32,7 +32,7 @@ class App extends Component {
   getScribble(){
     let local = "http://localhost:3001/scribbles";
     let production = "https://backend-strtrf.herokuapp.com/scribbles";
-    fetch(local)
+    fetch(production)
     .then(toJson)
       .then(json => {
         console.log(json);
@@ -47,7 +47,7 @@ class App extends Component {
     let local = "http://localhost:3001/random-photos";
     let production = "https://backend-strtrf.herokuapp.com/random-photos";
     this.getScribble();
-    fetch(local)
+    fetch(production)
     .then(toJson)
       .then(json => {
         //change photos state to new photos
