@@ -31,8 +31,8 @@ class App extends Component {
 
   getScribble(){
     let local = "http://localhost:3001/scribbles";
-    let production = "https://strtrf-bcknd.herokuapp.com//scribbles";
-    fetch(production)
+    let production = "https://backend-strtrf.herokuapp.com/scribbles";
+    fetch(local)
     .then(toJson)
       .then(json => {
         console.log(json);
@@ -45,9 +45,9 @@ class App extends Component {
   handleGenerateClick(){
     // TODO: limit user to 5 generates. Force  them to get drawing!
     let local = "http://localhost:3001/random-photos";
-    let production = "https://strtrf-bcknd.herokuapp.com//random-photos";
+    let production = "https://backend-strtrf.herokuapp.com/random-photos";
     this.getScribble();
-    fetch(production)
+    fetch(local)
     .then(toJson)
       .then(json => {
         //change photos state to new photos
