@@ -82,7 +82,7 @@ class App extends Component {
         <button onClick = {this.handleGenerateClick} className = "generate-btn">generate</button>
         <div className="ref-wrapper">
           <Ref photoInfo = {this.state.unsplashPhotos[0]}/>
-          <Scribble scribbleUrl = {this.state.scribble}/>
+          <Scribble scribbleUrl = {this.state.scribble || this.state.unsplashPhotos[0]}/>
           <Ref photoInfo = {this.state.unsplashPhotos[1]}/>
         </div>
 
@@ -96,7 +96,7 @@ class App extends Component {
         </p>
 
         <p>
-          Contribute by submitting your own scribbles on <a href="https://startrefio.tumblr.com/submit" target="_blank">Tumblr</a>
+          Contribute by submitting your own scribbles on <a href="https://startrefio.tumblr.com/submit" target="_blank" rel="noopener noreferrer">Tumblr</a>
         </p>
 
         <Footer className = "footer"/>

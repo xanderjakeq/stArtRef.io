@@ -41,7 +41,7 @@
 
 .refs{
   /* float: left; */
-  margin: 3px;
+  /* margin: 2px; */
   justify-content: flex-start;
 }
 
@@ -49,11 +49,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
 }
 
 img{
-  width: 95%;
-  height: 95%;
+  width: 25%;
+  height: 25%;
   overflow: hidden;
 }
 
@@ -61,15 +62,40 @@ img{
   overflow: hidden;
   margin-top: 1%;
   margin-bottom: 3%;
-  width: 28%;
-  height: 28%;
+  width: 90%;
+  height: 90%;
 }
+
+@media only screen and (min-width: 600px) {
+  .scribble {
+    width: 28%;
+    height: 28%;
+  }
+
+  
+  img{
+    width: 95%;
+    height: 95%;
+    overflow: hidden;
+  }
+
+  .author{
+    margin-left: -50%;
+  }
+
+  .ref-wrapper{
+    flex-direction: row;
+  }
+  
+}
+
 .scribble > a > img{
   border-radius: 2%;
   /* border-radius: 8px 8px 8px 8px; */
   -moz-border-radius: 8px 8px 8px 8px;
   -webkit-border-radius: 8px 8px 8px 8px;
-  border: .3em outset #000000;
+  border: .1em outset #000000;
+  
 }
 
 .btn{
@@ -171,7 +197,7 @@ a:active{
 }
 
 .author{
-  margin-left: -50%;
+  margin-left: 0%;
   font-size: .9em;
 }
 
