@@ -22,7 +22,7 @@ class App extends Component {
 
     this.state = {
       unsplashPhotos: seedJson,
-      scribble: '' 
+      scribble: seedJson[1].urls.small
     }
 
     this.handleGenerateClick = this.handleGenerateClick.bind(this);
@@ -31,11 +31,10 @@ class App extends Component {
 
   getScribble(){
     let local = "http://localhost:3001/scribbles";
-    let production = "https://backend-strtrf.herokuapp.com/scribbles";
+    let production = "https://startref-backend.herokuapp.com/scribbles";
     fetch(production)
     .then(toJson)
       .then(json => {
-        console.log(json);
         this.setState({
           scribble: json
         })
@@ -45,7 +44,7 @@ class App extends Component {
   handleGenerateClick(){
     // TODO: limit user to 5 generates. Force  them to get drawing!
     let local = "http://localhost:3001/random-photos";
-    let production = "https://backend-strtrf.herokuapp.com/random-photos";
+    let production = "https://startref-backend.herokuapp.com/random-photos";
     this.getScribble();
     fetch(production)
     .then(toJson)
@@ -82,8 +81,8 @@ class App extends Component {
         <button onClick = {this.handleGenerateClick} className = "generate-btn">generate</button>
         <div className="ref-wrapper">
           <Ref photoInfo = {this.state.unsplashPhotos[0]}/>
-          <Scribble scribbleUrl = {this.state.scribble || this.state.unsplashPhotos[0]}/>
-          <Ref photoInfo = {this.state.unsplashPhotos[1]}/>
+          <Scribble scribbleUrl = {this.state.scribble}/>
+          <Ref photoInfo = {this.state.unsplashPhotos[2]}/>
         </div>
 
         <h5>Photos are from <a href="https://unsplash.com/?utm_source=startref&utm_medium=referral">Unsplash</a></h5>
