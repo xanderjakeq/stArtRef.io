@@ -8,6 +8,7 @@
   background-color: #FAFAFA;
   max-width: 100%;
   overflow: hidden;
+  padding-top: 60px;
 }
 
 
@@ -54,7 +55,7 @@
 
 img{
   width: 45%;
-  height: 25%;
+  height: auto;
   overflow: hidden;
 }
 
@@ -66,7 +67,12 @@ img{
   height: 90%;
 }
 
+/* MEDIA QUERY */
+
 @media only screen and (min-width: 600px) {
+  .App{
+    padding-top: 80px;
+  }
   .scribble {
     width: 28%;
     height: 28%;
@@ -189,12 +195,19 @@ a:active{
 }
 
 .footer{
-  position: fixed;
-  width: 100%;
-  height: var(--footer-height);
-  bottom: 0px;
+  /* position: fixed; */
+  /* width: 100%;
+  height: 10vh; */
+  /* height: var(--footer-height); */
+  /* bottom: 0px; */
+  position: relative;
+  bottom: 0%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
   background-color: rgb(70,83,98, .9);
 }
+  
 
 .author{
   margin-left: 0%;
@@ -239,3 +252,4 @@ a:active{
 .option-btn-active:focus {
   outline:0;
 }
+

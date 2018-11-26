@@ -1,0 +1,86 @@
+
+.startref_nav {
+    position: fixed;
+    /* z-index: 10; */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 60px;
+    background-color: #fff;
+    font-size: 25px;
+
+    border-bottom: 1px solid rgba(0,0,0,.0975);
+}
+  
+.startref_nav img {
+    width: 100px;
+    /* to push left border */
+    padding-left:2%;
+}
+  
+.insta_text {
+    padding-left: 10px;
+}
+  
+.startref_icons div{
+    display: inline;
+    padding-right: 10px;
+    
+}
+
+/* .startref_icons{
+    padding-right: 5%;
+} */
+
+.appName{
+    display: none;
+}
+
+
+
+@media only screen and (min-width: 600px) {
+    
+    .startref_nav {
+        position: fixed;
+        /* z-index: 10; */
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        height: 80px;
+        background-color: #fff;
+        font-size: 25px;
+    
+        border-bottom: 1px solid rgba(0,0,0,.0975);
+    }
+    .startref_nav img {
+        width: 155px;
+        height: auto;
+    
+        /* to push left border */
+        padding-left:20%;
+    }
+
+    .appName{
+        display: block;
+    }
+    
+      
+    .insta_text {
+        padding-left: 10px;
+    }
+      
+    .startref_icons div{
+        display: inline;
+        padding-right: 30px;
+        
+    }
+    
+    .startref_icons{
+        /* to push right border */
+        padding-right: 20%;
+    }
+    
+    
+}

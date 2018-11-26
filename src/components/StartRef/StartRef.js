@@ -7,7 +7,6 @@ import '../../App.css';
 
 import Ref from '../Ref/Ref';
 import Scribble from '../Scribble/Scribble';
-import Footer from '../Footer/Footer';
 
 import seedJson from '../../seed';
 
@@ -66,8 +65,8 @@ class StartRef extends Component {
         return (
           <div className="App">
             <header className="App-header">
-              <img src={logo} className="App-logo" alt="logo" />
-              <h1 className="App-title">stArtRef</h1>
+              {/* <img src={logo} className="App-logo" alt="logo" /> */}
+              {/* <h1 className="App-title">stArtRef</h1> */}
               <p>
                 Finish the Scribble <br/>
                 Draw something new with 2-3 refs.
@@ -98,8 +97,6 @@ class StartRef extends Component {
             <p>
               Contribute by submitting your own scribbles on <a href="https://startrefio.tumblr.com/submit" target="_blank" rel="noopener noreferrer">Tumblr</a>
             </p>
-    
-            <Footer className = "footer"/>
           </div>
         );
       }
