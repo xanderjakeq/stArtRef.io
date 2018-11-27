@@ -1,0 +1,41 @@
+.post{
+    display: block;
+    width: 123px;
+    height: 123px;
+}
+
+.grid{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+
+    width: 100%;
+}
+
+.postWrapper{
+    padding-right: 2rem;
+
+width: calc(50% - 2rem);
+
+padding-bottom: .2rem;
+}
+
+   
+
+@media only screen and (min-width: 600px) {
+    .post{
+        width: 300px;
+        height: auto;
+    }
+    
+    .postWrapper{
+        /* margin: 1rem; */
+        width: calc(50% - 2rem);
+    }
+}
+  
+  @media screen and (min-width: 1000px) {
+    .postWrapper {
+      width: calc(33.3333% - 2rem);
+    }
+  }

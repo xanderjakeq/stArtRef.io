@@ -69,31 +69,7 @@ img{
 
 /* MEDIA QUERY */
 
-@media only screen and (min-width: 600px) {
-  .App{
-    padding-top: 80px;
-  }
-  .scribble {
-    width: 28%;
-    height: 28%;
-  }
 
-  
-  img{
-    width: 95%;
-    height: 95%;
-    overflow: hidden;
-  }
-
-  .author{
-    margin-left: -50%;
-  }
-
-  .ref-wrapper{
-    flex-direction: row;
-  }
-  
-}
 
 .scribble > a > img{
   border-radius: 2%;
@@ -198,7 +174,7 @@ a:active{
   /* position: fixed; */
   /* width: 100%;
   height: 10vh; */
-  /* height: var(--footer-height); */
+  height: var(--footer-height);
   /* bottom: 0px; */
   position: relative;
   bottom: 0%;
@@ -253,3 +229,42 @@ a:active{
   outline:0;
 }
 
+
+#MainWrapper{
+  min-height: calc(100vh - 64px);
+  padding-left: 2%;
+  padding-right: 2%;
+}
+
+@media only screen and (min-width: 600px) {
+  .App{
+    padding-top: 80px;
+  }
+  .scribble {
+    width: 28%;
+    height: 28%;
+  }
+
+  
+  img{
+    width: 95%;
+    height: 95%;
+    overflow: hidden;
+  }
+
+  .author{
+    margin-left: -50%;
+  }
+
+  .ref-wrapper{
+    flex-direction: row;
+  }
+
+  
+  #MainWrapper{
+    min-height: calc(100vh - 64px);
+    padding-left: 20%;
+    padding-right: 20%;
+  }
+  
+}

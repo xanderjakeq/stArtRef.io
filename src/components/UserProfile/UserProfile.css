@@ -1,0 +1,102 @@
+.profileWrapper{
+    padding-top: 60px;
+    
+  }
+
+  .profileCard{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-left: 16px;
+    margin-right: 16px;
+    margin-top: 30px;
+    margin-bottom: 24px;
+}
+
+.profilePhoto{
+    margin-right: 28px;
+    flex-shrink: 0;
+}
+
+.profilePhoto img{
+    border-radius: 50%;
+    height: 77px;
+    width: 77px;
+}
+
+.text-Info{
+    flex-basis: 0;
+    flex-grow: 1;
+}
+
+.text-Info h2{
+    font-size: 22px;
+    line-height: 26px;
+}
+
+.text-Info h4{
+    font-size: 14px;
+    line-height: 20px;
+}
+
+.text-Info *{
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.postsWrapper{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+
+@media only screen and (min-width: 600px) {
+    .profileWrapper{
+        padding-top: 80px;
+    }
+
+    .profileCard{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        margin-left: 16px;
+        margin-right: 16px;
+        margin-top: 30px;
+        margin-bottom: 44px;
+        
+    }
+    
+    .profilePhoto{
+        margin-right: 28px;
+        flex-shrink: 0;
+    }
+    
+    .profilePhoto img{
+        border-radius: 50%;
+        height: 77px;
+        width: 77px;
+    }
+    
+    .text-Info{
+        flex-basis: 0;
+        flex-grow: 1;
+    }
+    
+    .text-Info h2{
+        font-size: 22px;
+        line-height: 26px;
+    }
+    
+    .text-Info h4{
+        font-size: 14px;
+        line-height: 20px;
+    }
+    
+    .text-Info *{
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+    
+
+}

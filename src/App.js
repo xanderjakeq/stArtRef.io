@@ -12,9 +12,14 @@ class App extends Component {
       <Router>
         <div>
           <NavBar />
-        <Route exact={true} path = {"/"} component = {StartRef} />
-        <Route path = {"/:id"} component = {UserProfile}/>
-        <Footer className = "footer"/>
+          <div id = "MainWrapper">
+            
+
+            <Route exact={true} path = {"/"} component = {StartRef} />
+            <Route path = {"/:id"} component = {UserProfile}/>
+            {/* <Route exact = {true} path = {"/explore"} component = {UserProfile} /> */}
+          </div>
+          <Footer className = "footer"/>
         </div>
       </Router>
     );
