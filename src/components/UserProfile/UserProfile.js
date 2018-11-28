@@ -30,6 +30,7 @@ const UserProfile = (props) => {
                     <Post/>
                     <Post/>
                     <Post/>
+                    
                 </div>
             </div>
         </div>

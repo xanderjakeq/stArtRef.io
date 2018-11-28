@@ -1,7 +1,7 @@
 .post{
     display: block;
-    width: 123px;
-    height: 123px;
+    width: 100%;
+    height: auto;
 }
 
 .grid{
@@ -10,14 +10,20 @@
     flex-direction: row;
 
     width: 100%;
+    
+    margin-top: 2%;
+    margin-bottom: 2%;
 }
 
 .postWrapper{
-    padding-right: 2rem;
+    width: 32.7%;
+    margin: 1px;
 
-width: calc(50% - 2rem);
+    /* padding-right: 2rem;
 
-padding-bottom: .2rem;
+    width: calc(50% - 2rem);
+
+    padding-bottom: .2rem; */
 }
 
    

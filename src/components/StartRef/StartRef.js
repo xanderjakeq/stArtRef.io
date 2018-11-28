@@ -12,7 +12,7 @@ import seedJson from '../../seed';
 
 
 //use for user management later.
-import * as firebase from 'firebase';
+
 
 const rootUrl = "https://strtrf-backend.herokuapp.com/";
 
