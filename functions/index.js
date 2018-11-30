@@ -13,7 +13,7 @@ const firebaseApp = firebase.initializeApp(
 
 
 const app = express();
-
+const database = firebase.database();
 
 
 app.get('/', (request, response) => {
@@ -31,3 +31,24 @@ app.use(function (req, res, next) {
   })
 
 exports.app = functions.https.onRequest(app);
+
+
+exports.createUserAccount = functions.auth.user().onCreate(event => {
+    const uid = event.data.uid;
+    const email = event.data.email;
+    const name = event.data.displayName || email.substring(0,email.indexOf('@'));
+    const photoUrl = event.data.photoURL || 'some default link';
+
+
+    const newUserRef = database.ref().child(`/users/${uid}`);
+    return newUserRef.set({
+        email: email,
+        photoUrl: photoUrl,
+        name: name,
+        uid: uid,
+        isSupervisor: false,
+        totalHours: 0,
+        hours: {uid:0}
+    });
+
+});

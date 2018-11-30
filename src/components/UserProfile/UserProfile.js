@@ -1,10 +1,35 @@
 import React, { Component } from 'react';
+import firebase from 'firebase';
+import {Redirect} from 'react-router-dom';
 
 import './UserProfile.css';
 
 import Post from '../Post/Post';
 
+// let config = {
+//     apiKey: "AIzaSyAGIkRHXMQUv3ODM56v6WGGIlGrVW12QsE",
+//     authDomain: "strtrf.firebaseapp.com",
+//     databaseURL: "https://strtrf.firebaseio.com",
+//     projectId: "strtrf",
+//     storageBucket: "strtrf.appspot.com",
+//     messagingSenderId: "378642240752"
+// }
+
+
+// firebase.initializeApp(config);
+
 const UserProfile = (props) => {
+
+    let loggedIn = true;
+
+    firebase.auth().onAuthStateChanged(firebaseUser => {
+        if(firebaseUser){
+            console.log('logged in')
+        }else{
+            console.log('signed out')
+            loggedIn = false;
+        }
+    })
     return(
         <div className = "profileWrapper">
             {/* profile info */}
@@ -15,11 +40,14 @@ const UserProfile = (props) => {
                 </div>
 
                 {/* div for name and stuff */}
+                {console.log(props)}
                 <div className= "text-Info">
                     <h1>{props.match.params.id}</h1>
-                    <h4>Name</h4>
+                    <h4>{props.uid}</h4>
                     <a href="link to IG">some links</a>
                 </div>
+                <a onClick={() => firebase.auth().signOut()}>Sign-out</a>
+                {renderRedirect(loggedIn)}
             </header>
 
             <div className = "postsWrapper">
@@ -36,5 +64,14 @@ const UserProfile = (props) => {
         </div>
     )
 }
+
+
+function renderRedirect(){
+    if (!loggedIn) {
+      return <Redirect to='/login' />
+    }
+  }
+
+
 
 export default UserProfile;
