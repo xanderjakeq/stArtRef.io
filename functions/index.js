@@ -34,6 +34,7 @@ exports.app = functions.https.onRequest(app);
 
 
 exports.createUserAccount = functions.auth.user().onCreate(user => {
+    const name = user.displayName;
     const uid = user.uid;
     const email = user.email;
     const username = email.substring(0,email.indexOf('@'));
@@ -42,10 +43,12 @@ exports.createUserAccount = functions.auth.user().onCreate(user => {
 
     const newUserRef = database.ref().child(`Users/${uid}`);
     return newUserRef.set({
+        name: name,
         email: email,
         photoUrl: photoUrl,
         username: username,
         uid: uid,
+        website:''
     });
 
 });

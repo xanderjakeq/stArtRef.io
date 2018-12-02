@@ -77,17 +77,18 @@ class Authentication extends Component {
     if (!this.state.isSignedIn) {
       return (
         <div id= "login-form-container">
-          <h1>My App</h1>
-          <p>Please sign-in:</p>
+          <h1>stArtRef</h1>
           <StyledFirebaseAuth uiConfig={this.uiConfig} firebaseAuth={firebase.auth()}/>
+          <p>If its the first time, one will be created for u</p>
         </div>
       );
     }else{
-      console.log(this.state.userDbData)
+      console.log(this.state.user)
 
 
 
     return (
+
       
       <div>
         {/* {this.props.history.push('/@${firebase.auth().currentUser.displayName}')} */}

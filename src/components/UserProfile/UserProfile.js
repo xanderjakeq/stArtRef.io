@@ -17,7 +17,7 @@ class UserProfile extends Component {
         super(props)
 
         this.state = {
-            user: props.user,
+            user: firebase.auth().currentUser,
             userData: {},
             name: props.user.displayName,
             username:'',
@@ -27,55 +27,55 @@ class UserProfile extends Component {
 
 
     componentDidMount(){
-        database.child('Users/' + this.state.username).on('value', snap => {
+        database.child('Users/' + this.state.user.uid).once('value').then( snap => {
             console.log(snap.val())
+            let val = snap.val();
             this.setState({
-                userData: snap.val(),
+                userData: val,
+                username: val.username
                 // username: snap.val().username
             });
         });
     }
 
     render(){
+        return(
+            <div className = "profileWrapper">
+                {/* profile info */}
+                
+                <header className = "profileCard">
+                    {/* div for prof pic */}
+                    {/* || "https://scontent-iad3-1.xx.fbcdn.net/v/t1.0-9/33893737_246394459255620_4084772605851074560_n.jpg?_nc_cat=105&_nc_ht=scontent-iad3-1.xx&oh=05f76fd64f65659096d09182adef55f9&oe=5C764E6B" */}
+                    <div className = "profilePhoto">
+                        <img src= {this.state.photoURL || this.props.user.photoURL } alt ="profile picture"/>
+                    </div>
 
-        console.log(this.state.userData)
-    
-    return(
-        <div className = "profileWrapper">
-            {/* profile info */}
-            <header className = "profileCard">
-                {/* div for prof pic */}
-                {/* || "https://scontent-iad3-1.xx.fbcdn.net/v/t1.0-9/33893737_246394459255620_4084772605851074560_n.jpg?_nc_cat=105&_nc_ht=scontent-iad3-1.xx&oh=05f76fd64f65659096d09182adef55f9&oe=5C764E6B" */}
-                <div className = "profilePhoto">
-                    <img src= {this.state.photoURL || this.props.user.photoURL } alt ="profile picture"/>
-                </div>
+                    {/* div for name and stuff */}
 
-                {/* div for name and stuff */}
+                    <div className= "text-Info">
+                        <h1>{this.state.userData.username}</h1>
+                        <h4>{this.state.userData.name}</h4>
+                        <a href="link to IG">some links</a>
+                    </div>
+                    <Link to = '/profile' onClick={() => firebase.auth().signOut()}>Sign-out</Link>
+                    {/* {renderRedirect(loggedIn)} */}
+                </header>
 
-                <div className= "text-Info">
-                    <h1>{this.state.userData.username}</h1>
-                    <h4>{this.state.username}</h4>
-                    <a href="link to IG">some links</a>
-                </div>
-                <Link to = '/profile' onClick={() => firebase.auth().signOut()}>Sign-out</Link>
-                {/* {renderRedirect(loggedIn)} */}
-            </header>
-
-            <div className = "postsWrapper">
-                <div className = "grid">
-                    <Post/>
-                    <Post/>
-                    <Post/>
-                    <Post/>
-                    <Post/>
-                    <Post/>
-                    
+                <div className = "postsWrapper">
+                    <div className = "grid">
+                        <Post/>
+                        <Post/>
+                        <Post/>
+                        <Post/>
+                        <Post/>
+                        <Post/>
+                        
+                    </div>
                 </div>
             </div>
-        </div>
 
-        
-    )
+            
+        )
     }
 }
 
