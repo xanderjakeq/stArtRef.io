@@ -33,22 +33,19 @@ app.use(function (req, res, next) {
 exports.app = functions.https.onRequest(app);
 
 
-exports.createUserAccount = functions.auth.user().onCreate(event => {
-    const uid = event.data.uid;
-    const email = event.data.email;
-    const name = event.data.displayName || email.substring(0,email.indexOf('@'));
-    const photoUrl = event.data.photoURL || 'some default link';
+exports.createUserAccount = functions.auth.user().onCreate(user => {
+    const uid = user.uid;
+    const email = user.email;
+    const username = email.substring(0,email.indexOf('@'));
+    const photoUrl = user.photoURL || 'some default link';
 
 
-    const newUserRef = database.ref().child(`/users/${uid}`);
+    const newUserRef = database.ref().child(`Users/${uid}`);
     return newUserRef.set({
         email: email,
         photoUrl: photoUrl,
-        name: name,
+        username: username,
         uid: uid,
-        isSupervisor: false,
-        totalHours: 0,
-        hours: {uid:0}
     });
 
 });

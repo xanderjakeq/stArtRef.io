@@ -8,6 +8,7 @@ import {Route, Redirect} from "react-router-dom";
 
 import UserProfile from '../UserProfile/UserProfile'
 
+import firebaseApp from '../config/firebaseApp'
 
 class Authentication extends Component {
 
@@ -15,9 +16,31 @@ class Authentication extends Component {
     super(props)
     // The component's Local state.
     this.state = {
+      user: {},
+      username: '',
+      userDbData: {},
       isSignedIn: false // Local signed-in state.
     };
 
+    this.authListener = this.authListener.bind(this)
+
+  }
+
+
+  async authListener(){
+    await firebaseApp.auth().onAuthStateChanged((user) => {
+      if(user){
+        this.setState({
+          user: user,
+          uid: user.uid,
+          userDbData: firebase.database().ref().child(`Users${user.uid}`).once('value').then( snap => {
+            return snap.val()
+          })
+        });
+      }else{
+        this.setState({user: {}});
+      }
+    });
   }
 
   // Configure FirebaseUI.
@@ -39,14 +62,18 @@ class Authentication extends Component {
     this.unregisterAuthObserver = firebase.auth().onAuthStateChanged(
         (user) => this.setState({isSignedIn: !!user})
     );
+
+    this.authListener();
   }
   
   // Make sure we un-register Firebase observers when the component unmounts.
   componentWillUnmount() {
     this.unregisterAuthObserver();
+    
   }
 
   render() {
+
     if (!this.state.isSignedIn) {
       return (
         <div id= "login-form-container">
@@ -55,17 +82,22 @@ class Authentication extends Component {
           <StyledFirebaseAuth uiConfig={this.uiConfig} firebaseAuth={firebase.auth()}/>
         </div>
       );
-    }
+    }else{
+      console.log(this.state.userDbData)
+
+
+
     return (
+      
       <div>
         {/* {this.props.history.push('/@${firebase.auth().currentUser.displayName}')} */}
         {/* <UserProfile displayName = {firebase.auth().currentUser.displayName} uid = {firebase.auth().currentUser.uid}/> */}
         {/* <Route path =  component = {UserProfile}></Route> */}
-        <Redirect to = {firebase.auth().currentUser.displayName} />
-        
-
+        {/* <Redirect to = {this.state.user.uid} /> */}
+        <UserProfile user = {this.state.user} uid = {this.state.uid}/>
       </div>
     );
+    }
   }
 }
 

@@ -11,8 +11,25 @@ import NavBar from "./components/NavBar/NavBar";
 import Footer from './components/Footer/Footer';
 import ArtWithRef from './components/ArtWithRef/ArtWithRef';
 import Authentication from './components/Authentication/Authentication';
+import firebaseApp from './components/config/firebaseApp'
 
 class App extends Component {
+
+  constructor(props){
+    super(props)
+    // The component's Local state.
+    this.state = {
+      username: {}
+    };
+
+    this.getUsername = this.getUsername.bind(this)
+
+  }
+
+  getUsername(username){
+    this.setState({username: username})
+  }
+
   render(){
     return(
       <Router>
@@ -24,16 +41,16 @@ class App extends Component {
 
               {/* If not Logged in Show Login Button instead of profile */}
 
-              <Route exact = {true} path = {"/profile"} component = {UserProfile}/>
+              <Route exact = {true} path = {"/profile"} component = {Authentication}/>
               
               <Route exact = {true} path = {"/explore/"} component = {Explore} />
 
               {/* Fix ArtWithRef  overlay later*/}
 
               <Route path= "/explore/:id" component={ArtWithRef} />
-              <Route exact= {true} path= "/login" component={Authentication} />
+              {/* <Route exact= {true} path= "/login" component={Authentication} /> */}
               
-              <Route path = {"/:id"} component = {UserProfile}/>
+              {/* <Route path = {"/:id"} component = {UserProfile}/> */}
 
               
 
