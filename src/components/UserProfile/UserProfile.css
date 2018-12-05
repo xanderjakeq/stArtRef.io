@@ -27,11 +27,13 @@
 .text-Info{
     flex-basis: 0;
     flex-grow: 1;
+    overflow: hidden;
 }
 
-.text-Info h2{
+.text-Info h1{
     font-size: 22px;
     line-height: 26px;
+    font-weight: 700;
 }
 
 .text-Info h4{
@@ -49,6 +51,7 @@
     flex-wrap: wrap;
     flex-direction: row;
 }
+
 
 
 @media only screen and (min-width: 600px) {

@@ -12,6 +12,7 @@ import Footer from './components/Footer/Footer';
 import ArtWithRef from './components/ArtWithRef/ArtWithRef';
 import Authentication from './components/Authentication/Authentication';
 import firebaseApp from './components/config/firebaseApp'
+import Options from './components/Options/Options';
 
 class App extends Component {
 
@@ -46,6 +47,7 @@ class App extends Component {
               <Route exact = {true} path = {"/explore/"} component = {Explore} />
 
               {/* Fix ArtWithRef  overlay later*/}
+              <Route path = {'/options'} component = {Options} />
 
               <Route path= "/explore/:id" component={ArtWithRef} />
               {/* <Route exact= {true} path= "/login" component={Authentication} /> */}
