@@ -1,0 +1,18 @@
+#uploadButton{
+    width: fit-content;
+    height: fit-content;
+    align-self: flex-end;
+    z-index: 2;
+}
+
+#uploadButton:active{
+    background-color: black;
+}
+
+#uploadButton span{
+    color:black;
+}
+
+.uploadButtonIcons{
+    font-size: 20px;
+}

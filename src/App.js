@@ -13,6 +13,7 @@ import ArtWithRef from './components/ArtWithRef/ArtWithRef';
 import Authentication from './components/Authentication/Authentication';
 import firebaseApp from './components/config/firebaseApp'
 import Options from './components/Options/Options';
+import Upload from './components/Upload/Upload'
 
 class App extends Component {
 
@@ -20,7 +21,7 @@ class App extends Component {
     super(props)
     // The component's Local state.
     this.state = {
-      username: {}
+      username: ''
     };
 
     this.getUsername = this.getUsername.bind(this)
@@ -48,6 +49,8 @@ class App extends Component {
 
               {/* Fix ArtWithRef  overlay later*/}
               <Route path = {'/options'} component = {Options} />
+
+              <Route path = {'/upload'} component = {Upload} />
 
               <Route path= "/explore/:id" component={ArtWithRef} />
               {/* <Route exact= {true} path= "/login" component={Authentication} /> */}

@@ -12,8 +12,8 @@ const NavBar = (props) => {
             </Link>
             <h1 className="appName">stArtRef</h1>
             <div className="startref_icons">
-                <Link to = "/explore">Explore</Link>
-                <Link to = "/profile">Profile</Link>
+                <Link to = "/explore"><span role = "button" className = "navIcons">🖼️</span></Link>
+                <Link to = "/profile"><span role = "button" className = "navIcons">🙈</span></Link>
                 {/* <IsLoggedIn isLoggedIn = {props.isLoggedIn} />  */}
             </div>
             {/* <IsLoggedIn IsLoggedIn = {props.isLoggedIn} /> */}

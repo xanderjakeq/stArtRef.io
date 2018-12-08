@@ -1,21 +1,31 @@
+
+
 .profileWrapper{
     padding-top: 60px;
     
   }
 
-  .profileCard{
+.profileCard{
     display: flex;
     flex-direction: row;
     align-items: center;
     margin-left: 16px;
-    margin-right: 16px;
+    /* margin-right: 16px; */
     margin-top: 30px;
     margin-bottom: 24px;
+    width: -webkit-fill-available;
 }
 
 .profilePhoto{
     margin-right: 28px;
     flex-shrink: 0;
+}
+
+.centerThisShit{
+    display:flex;
+    flex-direction: column;
+    justify-content:center;
+    align-items:center;
 }
 
 .profilePhoto img{
@@ -52,6 +62,15 @@
     flex-direction: row;
 }
 
+#uploadButton{
+    width: fit-content;
+    height: fit-content;
+    align-self: flex-end;
+}
+
+.uploadButtonIcons{
+    font-size: 20px;
+}
 
 
 @media only screen and (min-width: 600px) {

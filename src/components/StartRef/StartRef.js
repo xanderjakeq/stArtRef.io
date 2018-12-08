@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { toJson } from "unsplash-js";
 
+import firebase from 'firebase';
+
 
 import logo from '../../logo.svg';
 import '../../App.css';
@@ -21,12 +23,16 @@ class StartRef extends Component {
         super(props);    
     
         this.state = {
+          user: null,
+          username: '',
           unsplashPhotos: seedJson,
-          scribble: seedJson[1].urls.small
+          scribble: seedJson[1].urls.small,
+          userDBRef: firebase.database().ref()
         }
     
         this.handleGenerateClick = this.handleGenerateClick.bind(this);
         this.getScribble = this.getScribble.bind(this);
+        this.handleSaveClick  =  this.handleSaveClick.bind(this);
       }
     
       getScribble(){
@@ -56,10 +62,45 @@ class StartRef extends Component {
             })
           });
       }
+
+
+      handleSaveClick(){
+        console.log(this.state.unsplashPhotos[0])
+        let refLinks = [this.state.unsplashPhotos[0],this.state.scribble,this.state.unsplashPhotos[2]];
+        this.state.userDBRef.child('UserGroupedRefs/' + this.state.user.uid).push(refLinks)
+        
+      }
+
+      // componentWillMount(){
+      //   database.child('Users/' + this.state.user.uid).on('value', snap => {
+      //     console.log(snap.val())
+      //     let val = snap.val();
+      //     if(val !== null){
+      //         this.setState({
+      //             userData: val,
+      //             username: val.username,
+      //             website: val.website
+      //         });
+      //     }
+      //   });
+      // }
     
       componentDidMount(){
+        console.log(firebase.auth().currentUser)
+        firebase.auth().onAuthStateChanged(
+          (user) => {
+            if(user){
+              this.setState({
+                user: user,
+                username: this.state.userDBRef.child('Users/' + user.uid).once('value').then((snap) => {return snap.val().username})
+              })
+            }
+          }
+        )
         this.handleGenerateClick();
       }
+
+      
     
       render() {
         return (
@@ -84,6 +125,8 @@ class StartRef extends Component {
               <Scribble scribbleUrl = {this.state.scribble}/>
               <Ref photoInfo = {this.state.unsplashPhotos[2]}/>
             </div>
+
+            {this.state.user != null && <SaveButton onClick = {this.handleSaveClick}/>}
     
             <h5>Photos are from <a href="https://unsplash.com/?utm_source=startref&utm_medium=referral">Unsplash</a></h5>
             <p>
@@ -100,6 +143,12 @@ class StartRef extends Component {
           </div>
         );
       }
+}
+
+function SaveButton(props){
+  return(
+      <button onClick = {props.onClick}>save</button>
+  )
 }
 
 export default StartRef;

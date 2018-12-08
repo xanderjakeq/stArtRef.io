@@ -79,23 +79,19 @@ class Authentication extends Component {
         <div id= "login-form-container">
           <h1>stArtRef</h1>
           <StyledFirebaseAuth uiConfig={this.uiConfig} firebaseAuth={firebase.auth()}/>
-          <p>If its the first time, one will be created for u</p>
+          <p>If its the first time, an account will be created for u</p>
         </div>
       );
     }else{
-      console.log(this.state.user)
-
-
-
-    return (      
-      <div>
-        {/* {this.props.history.push('/@${firebase.auth().currentUser.displayName}')} */}
-        {/* <UserProfile displayName = {firebase.auth().currentUser.displayName} uid = {firebase.auth().currentUser.uid}/> */}
-        {/* <Route path =  component = {UserProfile}></Route> */}
-        {/* <Redirect to = {this.state.user.uid} /> */}
-        <UserProfile/>
-      </div>
-    );
+      return (      
+        <div>
+          {/* {this.props.history.push('/@${firebase.auth().currentUser.displayName}')} */}
+          {/* <UserProfile displayName = {firebase.auth().currentUser.displayName} uid = {firebase.auth().currentUser.uid}/> */}
+          {/* <Route path =  component = {UserProfile}></Route> */}
+          {/* <Redirect to = {this.state.user.uid} /> */}
+          <UserProfile/>
+        </div>
+      );
     }
   }
 }
