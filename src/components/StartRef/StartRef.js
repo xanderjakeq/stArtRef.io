@@ -147,7 +147,7 @@ class StartRef extends Component {
 
 function SaveButton(props){
   return(
-      <button onClick = {props.onClick}>save</button>
+      <button onClick = {props.onClick} className="generate-btn">👌</button>
   )
 }
 

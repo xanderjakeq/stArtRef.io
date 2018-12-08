@@ -11,6 +11,7 @@ import firebaseApp from '../config/firebaseApp';
 import UploadButton from '../UploadButton/UploadButton';
 import Ref from '../Ref/Ref'
 import Scribble from '../Scribble/Scribble'
+import RefSet from '../RefSet/RefSet'
 
 let database = firebase.database().ref();
 
@@ -56,35 +57,16 @@ class Upload extends Component {
 
             this.setState({
                 savedRefs: refsObjToArray,
-                // refKeys: Object.keys(snap.val())
             })
-
-            
         });
-
-        
     }
 
     render(){
-        
         let refsObject = this.state.savedRefs;
-
-        console.log(this.state.savedRefs)
-
-        const numbers = [1, 2, 3, 4, 5];
-        const listItems = numbers.map((number) =>
-        <li>{number}</li>
-        );
-
         const refRendered =   refsObject.map((ref) => {
             return (
-                <div className="ref-wrapper">
-                <Ref photoInfo = {ref.data[0]}/>
-                <Scribble scribbleUrl = {ref.data[1]}/>
-                <Ref photoInfo = {ref.data[2]}/>
-                </div>
+                <RefSet data = {ref.data} key = {ref.refKey}/>
             )
-            // console.log(typeof ref.refKey)
         });
         
         console.log(refRendered)
@@ -93,22 +75,8 @@ class Upload extends Component {
             <div className = "profileWrapper">
                 {/* profile info */}
 
-            
-            
-
                 <div className = "postsWrapper">
-                <ul>
                     {refRendered}
-                </ul>
-                    <div className = "grid">
-                        <Post/>
-                        <Post/>
-                        <Post/>
-                        <Post/>
-                        <Post/>
-                        <Post/>
-                        
-                    </div>
                 </div>
 
                 <div className = "uploadButtonWrapper">
@@ -120,8 +88,5 @@ class Upload extends Component {
 
 
 }
-
-
-
 
 export default Upload;
