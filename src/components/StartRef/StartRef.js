@@ -129,16 +129,19 @@ class StartRef extends Component {
             {this.state.user != null && <SaveButton onClick = {this.handleSaveClick}/>}
     
             <h5>Photos are from <a href="https://unsplash.com/?utm_source=startref&utm_medium=referral">Unsplash</a></h5>
-            <p>
+            {/* <p>
               Share what you drew or see what others did. Tag your post with #startrefio on<br/>
               <a href= "https://www.instagram.com/explore/tags/startrefio/" target="_blank" rel="noopener noreferrer">
                 <span role="img" aria-label="Link to community artwork">👉</span>
                 Instagram
               </a>
-            </p>
+            </p> */}
     
             <p>
               Contribute by submitting your own scribbles on <a href="https://startrefio.tumblr.com/submit" target="_blank" rel="noopener noreferrer">Tumblr</a>
+            </p>
+            <p>
+              <a href ='https://medium.com/thelostcreatives/startrefio-d1781777dbb1' target="_blank" rel="noopener noreferrer">Learn More</a>
             </p>
           </div>
         );

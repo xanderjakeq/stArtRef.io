@@ -42,7 +42,7 @@ exports.createUserAccount = functions.auth.user().onCreate(user => {
 
 
     const newUserRef = database.ref().child(`Users/${uid}`);
-    return newUserRef.set({
+    newUserRef.set({
         name: name,
         email: email,
         photoUrl: photoUrl,
@@ -51,4 +51,9 @@ exports.createUserAccount = functions.auth.user().onCreate(user => {
         website:''
     });
 
+    database.ref().child(`Usernames/`).update({
+        [uid]:username
+    })
+
+    return
 });

@@ -183,6 +183,9 @@ a:active{
   align-items:center;
   background-color: rgb(70,83,98, .9);
 }
+.footer a{
+  color:#06ffc7;
+}
   
 
 .author{

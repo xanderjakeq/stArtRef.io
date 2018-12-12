@@ -7,6 +7,7 @@ import './Options.css';
 import Post from '../Post/Post';
 
 import firebaseApp from '../config/firebaseApp'
+import { throws } from 'assert';
 
 let database = firebase.database().ref();
 
@@ -21,22 +22,44 @@ class Options extends Component {
             user: firebase.auth().currentUser,
             username: '',
             website: '',
+            
         }
 
         this.handleInputChange = this.handleInputChange.bind(this)
         this.handleSave = this.handleSave.bind(this)
     }
 
+    checkUsername = (usernameCandidate) =>{
+        let username = usernameCandidate.toLowerCase()
+        return database.child(`Usernames/`).orderByValue().equalTo(username)
+    }
+
     handleInputChange(event) {
         const target = event.target;
         let value;
+
+        let uid = this.state.user.uid
         
         if(target.name && target.value.length <= 30){
-            value = target.value
-        }else if(target.name != 'username'){
-            value = target.value
+                                // keep to lowercase and remove whitespace 
+            value = target.value.toLowerCase().replace(/\s+/g, '');
+
+            // check availability
+            // TODO: make this to separate method?
+            this.checkUsername(value).once('value', snap => { 
+                if(snap.val()) {
+                    this.setState({
+                        isUsernameAvailable: false
+                    })
+                }else{
+                    this.setState({
+                        isUsernameAvailable: true
+                    })
+                }
+                console.log(this.state.isUsernameAvailable)
+            })
         }else{
-            // alert("username too long")
+            //username too long
             value = target.value.substring(0, 30);
         }
         const name = target.name;
@@ -47,10 +70,20 @@ class Options extends Component {
       }
 
     handleSave(){
-        database.child('Users/' + this.state.user.uid).update({ 
-            username: this.state.username,
-            website: this.state.website
-         })
+
+        if(this.state.isUsernameAvailable){
+            console.log(this.state.isUsernameAvailable)
+            database.child('Users/' + this.state.user.uid).update({ 
+                username: this.state.username,
+                website: this.state.website
+            })
+
+            database.child('Usernames/').update({
+                 [this.state.user.uid]: this.state.username
+            })
+        }else{
+            console.log('cant change username')
+        }
     }
 
 
@@ -97,6 +130,7 @@ class Options extends Component {
                         />
                     
                     </div>
+                    
                     
                     {/* <div className = 'inputWrapper'> */}
                     <div className = 'formItem'>

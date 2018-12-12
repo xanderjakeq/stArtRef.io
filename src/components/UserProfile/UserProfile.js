@@ -25,7 +25,7 @@ class UserProfile extends Component {
             user: firebase.auth().currentUser,
             // userData: {},
             // name: props.user.displayName,
-            username:'',
+            username:'(ಠ.ಠ) loading...',
             // photoURL: props.user.photoURL
             website: '',
 
@@ -55,6 +55,7 @@ class UserProfile extends Component {
             firebase.database().ref().child('UserGroupedPosts/' + this.state.user.uid).orderByKey().limitToLast(1).on('value', async (childSnapshot, prevChildKey) => {
             
                 console.log(childSnapshot.val())
+                if(childSnapshot.val()){
     
                 let postsObjToArray = Object.keys(childSnapshot.val()).map(function(key) {
                     return {refKey: key, data:childSnapshot.val()[key]};
@@ -66,6 +67,8 @@ class UserProfile extends Component {
                 }) 
                 console.log(this.state.pageRefKey)
                 this.loadMore()
+
+            }
             })
         }
 

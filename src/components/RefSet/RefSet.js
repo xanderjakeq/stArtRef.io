@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {Link} from "react-router-dom";
 import firebase from 'firebase';
+import { toJson } from "unsplash-js";
 
 import './RefSet.css';
 
@@ -19,7 +20,6 @@ class RefSet extends Component {
             active: false
         }
 
-        this.handleInputNotEmpty = this.handleInputNotEmpty.bind(this)
         this.handleInputChange = this.handleInputChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
     }
@@ -37,48 +37,62 @@ class RefSet extends Component {
     //     )
     //   }
 
-    handleInputNotEmpty(){
-        this.setState({
-            active: !this.state.active
-        })
-    }
-
     handleInputChange(event) {
         const target = event.target;
         const value = target.value;
         const name = target.name;
-        console.log(this._reactInternalFiber.key)
         this.setState({
           [name]: value
         });
       }
 
     async handleSubmit(){
-        let username = await firebase.database().ref().child('Users/' + this.state.user.uid).once('value').then((snap) => {return snap.val().username})
-        let postKey = firebase.database().ref().child('UserGroupedPosts/' + this.state.user.uid).push({
-            author: username,
-            artLink: this.state.artLink,
-            refLinks: this.props.data
-        }).key
 
-        firebase.database().ref().child('Posts/').update({
-            [postKey]: {
+        if(this.state.artLink.indexOf('https://www.instagram.com/p/') === -1){
+            console.log(this.state.artLink)
+            alert("pls make sure its from instagram \n (灬♥ω♥灬)")
+            return
+        }else{
+
+            let artLink = this.state.artLink.substring(0, this.state.artLink.indexOf('?') !== -1 ? this.state.artLink.indexOf('?'): this.state.artLink.lastIndexOf('/'))
+
+            console.log(artLink)
+
+            await fetch(artLink + '?__a=1')
+            .then(toJson)
+              .then(json => {
+                // let imgLink =  
+                artLink = json.graphql.shortcode_media.display_url 
+                //.substring(0, imgLink.indexOf('?') !== -1 ? imgLink.indexOf('?'): imgLink.length)
+              });
+            
+            console.log(artLink)
+
+            let username = await firebase.database().ref().child('Users/' + this.state.user.uid).once('value').then((snap) => {return snap.val().username})
+            let postKey = firebase.database().ref().child('UserGroupedPosts/' + this.state.user.uid).push({
                 author: username,
-                artLink: this.state.artLink,
+                artLink: artLink,
                 refLinks: this.props.data
-            }
-        })
+            }).key
 
-        firebase.database().ref().child('UserGroupedRefs/' + this.state.user.uid + '/' + this.props.refKey).remove()
+            firebase.database().ref().child('Posts/').update({
+                [postKey]: {
+                    author: username,
+                    artLink: artLink,
+                    refLinks: this.props.data
+                }
+            })
+
+            firebase.database().ref().child('UserGroupedRefs/' + this.state.user.uid + '/' + this.props.refKey).remove()
+        }
     }
 
 
     render(){
-        console.log(this.props)
         return(
             <div>
                 <div className = 'inputWrapper'>
-                <label className = 'formItem'>art link</label>
+                <label className = 'formItem'>Instagram share link</label>
                 <input
                     name="artLink"
                     type="text"
@@ -96,7 +110,7 @@ class RefSet extends Component {
                         <Scribble scribbleUrl = {this.props.data[1]}/>
                     </div>
                     
-                    <div onClick = {this.handleInputNotEmpty} className = "uploadButtonWrapper">
+                    <div  className = "uploadButtonWrapper">
 
                     {this.state.artLink != '' &&
                     <Link to = "/explore">
