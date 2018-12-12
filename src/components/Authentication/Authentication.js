@@ -46,7 +46,7 @@ class Authentication extends Component {
   // Configure FirebaseUI.
   uiConfig = {
     // Popup signin flow rather than redirect flow.
-    signInFlow: 'popup',
+    signInFlow: 'redirect',
     // We will display Google and Facebook as auth providers.
     signInOptions: [
       firebase.auth.GoogleAuthProvider.PROVIDER_ID,
@@ -73,7 +73,7 @@ class Authentication extends Component {
   }
 
   render() {
-
+    console.log(this.props)
     if (!this.state.isSignedIn) {
       return (
         <div id= "login-form-container">

@@ -53,25 +53,31 @@ class RefSet extends Component {
         });
       }
 
-    handleSubmit(){
-        console.log(firebase.database().ref().child('Users/' + this.state.user.uid).username)
-        firebase.database().ref().child('UserGroupedPosts/' + this.state.user.uid).push({
-            author: firebase.database().ref().child('Users/' + this.state.user.uid).once('value').then((snap) => {return snap.val().username}),
+    async handleSubmit(){
+        let username = await firebase.database().ref().child('Users/' + this.state.user.uid).once('value').then((snap) => {return snap.val().username})
+        let postKey = firebase.database().ref().child('UserGroupedPosts/' + this.state.user.uid).push({
+            author: username,
             artLink: this.state.artLink,
             refLinks: this.props.data
+        }).key
+
+        firebase.database().ref().child('Posts/').update({
+            [postKey]: {
+                author: username,
+                artLink: this.state.artLink,
+                refLinks: this.props.data
+            }
         })
+
+        firebase.database().ref().child('UserGroupedRefs/' + this.state.user.uid + '/' + this.props.refKey).remove()
     }
 
 
     render(){
+        console.log(this.props)
         return(
-
             <div>
-  
                 <div className = 'inputWrapper'>
-
-                
-
                 <label className = 'formItem'>art link</label>
                 <input
                     name="artLink"
@@ -81,25 +87,23 @@ class RefSet extends Component {
                     className = 'formItem'
                     />
                 </div>
-
             <div className = "refSetWrapper">
                 <div>
-
                     
-
                     <div className="refSet">
                         <Ref photoInfo = {this.props.data[0]}/>
-                        <Scribble scribbleUrl = {this.props.data[1]}/>
                         <Ref photoInfo = {this.props.data[2]}/>
+                        <Scribble scribbleUrl = {this.props.data[1]}/>
                     </div>
-
                     
                     <div onClick = {this.handleInputNotEmpty} className = "uploadButtonWrapper">
 
                     {this.state.artLink != '' &&
-                    <button onClick = {this.handleSubmit} id = "submit" className = "generate-btn">
-                        <Link to = "/explore"><span className = "uploadButtonIcons">📤</span></Link>
-                    </button>
+                    <Link to = "/explore">
+                        <button onClick = {this.handleSubmit} id = "submit" className = "generate-btn">
+                            <span className = "uploadButtonIcons">📤</span>
+                        </button>
+                    </Link>
                     }
                     </div>
                 </div>    

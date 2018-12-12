@@ -253,7 +253,7 @@ a:active{
   }
 
   .author{
-    margin-left: -50%;
+    /* margin-left: -50%; */
   }
 
   .ref-wrapper{

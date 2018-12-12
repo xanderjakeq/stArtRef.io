@@ -33,6 +33,17 @@ class App extends Component {
   }
 
   render(){
+
+
+    // testing
+
+    // const FadingRoute = ({ component: Component, ...rest }) => (
+    //   <Route {...rest} render={props => (
+    //       <Component {...props}/>
+    //   )}/>
+    // )
+    
+    
     return(
       <Router>
         <div>
@@ -43,19 +54,20 @@ class App extends Component {
 
               {/* If not Logged in Show Login Button instead of profile */}
 
-              <Route exact = {true} path = {"/profile"} component = {Authentication}/>
+              <Route path = {"/profile"} component = {Authentication}/>
               
-              <Route exact = {true} path = {"/explore/"} component = {Explore} />
+              <Route path = {"/explore"} component = {Explore} />
 
               {/* Fix ArtWithRef  overlay later*/}
               <Route path = {'/options'} component = {Options} />
 
               <Route path = {'/upload'} component = {Upload} />
 
-              <Route path= "/explore/:id" component={ArtWithRef} />
+              {/* <Route path= "/explore/:id" component={ArtWithRef} /> */}
               {/* <Route exact= {true} path= "/login" component={Authentication} /> */}
               
               {/* <Route path = {"/:id"} component = {UserProfile}/> */}
+              {/* <FadingRoute path="/cool" component={Authentication}/> */}
 
               
 

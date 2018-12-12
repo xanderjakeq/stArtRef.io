@@ -43,31 +43,39 @@ class Upload extends Component {
             if(val !== null){
                 this.setState({
                     userData: val,
+                    savedRefs: null
                 });
             }
         });
 
         database.child('UserGroupedRefs/' + this.state.user.uid).on('value', snap => {
             console.log(snap.val())
+            
+            if(snap.val() != null){
 
-            let refsObjToArray = Object.keys(snap.val()).map(function(key) {
-                let itemKey = key;
-                return {refKey: key, data:snap.val()[key]};
-              });
+                let refsObjToArray = Object.keys(snap.val()).map(function(key) {
+                    let itemKey = key;
+                    return {refKey: key, data:snap.val()[key]};
+                });
 
-            this.setState({
-                savedRefs: refsObjToArray,
-            })
+                this.setState({
+                    savedRefs: refsObjToArray,
+                })
+            }
         });
     }
 
     render(){
         let refsObject = this.state.savedRefs;
-        const refRendered =   refsObject.map((ref) => {
-            return (
-                <RefSet data = {ref.data} key = {ref.refKey}/>
-            )
-        });
+        let refRendered = [];
+        if(refsObject != null){
+            refRendered =   refsObject.map((ref) => {
+                console.log(ref.refKey)
+                return (
+                    <RefSet data = {ref.data} key = {ref.refKey} refKey = {ref.refKey}/>
+                )
+            });
+        }   
         
         console.log(refRendered)
 
@@ -76,12 +84,14 @@ class Upload extends Component {
                 {/* profile info */}
 
                 <div className = "postsWrapper">
-                    {refRendered}
+                    {this.state.savedRefs != null ? refRendered: 
+                        <h1>save refs to post</h1>
+                    }
                 </div>
 
-                <div className = "uploadButtonWrapper">
+                {/* <div className = "uploadButtonWrapper">
                     <UploadButton content = "(*•̀ᴗ•́*)و ̑̑" linkTo="/explore"/>
-                </div>
+                </div> */}
             </div>
         )
     }
