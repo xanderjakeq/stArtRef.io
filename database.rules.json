@@ -1,6 +1,31 @@
 {
   "rules": {
-    ".read": false,
-    ".write": false
+    ".read": true,
+    "Users": {
+      "$uid": {
+        ".write": "$uid === auth.uid"
+      }
+    },
+
+    "Usernames": {
+      ".indexOn": ".value",
+      "$uid": {
+        ".write": "$uid === auth.uid"
+      }
+    },
+
+    "UserGroupedRefs": {
+      "$uid": {
+        ".write": "$uid === auth.uid"
+      }
+    },
+
+    "UserGroupedPosts": {
+      "$uid": {
+        ".write": "$uid === auth.uid"
+      }
+    }
+
+
   }
 }

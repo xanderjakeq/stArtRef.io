@@ -71,6 +71,7 @@ class UserProfile extends Component {
         }
 
         database.child('Users/' + this.state.user.uid).on('value', snap => {
+            console.log(snap.val())
             let val = snap.val();
             if(val !== null){
                 this.setState({

@@ -15,7 +15,7 @@
     -ms-flex-direction: row;
     flex-direction: row;
     justify-content: space-evenly;
-    align-items: center;
+    align-items: flex-end;
     width: 100%;
     margin-top: 2%;
     margin-bottom: 2%;
@@ -42,6 +42,10 @@
     /* .refSet{
         flex-wrap: nowrap;
     } */
+
+    .refs{
+        max-width: 25vw;
+    }
 
     .refSet img{
         width: 300px;
