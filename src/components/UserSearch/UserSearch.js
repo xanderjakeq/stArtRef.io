@@ -47,9 +47,10 @@ class UserProfile extends Component {
 
     componentWillMount(){
         database.child('Users/').orderByChild('username').equalTo(this.props.match.params.id).on('value', snap => {
+
+            if(snap.val()){
              let uid = Object.keys(snap.val())[0];
             let val = snap.val()[uid];
-            if(val !== null){
                 this.setState({
                     userData: val,
                     username: val.username,
