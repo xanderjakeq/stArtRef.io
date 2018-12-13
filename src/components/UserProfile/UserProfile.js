@@ -179,7 +179,7 @@ class UserProfile extends Component {
                     </div>
 
                     {/* moved to Options.js */}
-                    <Link to = {`/settings`} id = "options">️️️️<span className = "navIcons" role = "img" aria-label = "settings">⚙️</span></Link>
+                    <Link to = {'settings'} id = "options"><span className = "navIcons" role = "img" aria-label = "settings">⚙️</span></Link>
                 </header>
 
                 <UploadButton content = "🎨🖌️" linkTo = "/upload"/>
