@@ -75,6 +75,14 @@ label{
     margin-bottom: 8px;
 }
 
+.available{
+    box-shadow: 0 0 5px rgb(65, 234, 236);
+}
+
+.notAvailable{
+    box-shadow: 0 0 5px rgb(230, 22, 184);
+}
+
 @media only screen and (min-width: 600px) {
     .optionsWrapper{
         padding-top: 80px;

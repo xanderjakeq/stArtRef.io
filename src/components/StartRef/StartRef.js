@@ -3,8 +3,6 @@ import { toJson } from "unsplash-js";
 
 import firebase from 'firebase';
 
-
-import logo from '../../logo.svg';
 import '../../App.css';
 
 import Ref from '../Ref/Ref';
@@ -65,7 +63,6 @@ class StartRef extends Component {
 
 
       handleSaveClick(){
-        console.log(this.state.unsplashPhotos[0])
         let refLinks = [this.state.unsplashPhotos[0],this.state.scribble,this.state.unsplashPhotos[2]];
         this.state.userDBRef.child('UserGroupedRefs/' + this.state.user.uid).push(refLinks)
         
@@ -86,7 +83,6 @@ class StartRef extends Component {
       // }
     
       componentDidMount(){
-        console.log(firebase.auth().currentUser)
         firebase.auth().onAuthStateChanged(
           (user) => {
             if(user){

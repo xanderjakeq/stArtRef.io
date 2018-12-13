@@ -1,11 +1,11 @@
 .overlayWrapper{
     position: fixed; /* Sit on top of the page content */
     /* display: none; Hidden by default */
-    width: 101%; /* Full width (cover the whole page) */
+    width: auto; /* Full width (cover the whole page) */
     height: 100vh; /* Full height (cover the whole page) */
     top: 0; 
-    /* left: 0;
-    right: 0; */
+    left: 0;
+    /* right: 0;  */
     bottom: 0;
     background-color:#55e1d0; /* Black background with opacity */
     z-index: 10; /* Specify a stack order in case you're using a different order for other elements */
@@ -49,4 +49,29 @@
 
   .close-thin:after {
     content: '✖'; /* UTF-8 symbol */
+  }
+
+  /* --------------------------------- */
+  
+
+  @media only screen and (min-width: 600px){
+    .overlayWrapper{
+        /* width: 100%; */
+        padding-left: 5%;
+        padding-right: 5%;
+    }
+    .imagesWrapper img{
+        width: 50vw;
+    }
+    .imagesWrapper{
+        flex-wrap: nowrap;
+
+    }
+    .refSet img{
+          width: 794px;
+        }
+
+    .refSet{
+            width: fit-content;
+        }
   }

@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import firebase from 'firebase';
-import {Redirect, Link} from 'react-router-dom';
+import { Link} from 'react-router-dom';
 
 import './Options.css';
 
-import Post from '../Post/Post';
 
 import firebaseApp from '../config/firebaseApp'
-import { throws } from 'assert';
 
 let database = firebase.database().ref();
 
@@ -37,8 +35,6 @@ class Options extends Component {
     handleInputChange(event) {
         const target = event.target;
         let value;
-
-        let uid = this.state.user.uid
         
         if(target.name && target.value.length <= 30){
                                 // keep to lowercase and remove whitespace 
@@ -56,7 +52,6 @@ class Options extends Component {
                         isUsernameAvailable: true
                     })
                 }
-                console.log(this.state.isUsernameAvailable)
             })
         }else{
             //username too long
@@ -72,7 +67,6 @@ class Options extends Component {
     handleSave(){
 
         if(this.state.isUsernameAvailable){
-            console.log(this.state.isUsernameAvailable)
             database.child('Users/' + this.state.user.uid).update({ 
                 username: this.state.username,
                 website: this.state.website
@@ -82,14 +76,13 @@ class Options extends Component {
                  [this.state.user.uid]: this.state.username
             })
         }else{
-            console.log('cant change username')
+            alert('somebody took it \n (｡•́︿•̀｡)')
         }
     }
 
 
     componentDidMount(){
         database.child('Users/' + this.state.user.uid).on('value', snap => {
-            console.log(snap.val())
             let val = snap.val();
             if(val !== null){
                 this.setState({
@@ -104,17 +97,17 @@ class Options extends Component {
             return(
                 <div className = "optionsWrapper">
                   {/* <h5 onClick = {this.handleClick}>Form</h5> */}
-
                   <div className = "pseudoForm">
                     <div className = 'inputWrapper'>
 
-                    <label className = 'formItem'>username</label>
+                    <label className = "formItem" >username</label>
                     <input
                         name="username"
                         type="text"
                         value={this.state.username}
                         onChange={this.handleInputChange} 
-                        className = 'formItem'
+                       
+                        className = {`formItem ${this.state.isUsernameAvailable || this.state.isUsernameAvailable == null  ? 'available': 'notAvailable'}`}
                         />
                     
                     </div>

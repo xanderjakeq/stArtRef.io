@@ -1,16 +1,11 @@
 import React, { Component} from 'react';
 import PropTypes from 'prop-types';
 import firebase from 'firebase';
-import {Link, Route, withRouter} from 'react-router-dom';
+import { Link, Route, withRouter} from 'react-router-dom';
 
-import './UserProfile.css';
+import '../UserProfile/UserProfile.css';
 
 import Post from '../Post/Post';
-
-
-import firebaseApp from '../config/firebaseApp'
-
-import UploadButton from '../UploadButton/UploadButton'
 
 import PostOverlay from '../PostOverlay/PostOverlay'
 
@@ -22,12 +17,13 @@ class UserProfile extends Component {
         super(props)
 
         this.state = {
-            user: firebase.auth().currentUser,
+            userData: {},
             // userData: {},
             // name: props.user.displayName,
-            username:'(ಠ.ಠ) loading...',
+            username: this.props.match.params.id,
             // photoURL: props.user.photoURL
             website: '',
+            userUid: '',
 
 
             activePost: '',
@@ -50,8 +46,30 @@ class UserProfile extends Component {
       }
 
     componentWillMount(){
-        if(!this.state.pageRefKey){
-            firebase.database().ref().child('UserGroupedPosts/' + this.state.user.uid).orderByKey().limitToLast(1).on('value', async (childSnapshot, prevChildKey) => {
+        database.child('Users/').orderByChild('username').equalTo(this.props.match.params.id).on('value', snap => {
+             let uid = Object.keys(snap.val())[0];
+            let val = snap.val()[uid];
+            if(val !== null){
+                this.setState({
+                    userData: val,
+                    username: val.username,
+                    website: val.website,
+                    userUid: uid
+                });
+            }
+        });
+
+        this.scrollListener = window.addEventListener('scroll', this.handleScroll)
+    }
+
+    componentWillUnmount(){
+        window.removeEventListener('scroll', this.handleScroll)
+    }
+
+    componentDidMount(){
+        if(!this.state.pageRefKey ){
+            
+            firebase.database().ref().child('UserGroupedPosts/' + this.state.userUid).orderByKey().limitToLast(1).on('value', async (childSnapshot, prevChildKey) => {
             
                 if(childSnapshot.val()){
     
@@ -64,28 +82,11 @@ class UserProfile extends Component {
                     pageRefKey: await postsObjToArray.pop().refKey
                 }) 
                 
+                
                 this.loadMore()
-
             }
             })
         }
-
-        database.child('Users/' + this.state.user.uid).on('value', snap => {
-            let val = snap.val();
-            if(val !== null){
-                this.setState({
-                    userData: val,
-                    username: val.username,
-                    website: val.website
-                });
-            }
-        });
-
-        this.scrollListener = window.addEventListener('scroll', this.handleScroll)
-    }
-
-    componentWillUnmount(){
-        window.removeEventListener('scroll', this.handleScroll)
     }
 
     handlePostClick(post){
@@ -115,22 +116,29 @@ class UserProfile extends Component {
         //prevent fetching if endisReached
         if(this.state.endReached){return}
 
-        this.state.firebaseRef.child('UserGroupedPosts/' + this.state.user.uid).orderByKey().endAt(this.state.pageRefKey).limitToLast(this.state.perPage).on('value', (childSnapshot, prevChildKey) => {
-            
-            let postsObjToArray = Object.keys(childSnapshot.val()).map(function(key) {
-                return {refKey: key, data:childSnapshot.val()[key]};
-            });
+        if(this.state.userUid != null){
 
-            postsObjToArray.reverse()
+        this.state.firebaseRef.child('UserGroupedPosts/' + this.state.userUid).orderByKey().endAt(this.state.pageRefKey).limitToLast(this.state.perPage).on('value', (childSnapshot, prevChildKey) => {
             
-            this.setState({
-                //prevent updating pageRefKey if the current number of items is less than perPage
-                pageRefKey: postsObjToArray.length < this.state.perPage ? this.setState({endReached: true}) : postsObjToArray.pop().refKey, 
-                // posts:[...this.state.posts, ...postsObjToArray.reverse()]
-                posts:[...this.state.posts, ...postsObjToArray],
-                scrolling: false
-            })
+            let dataArray = childSnapshot.val()
+            // [this.state.userUid]
+            // if(dataArray != null){
+                let postsObjToArray = Object.keys(dataArray).map(function(key) {
+                    return {refKey: key, data:childSnapshot.val()[key]};
+                });
+
+                postsObjToArray.reverse()
+                
+                this.setState({
+                    //prevent updating pageRefKey if the current number of items is less than perPage
+                    pageRefKey: postsObjToArray.length < this.state.perPage ? this.setState({endReached: true}) : postsObjToArray.pop().refKey, 
+                    // posts:[...this.state.posts, ...postsObjToArray.reverse()]
+                    posts:[...this.state.posts, ...postsObjToArray],
+                    scrolling: false
+                })
+            // }
         });
+        }
     }
 
     loadMore = () => {
@@ -144,7 +152,6 @@ class UserProfile extends Component {
 
 
     render(){
-
         let postsArray = this.state.posts;
         let postRendered = [];
         if(postsArray != null){
@@ -160,7 +167,6 @@ class UserProfile extends Component {
             });
         }
 
-
         return(
             <div className = "profileWrapper">
                 {/* profile info */}
@@ -169,7 +175,7 @@ class UserProfile extends Component {
                 <header className = "profileCard">
                     {/* div for prof pic */}
                     <div className = "profilePhoto">
-                        <img src= {this.state.user.photoURL || this.props.user.photoURL } alt ="profile"/>
+                        <img src= {this.state.userData.photoUrl || 'https://lh3.googleusercontent.com/my2SoB-c_lzhfPnGDt7ynEOPPqmdb7yDN8HMmnMuRtzAeGgUkW-ixMaVp41emNQ8AKz087ZvYvz0Z8A5qLEQi8jijQPq9UC_UIIxr1TS3Qp8Cjvyz6--wtfkxpQA4tjxQG2EFk1Jmo7bsKK0EywgFhKjhRfE1OvW6Bx_dGsaTLQQqjTpNrLntHNRUWNZTxjc9P9751PeO0Bvy7yjM9aq7N0a_691qYnENoBvbsw8MgsyBHPCYroZ7jQbJdhQyCPz0nq8U45-fLLV4weViUVuHDF9AIu1XiG38hzG29uk3BN2ZNA4yyJ2JVD6WBc1qowG3X2Y-k6kV-fT9Mam4ebOA8gdoiRhtvDiA-4lmemAKyJIzPlIDepuavYcYW1K_NmbFV54GVbCXxkzj31w9bllTD2kVYR-6j5aoIVcf4d47UmAt7BHg6jfVdGPbhXdqIdvqc5Az1K8VmKh2dk9fCxnEu6RNTp80nGY5erNU8AsFzSm4lLULUQ25OlLdtOjMJ_rxKLOB_3p6r6e9wR8WCM0M4aTut2Bp8j7mSFQkM9FfYO6MthAkOqz44XsxoN-wqt335IRlzdHIyeSVeycWNNuCG4f-33m7Tm-kkW-qezKpmF9WnufJPXNQuEm_brMRG9-9P7BvhPzpDdqWBzxtaLZqYZT=s943-no' } alt ="profile"/>
                     </div>
 
                     {/* div for name and stuff */}
@@ -179,10 +185,10 @@ class UserProfile extends Component {
                     </div>
 
                     {/* moved to Options.js */}
-                    <Link to = {`/settings`} id = "options">️️️️<span className = "navIcons" role = "img" aria-label = "settings">⚙️</span></Link>
+                    {/* <Link to = {`/options`} id = "options">️️️️<span className = "navIcons">⚙️</span></Link> */}
                 </header>
 
-                <UploadButton content = "🎨🖌️" linkTo = "/upload"/>
+                {/* <UploadButton content = "🎨🖌️" linkTo = "/upload"/> */}
 
                 </div>
 

@@ -5,7 +5,6 @@ import { toJson } from "unsplash-js";
 
 import './RefSet.css';
 
-import UploadButton from '../UploadButton/UploadButton';
 import Ref from '../Ref/Ref'
 import Scribble from '../Scribble/Scribble'
 
@@ -49,14 +48,11 @@ class RefSet extends Component {
     async handleSubmit(){
 
         if(this.state.artLink.indexOf('https://www.instagram.com/p/') === -1){
-            console.log(this.state.artLink)
             alert("pls make sure its from instagram \n (灬♥ω♥灬)")
             return
         }else{
 
             let artLink = this.state.artLink.substring(0, this.state.artLink.indexOf('?') !== -1 ? this.state.artLink.indexOf('?'): this.state.artLink.lastIndexOf('/'))
-
-            console.log(artLink)
 
             await fetch(artLink + '?__a=1')
             .then(toJson)
@@ -65,8 +61,6 @@ class RefSet extends Component {
                 artLink = json.graphql.shortcode_media.display_url 
                 //.substring(0, imgLink.indexOf('?') !== -1 ? imgLink.indexOf('?'): imgLink.length)
               });
-            
-            console.log(artLink)
 
             let username = await firebase.database().ref().child('Users/' + this.state.user.uid).once('value').then((snap) => {return snap.val().username})
             let postKey = firebase.database().ref().child('UserGroupedPosts/' + this.state.user.uid).push({
@@ -112,10 +106,10 @@ class RefSet extends Component {
                     
                     <div  className = "uploadButtonWrapper">
 
-                    {this.state.artLink != '' &&
+                    {this.state.artLink !== '' &&
                     <Link to = "/explore">
                         <button onClick = {this.handleSubmit} id = "submit" className = "generate-btn">
-                            <span className = "uploadButtonIcons">📤</span>
+                            <span className = "uploadButtonIcons" role = "img" aria-label = "post">📤</span>
                         </button>
                     </Link>
                     }

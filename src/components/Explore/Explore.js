@@ -6,10 +6,7 @@ import '../UserProfile/UserProfile.css';
 import './Explore.css';
 
 import Post from '../Post/Post';
-import ArtWithRef from '../ArtWithRef/ArtWithRef'
 import PostOverlay from '../PostOverlay/PostOverlay'
-
-let activePost = {};
 
 class Explore extends Component {
     
@@ -35,7 +32,7 @@ class Explore extends Component {
         this.state.activePost = post
 
 
-        // doesn't work dunno why
+        // Below doesn't work dunno why (infinite loop)
         // this.setState({
         //     activePost: post,
         // })
@@ -45,18 +42,19 @@ class Explore extends Component {
         if(!this.state.pageRefKey){
             firebase.database().ref().child('Posts').orderByKey().limitToLast(1).on('value', async (childSnapshot, prevChildKey) => {
             
-                console.log(childSnapshot.val())
+                if(childSnapshot.val()){
     
-                let postsObjToArray = Object.keys(childSnapshot.val()).map(function(key) {
-                    return {refKey: key, data:childSnapshot.val()[key]};
-                });
-                // console.log(postsObjToArray.pop().refKey)
-                //can't call setState if component didn't mount yet (shouldn't)
-                this.setState({
-                    pageRefKey: await postsObjToArray.pop().refKey
-                }) 
-                console.log(this.state.pageRefKey)
-                this.loadMore()
+                    let postsObjToArray = Object.keys(childSnapshot.val()).map(function(key) {
+                        return {refKey: key, data:childSnapshot.val()[key]};
+                    });
+                    // console.log(postsObjToArray.pop().refKey)
+                    //can't call setState if component didn't mount yet (shouldn't)
+                    this.setState({
+                        pageRefKey: await postsObjToArray.pop().refKey
+                    }) 
+
+                    this.loadMore()
+                }
             })
         }
 
@@ -75,6 +73,7 @@ class Explore extends Component {
         if (scrolling) return
         if (totalPages <= page) return
         var lastLi = document.querySelector('div.grid > div:last-child')
+        if(lastLi == null) return
         var lastLiOffset = lastLi.offsetTop + lastLi.clientHeight
         var pageOffset = window.pageYOffset + window.innerHeight
         var bottomOffset = 20
@@ -90,27 +89,26 @@ class Explore extends Component {
 
         this.state.firebaseRef.child('Posts').orderByKey().endAt(this.state.pageRefKey).limitToLast(this.state.perPage).on('value', (childSnapshot, prevChildKey) => {
             
-            console.log(childSnapshot.val())
+            if(childSnapshot.val()){
 
-            let postsObjToArray = Object.keys(childSnapshot.val()).map(function(key) {
-                let itemKey = key;
-                return {refKey: key, data:childSnapshot.val()[key]};
-            });
+                let postsObjToArray = Object.keys(childSnapshot.val()).map(function(key) {
+                    let itemKey = key;
+                    return {refKey: key, data:childSnapshot.val()[key]};
+                });
 
-            postsObjToArray.reverse()
-            
-            console.log(this.state.pageRefKey)
-            
-            this.setState({
-                //prevent updating pageRefKey if the current number of items is less than perPage
-                pageRefKey: postsObjToArray.length < this.state.perPage ? this.setState({endReached: true}) : postsObjToArray.pop().refKey, 
-                // posts:[...this.state.posts, ...postsObjToArray.reverse()]
-                posts:[...this.state.posts, ...postsObjToArray],
-                scrolling: false
-            })
+                postsObjToArray.reverse()
+                
+                
+                this.setState({
+                    //prevent updating pageRefKey if the current number of items is less than perPage
+                    pageRefKey: postsObjToArray.length < this.state.perPage ? this.setState({endReached: true}) : postsObjToArray.pop().refKey, 
+                    // posts:[...this.state.posts, ...postsObjToArray.reverse()]
+                    posts:[...this.state.posts, ...postsObjToArray],
+                    scrolling: false
+                })
 
-            console.log(this.state.pageRefKey)
-            
+                
+            }
             
             // console.log(childSnapshot.key)
             
@@ -128,9 +126,6 @@ class Explore extends Component {
               
             // // }
         });
-        
-        console.log(this.state.pageRefKey)
-        console.log(this.state.posts)
     }
 
     loadMore = () => {
@@ -139,17 +134,13 @@ class Explore extends Component {
           scrolling: true,
         }), this.loadPosts)
       }
-
-
-    // console.log(props)
+      
     render(){
-        console.log(this.props)
 
         let postsArray = this.state.posts;
         let postRendered = [];
         if(postsArray != null){
             postRendered =   postsArray.map((post) => {
-                console.log(post.refKey)
                 return (
                     // TODO: move postWrapper CSS to explore.css
                     <div className = "postWrapper" key = {post.refKey}>
@@ -169,7 +160,6 @@ class Explore extends Component {
                     <div className = "grid">
                         {postRendered}
                     </div>
-                    {console.log(this.props.match.path)}
                     
                 </div>
             </div>

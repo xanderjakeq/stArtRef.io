@@ -39,12 +39,12 @@
 
 @media only screen and (min-width: 600px) {
 
-    .refSet{
+    /* .refSet{
         flex-wrap: nowrap;
-    }
+    } */
 
     .refSet img{
-        width: 95%;
+        width: 300px;
     }
     
 }

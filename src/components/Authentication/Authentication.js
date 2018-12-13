@@ -4,11 +4,9 @@ import './Authentication.css';
 
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import firebase from 'firebase';
-import {Route, Redirect} from "react-router-dom";
 
 import UserProfile from '../UserProfile/UserProfile'
 
-import firebaseApp from '../config/firebaseApp'
 
 class Authentication extends Component {
 
@@ -73,13 +71,17 @@ class Authentication extends Component {
   }
 
   render() {
-    console.log(this.props)
     if (!this.state.isSignedIn) {
       return (
         <div id= "login-form-container">
           <h1>stArtRef</h1>
           <StyledFirebaseAuth uiConfig={this.uiConfig} firebaseAuth={firebase.auth()}/>
           <p>If its the first time, an account will be created for u</p>
+          <hr/>
+          <p>Dunno how to comply to GDPR so uhh.. if u make an account, u agree that u will not sue me.</p>
+          <br/>
+          <h1>( ˘ ³˘)❤</h1>
+
         </div>
       );
     }else{
