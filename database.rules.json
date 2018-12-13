@@ -24,6 +24,10 @@
       "$uid": {
         ".write": "$uid === auth.uid"
       }
+    },
+
+    "Posts": {
+        ".write": "auth != null"
     }
 
 
