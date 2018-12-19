@@ -117,7 +117,7 @@ class UserProfile extends Component {
         //prevent fetching if endisReached
         if(this.state.endReached){return}
 
-        if(this.state.userUid != null){
+        if(this.state.userUid != ""){
 
         this.state.firebaseRef.child('UserGroupedPosts/' + this.state.userUid).orderByKey().endAt(this.state.pageRefKey).limitToLast(this.state.perPage).on('value', (childSnapshot, prevChildKey) => {
             

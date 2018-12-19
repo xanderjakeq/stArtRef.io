@@ -63,9 +63,12 @@ class StartRef extends Component {
 
 
       handleSaveClick(){
-        let refLinks = [this.state.unsplashPhotos[0],this.state.scribble,this.state.unsplashPhotos[2]];
-        this.state.userDBRef.child('UserGroupedRefs/' + this.state.user.uid).push(refLinks)
-        
+        if(this.state.user != null){
+          let refLinks = [this.state.unsplashPhotos[0],this.state.scribble,this.state.unsplashPhotos[2]];
+          this.state.userDBRef.child('UserGroupedRefs/' + this.state.user.uid).push(refLinks)
+        }else{
+          alert("Sign in to Save \n (｢･ω･)｢")
+        }
       }
 
       // componentWillMount(){
@@ -122,7 +125,7 @@ class StartRef extends Component {
               <Ref photoInfo = {this.state.unsplashPhotos[2]}/>
             </div>
 
-            {this.state.user != null && <SaveButton onClick = {this.handleSaveClick}/>}
+            <SaveButton onClick = {this.handleSaveClick}/>
     
             <h5>Photos are from <a href="https://unsplash.com/?utm_source=startref&utm_medium=referral">Unsplash</a></h5>
             {/* <p>

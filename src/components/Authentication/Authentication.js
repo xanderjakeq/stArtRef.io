@@ -14,32 +14,10 @@ class Authentication extends Component {
     super(props)
     // The component's Local state.
     this.state = {
-      // user: {},
-      // username: '',
-      // userDbData: {},
       isSignedIn: false // Local signed-in state.
     };
-
-    // this.authListener = this.authListener.bind(this)
-
   }
 
-
-  // async authListener(){
-  //   await firebaseApp.auth().onAuthStateChanged((user) => {
-  //     if(user){
-  //       this.setState({
-  //         user: user,
-  //         uid: user.uid,
-  //         userDbData: firebase.database().ref().child(`Users${user.uid}`).once('value').then( snap => {
-  //           return snap.val()
-  //         })
-  //       });
-  //     }else{
-  //       this.setState({user: {}});
-  //     }
-  //   });
-  // }
 
   // Configure FirebaseUI.
   uiConfig = {
@@ -60,8 +38,6 @@ class Authentication extends Component {
     this.unregisterAuthObserver = firebase.auth().onAuthStateChanged(
         (user) => this.setState({isSignedIn: !!user})
     );
-
-    // this.authListener();
   }
   
   // Make sure we un-register Firebase observers when the component unmounts.
@@ -87,10 +63,6 @@ class Authentication extends Component {
     }else{
       return (      
         <div>
-          {/* {this.props.history.push('/@${firebase.auth().currentUser.displayName}')} */}
-          {/* <UserProfile displayName = {firebase.auth().currentUser.displayName} uid = {firebase.auth().currentUser.uid}/> */}
-          {/* <Route path =  component = {UserProfile}></Route> */}
-          {/* <Redirect to = {this.state.user.uid} /> */}
           <UserProfile/>
         </div>
       );

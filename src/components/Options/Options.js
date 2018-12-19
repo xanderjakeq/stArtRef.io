@@ -36,7 +36,7 @@ class Options extends Component {
         const target = event.target;
         let value;
         
-        if(target.name && target.value.length <= 30){
+        if(target.name == 'username' && target.value.length <= 30){
                                 // keep to lowercase and remove whitespace 
             value = target.value.toLowerCase().replace(/\s+/g, '');
 
@@ -53,7 +53,7 @@ class Options extends Component {
                     })
                 }
             })
-        }else{
+        }else if(target.name == 'username'){
             //username too long
             value = target.value.substring(0, 30);
         }

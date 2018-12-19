@@ -16,7 +16,7 @@ const app = express();
 const database = firebase.database();
 
 
-app.get('/', (request, response) => {
+app.get('/*', (request, response) => {
     console.log('main');
     response.sendFile(__dirname + '/views/index.html');
 })
