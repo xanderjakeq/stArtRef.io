@@ -1,9 +1,9 @@
 import firebase from 'firebase';
-import config from '../../../config'
+import config from '../../config'
 
   // Initialize Firebase 
   // replace with your own config
-var config = config;
+// var config = config;
 
 const firebaseApp = firebase.initializeApp(config);
 
