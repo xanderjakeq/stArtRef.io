@@ -35,15 +35,11 @@
   font-size: large;
 }
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
 
 .refs{
-  /* float: left; */
-  /* margin: 2px; */
-  justify-content: flex-start;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .ref-wrapper{

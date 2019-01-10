@@ -10,7 +10,7 @@
     flex-direction: row;
 
     width: 100%;
-    justify-content: center;
+    justify-content: start;
     margin-top: 2%;
     margin-bottom: 2%;
 }
@@ -29,8 +29,6 @@
     }
     
     .postWrapper{
-        /* margin: 1rem; */
-        /* width: calc(50% - 2rem); */
         width: 200px;
     }
 }
