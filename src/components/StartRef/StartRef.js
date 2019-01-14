@@ -104,7 +104,7 @@ class StartRef extends Component {
           <p>
             Finish the Scribble <br />
             Draw something new with 2-3 refs.
-          </p>
+              </p>
         </header>
         <h3 className="App-intro">
           Just draw! (•̀o•́)ง
