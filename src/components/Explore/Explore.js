@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import {Route, Link} from 'react-router-dom';
 import firebase from 'firebase';
 
@@ -6,88 +6,81 @@ import '../UserProfile/UserProfile.css';
 import './Explore.css';
 
 import Post from '../Post/Post';
-import PostOverlay from '../PostOverlay/PostOverlay'
+import PostOverlay from '../PostOverlay/PostOverlay';
 
-class Explore extends Component {
-    
+const Explore = (props) => {
 
-    constructor(props){
-        super(props)
+    const [activePost, updateActivePost] = useState('');
+    const [pageRefKey, updatePageRefKey] = useState('');
+    const [page, updatePage] = useState(0);
+    const [posts, updatePosts] = useState([]);
+    const [isEndReached, updateIsEndReached] = useState(false);
+    const [isScrolling, updateIsScrolling] = useState(false);
 
-        this.state = {
-            activePost: '',
-            pageRefKey: null,
-            firebaseRef: firebase.database().ref(),
-            posts:[],
-            perPage: 16,
-            endReached: false,
-            scrolling: false
-        }
+    const [perPage, updatePerPage] = useState(16);
+    const firebaseRef = firebase.database().ref();
 
-        this.handlePostClick = this.handlePostClick.bind(this)
-        this.loadPosts = this.loadPosts.bind(this)
-    }
+    useEffect(() => {
 
-    handlePostClick(post){
-        this.state.activePost = post
-
-
-        // Below doesn't work dunno why (infinite loop)
-        // this.setState({
-        //     activePost: post,
-        // })
-    }
-
-    componentWillMount(){
-        if(!this.state.pageRefKey){
-            firebase.database().ref().child('Posts').orderByKey().limitToLast(1).on('value', async (childSnapshot, prevChildKey) => {
-            
+        if(!pageRefKey){
+            firebaseRef.child('Posts').orderByKey().limitToLast(1).on('value', (childSnapshot, prevChildKey) => {
                 if(childSnapshot.val()){
-    
-                    let postsObjToArray = Object.keys(childSnapshot.val()).map(function(key) {
-                        return {refKey: key, data:childSnapshot.val()[key]};
-                    });
-                    // console.log(postsObjToArray.pop().refKey)
-                    //can't call setState if component didn't mount yet (shouldn't)
-                    this.setState({
-                        pageRefKey: await postsObjToArray.pop().refKey
-                    }) 
+                    let postsObjToArray = Object.keys(childSnapshot.val());
 
-                    this.loadMore()
+                    updatePageRefKey(postsObjToArray[0]);
                 }
             })
         }
 
-        // add Scroll Listener
+        loadMore();
 
-        this.scrollListener = window.addEventListener('scroll', this.handleScroll)
-        
-    }
+        window.addEventListener('scroll', handleScroll);
 
-    componentWillUnmount(){
-        window.removeEventListener('scroll', this.handleScroll)
-    }
-
-    handleScroll = () => {
-        const { scrolling, totalPages, page} = this.state
-        if (scrolling) return
-        if (totalPages <= page) return
-        var lastLi = document.querySelector('div.grid > div:last-child')
-        if(lastLi == null) return
-        var lastLiOffset = lastLi.offsetTop + lastLi.clientHeight
-        var pageOffset = window.pageYOffset + window.innerHeight
-        var bottomOffset = 20
-        if (pageOffset > lastLiOffset - bottomOffset) {
-          this.loadMore()
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
         }
-        
-      }
 
-    loadPosts(){
+    },[pageRefKey])
+
+    return(
+        <div className = "profileWrapper">               
+            <div className = "postsWrapper">
+                
+            <Route path= {`${props.match.url}/:postID`} component = {PostOverlay}  />
+
+                <div className = "grid">
+                    {posts.length === 0 ? 'loading' :  posts.map((post) => {
+                        return (
+                            // TODO: move postWrapper CSS to explore.css
+                            <div className = "postWrapper" key = {post.refKey}>
+                             <Link to = {`${props.match.url}/${post.refKey}`}>
+                                <Post post = {post} key = {post.refKey} onClick = {handlePostClick}/>
+                             </Link>
+                            </div>
+                        )
+                        })
+                    }
+                </div>
+                
+            </div>
+        </div>
+    )
+
+    function handlePostClick(post){
+        updateActivePost(post);
+    }
+
+    function loadMore (){
+        updatePage(page => page + 1);
+        updateIsScrolling(true);
+        loadPosts();
+    }
+
+    function loadPosts(){
         //prevent fetching if endisReached
-        if(this.state.endReached){return}
+        if(isEndReached ){return}
 
-        this.state.firebaseRef.child('Posts').orderByKey().endAt(this.state.pageRefKey).limitToLast(this.state.perPage).on('value', (childSnapshot, prevChildKey) => {
+        firebaseRef.child('Posts').orderByKey().endAt(pageRefKey).limitToLast(perPage).on('value', (childSnapshot, prevChildKey) => {
             
             if(childSnapshot.val()){
 
@@ -96,78 +89,29 @@ class Explore extends Component {
                     return {refKey: key, data:childSnapshot.val()[key]};
                 });
 
-                postsObjToArray.reverse()
-                
-                
-                this.setState({
-                    //prevent updating pageRefKey if the current number of items is less than perPage
-                    pageRefKey: postsObjToArray.length < this.state.perPage ? this.setState({endReached: true}) : postsObjToArray.pop().refKey, 
-                    // posts:[...this.state.posts, ...postsObjToArray.reverse()]
-                    posts:[...this.state.posts, ...postsObjToArray],
-                    scrolling: false
-                })
-
+                postsObjToArray.reverse();
+                    
+                updatePageRefKey(postsObjToArray.length < perPage ? updateIsEndReached(true) : postsObjToArray.pop().refKey);
+                updatePosts([...posts, ...postsObjToArray]);
+                updateIsScrolling(false);
                 
             }
-            
-            // console.log(childSnapshot.key)
-            
-            // if(counter === 0){
-            //     this.setState({
-            //         pageRefKey: childSnapshot.key
-            //     })
-            // }
-            // counter++
-            // // if (!this.state.firstKnownKey) {
-            //     this.setState({
-            //         // firstKnownKey: childSnapshot.key,
-            //         posts: [...this.state.posts, {refKey: childSnapshot.key, data: childSnapshot.val()}]
-            //     })
-              
-            // // }
         });
     }
 
-    loadMore = () => {
-        this.setState(prevState => ({
-          page: prevState.page+1,
-          scrolling: true,
-        }), this.loadPosts)
-      }
-      
-    render(){
-
-        let postsArray = this.state.posts;
-        let postRendered = [];
-        if(postsArray != null){
-            postRendered =   postsArray.map((post) => {
-                return (
-                    // TODO: move postWrapper CSS to explore.css
-                    <div className = "postWrapper" key = {post.refKey}>
-                     <Link to = {`${this.props.match.url}/${post.refKey}`}>
-                        <Post post = {post} key = {post.refKey} onClick = {this.handlePostClick}/>
-                     </Link>
-                    </div>
-                )
-            });
-        }   
-        return(
-            <div className = "profileWrapper">               
-                <div className = "postsWrapper">
-                    
-                <Route path= {`${this.props.match.url}/:postID`} component = {PostOverlay}  />
-
-                    <div className = "grid">
-                        {postRendered}
-                    </div>
-                    
-                </div>
-            </div>
-        )
+    function handleScroll() {
+        if (isScrolling) return
+        // if (totalPages <= page) return
+        var lastLi = document.querySelector('div.grid > div:last-child');
+        if(lastLi == null) return;
+        var lastLiOffset = lastLi.offsetTop + lastLi.clientHeight;
+        var pageOffset = window.pageYOffset + window.innerHeight;
+        var bottomOffset = 20;
+        if (pageOffset > lastLiOffset - bottomOffset) {
+            loadMore();
+        }
+        
     }
-
 }
-
-
 
 export default Explore;
