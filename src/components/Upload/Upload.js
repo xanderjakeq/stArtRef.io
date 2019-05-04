@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {useState, useEffect} from 'react';
 import firebase from 'firebase';
 
 import './Upload.css';
@@ -7,79 +7,46 @@ import RefSet from '../RefSet/RefSet'
 
 let database = firebase.database().ref();
 
+const Upload = (props) => {
 
-class Upload extends Component {
+    const [user, updateUser] = useState(firebase.auth().currentUser);
+    const [userData, updateUserData] = useState({});
+    const [username, updateUsername] = useState('');
+    const [savedRefs, updateSavedRefs] = useState([]);
+    const [refKeys, updateRefKeys] = useState([]);
 
-    constructor(props){
-        super(props)
+    useEffect(()=>{
+        initialize();
+    });
+      
+    return(
+        <div className = "profileWrapper">
+            <div className = "postsWrapper">
+                {savedRefs != null ? savedRefs.map((ref) => <RefSet data = {ref.data} key = {ref.refKey} refKey = {ref.refKey}/>) : 
+                    <h1>save refs to post</h1>
+                }
+            </div>
+        </div>
+    );
 
-        this.state = {
-            user: firebase.auth().currentUser,
-            // userData: {},
-            // name: props.user.displayName,
-            username:'',
-            // photoURL: props.user.photoURL
-            savedRefs: [],
-            refKeys: []
-
-        }
-    }
-
-
-
-    componentWillMount(){
-        database.child('Users/' + this.state.user.uid).on('value', snap => {
+    function initialize() {
+        database.child('Users/' + user.uid).on('value', snap => {
             let val = snap.val();
             if(val !== null){
-                this.setState({
-                    userData: val,
-                    savedRefs: null
-                });
+                updateUserData(val);
             }
         });
 
-        database.child('UserGroupedRefs/' + this.state.user.uid).on('value', snap => {
+        database.child('UserGroupedRefs/' + user.uid).on('value', snap => {
             if(snap.val() != null){
-
                 let refsObjToArray = Object.keys(snap.val()).map(function(key) {
                     return {refKey: key, data:snap.val()[key]};
                 });
 
-                this.setState({
-                    savedRefs: refsObjToArray,
-                })
+                updateSavedRefs(refsObjToArray);
             }
         });
     }
-
-    render(){
-        let refsObject = this.state.savedRefs;
-        let refRendered = [];
-        if(refsObject != null){
-            refRendered =   refsObject.map((ref) => {
-                return (
-                    <RefSet data = {ref.data} key = {ref.refKey} refKey = {ref.refKey}/>
-                )
-            });
-        }   
-        return(
-            <div className = "profileWrapper">
-                {/* profile info */}
-
-                <div className = "postsWrapper">
-                    {this.state.savedRefs != null ? refRendered: 
-                        <h1>save refs to post</h1>
-                    }
-                </div>
-
-                {/* <div className = "uploadButtonWrapper">
-                    <UploadButton content = "(*•̀ᴗ•́*)و ̑̑" linkTo="/explore"/>
-                </div> */}
-            </div>
-        )
-    }
-
-
 }
 
 export default Upload;
