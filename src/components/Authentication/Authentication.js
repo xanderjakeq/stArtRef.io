@@ -9,7 +9,7 @@ import UserProfile from '../UserProfile/UserProfile';
 
 const Authentication = (props) => {
     
-    const [isSignedIn, updateIsSignedIn] = useState(false); 
+    const [isSignedIn, updateIsSignedIn] = useState(localStorage.getItem('userData')); 
 
     // Configure FirebaseUI.
     const uiConfig = {
@@ -26,37 +26,50 @@ const Authentication = (props) => {
     };
 
     useEffect(()=>{
-        return isUserAuthed();
-    });
+        const unregister = isUserAuthed();
 
-    if (!isSignedIn) {
-      return (
-        <div id= "login-form-container">
-          <h1>stArtRef</h1>
-          <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()}/>
-          <p>If its the first time, an account will be created for u</p>
-          <hr/>
-          <p>Dunno how to comply to GDPR so uhh.. if u make an account, u agree that u will not sue me.</p>
-          <br/>
-          <h1>( ˘ ³˘)❤</h1>
-        </div>
-      );
-    }else{
-      return (      
-        <div>
-          <UserProfile/>
-        </div>
-      );
-    }
+        //cleanup
+        return () => {
+            unregister();
+        }    
+    },[]);
+
+    return (
+      <>
+        {isSignedIn ? 
+            <div>
+              <UserProfile/>
+            </div>
+            :
+            <div id= "login-form-container">
+              <h1>stArtRef</h1>
+              <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()}/>
+              <p>If its the first time, an account will be created for u</p>
+              <hr/>
+              <p>Dunno how to comply to GDPR so uhh.. if u make an account, u agree that u will not sue me.</p>
+              <br/>
+              <h1>( ˘ ³˘)❤</h1>
+            </div>
+        }
+      </>
+    );
 
     // Listen to the Firebase Auth state and set the local state.
     function isUserAuthed() {
         const unregisterAuthObserver = firebase.auth().onAuthStateChanged(
-            (user) => updateIsSignedIn(!!user)
+            (user) => {
+                if(user){
+                    console.log(user)
+                    localStorage.setItem('userData', JSON.stringify(user));
+                    updateIsSignedIn(true);
+                } else {
+                    localStorage.removeItem('userData');
+                    updateIsSignedIn(false);
+                }
+            }
         );
-
         // Make sure we un-register Firebase observers when the component unmounts.
-        return unregisterAuthObserver(); 
+        return unregisterAuthObserver; 
     }
 }
 
