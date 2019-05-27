@@ -11,6 +11,7 @@
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
     "react-scripts": "3.0.0",
+    "styled-components": "^4.2.0",
     "unsplash-js": "^4.8.0"
   },
   "scripts": {
