@@ -22,13 +22,12 @@ class UserProfile extends Component {
         super(props)
 
         this.state = {
-            user: firebase.auth().currentUser,
+            user: JSON.parse(localStorage.getItem('userData')),
             // userData: {},
             // name: props.user.displayName,
             username:'(ಠ.ಠ) loading...',
             // photoURL: props.user.photoURL
             website: '',
-
 
             activePost: '',
             pageRefKey: null,
@@ -140,9 +139,6 @@ class UserProfile extends Component {
           scrolling: true,
         }), this.loadPosts)
       }
-
-
-
 
     render(){
 
