@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import firebase from 'firebase';
+import {withRouter, Redirect} from 'react-router-dom';
 
 import './Upload.css';
 
@@ -9,15 +10,21 @@ let database = firebase.database().ref();
 
 const Upload = (props) => {
 
-    const [user, updateUser] = useState(firebase.auth().currentUser);
+    const [user, updateUser] = useState();
     const [userData, updateUserData] = useState({});
     const [username, updateUsername] = useState('');
     const [savedRefs, updateSavedRefs] = useState([]);
     const [refKeys, updateRefKeys] = useState([]);
 
     useEffect(()=>{
+        updateUser(firebase.auth().currentUser);
+    },[]);
+
+    useEffect(()=> {
         initialize();
-    });
+    },[user]);
+
+    
       
     return(
         <div className = "profileWrapper">
@@ -30,6 +37,9 @@ const Upload = (props) => {
     );
 
     function initialize() {
+        if(!user){
+            return 
+        }
         database.child('Users/' + user.uid).on('value', snap => {
             let val = snap.val();
             if(val !== null){
@@ -49,4 +59,4 @@ const Upload = (props) => {
     }
 }
 
-export default Upload;
+export default withRouter(Upload);
