@@ -51,14 +51,14 @@ class App extends Component {
               <Route exact ={true} path = {"/"} component = {StartRef} />
 
               {/* If not Logged in Show Login Button instead of profile */}
-              <Route path = {"/profile"} component = {Authentication}/>
+              <Route exact path = {"/profile"} component = {Authentication}/>
               
-              <Route path = {"/explore"} component = {Explore} />
+              <Route exact path = {"/explore"} component = {Explore} />
 
               {/* Fix ArtWithRef  overlay later*/}
-              <Route path = {'/settings'} component = {Options} />
+              <Route exact path = {'/settings'} component = {Options} />
 
-              <Route path = {'/upload'} component = {Upload} />
+              <Route exact path = {'/upload'} component = {Upload} />
               
               <Route path = {"/:id"} component = {UserSearch}/>
             </Switch>
