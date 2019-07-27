@@ -285,11 +285,14 @@ const Grid = styled.div`
         display: flex;
         flex-wrap: wrap;
 
-        max-width: 330px;
+        max-width: 306px;
         justify-content: flex-start; 
         margin-top: 2%;
         margin-bottom: 2%;
 
+        @media only screen and (min-width: 350px) {
+            max-width: 330px;
+        }
         @media only screen and (min-width: 700px) {
             max-width: 660px;
         }
