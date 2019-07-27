@@ -153,7 +153,7 @@ class UserProfile extends Component {
                 </div>
 
                 <div className = "postsWrapper">
-                    <div className = "grid">  
+                    <Grid>  
                     {/* Posts Here */}
                         {this.state.posts.map((post) => (
                             <Post   
@@ -163,7 +163,7 @@ class UserProfile extends Component {
                                 click={this.handlePostClick}
                             />
                         ))}
-                    </div>
+                    </Grid>
                     <Route path= {`${this.props.match.url}/:postID`} component = {PostOverlay}  />
                 </div>
 
@@ -181,6 +181,8 @@ const mstp = state => {
 }
 
 export default connect(mstp)(withRouter(UserProfile));
+
+export {Grid};
 
 const Profile = styled.div`
     padding-top: 60px;
@@ -238,20 +240,6 @@ const Profile = styled.div`
     .text-Info *{
         margin-top: 0;
         margin-bottom: 0;
-    }
-
-    .grid{
-        display: flex;
-        flex-wrap: wrap;
-
-        /* row-reverse to keep posts in order till I fix the data fetch */
-        flex-direction: row-reverse;
-
-        width: 100%;
-        /* flex-end to start from left */
-        justify-content: flex-end; 
-        margin-top: 2%;
-        margin-bottom: 2%;
     }
 
     .postsWrapper{
@@ -327,4 +315,18 @@ const Profile = styled.div`
             margin-bottom: 0;
         }
     }
+`;
+
+const Grid = styled.div`
+        display: flex;
+        flex-wrap: wrap;
+
+        /* row-reverse to keep posts in order till I fix the data fetch */
+        flex-direction: row-reverse;
+
+        width: 100%;
+        /* flex-end to start from left */
+        justify-content: flex-end; 
+        margin-top: 2%;
+        margin-bottom: 2%;
 `;
