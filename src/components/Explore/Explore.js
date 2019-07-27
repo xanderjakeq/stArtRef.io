@@ -1,9 +1,8 @@
 import React, { Component, useState, useEffect } from 'react';
 import {Route, Link} from 'react-router-dom';
-import firebase from 'firebase';
+import firebase from '../config/firebaseApp';
 
-import '../UserProfile/UserProfile.css';
-import './Explore.css';
+import {Grid} from '../UserProfile/UserProfile';
 
 import Post from '../Post/Post';
 import PostOverlay from '../PostOverlay/PostOverlay';
@@ -48,19 +47,19 @@ const Explore = (props) => {
                 
             <Route path= {`${props.match.url}/:postID`} component = {PostOverlay}  />
 
-                <div className = "grid">
+                <Grid>
                     {posts.length === 0 ? 'loading' :  posts.map((post) => {
                         return (
-                            // TODO: move postWrapper CSS to explore.css
-                            <div className = "postWrapper" key = {post.refKey}>
-                             <Link to = {`${props.match.url}/${post.refKey}`}>
-                                <Post post = {post} key = {post.refKey} onClick = {handlePostClick}/>
-                             </Link>
-                            </div>
+                            <Post   
+                                url={`${props.match.url}/${post.refKey}`}
+                                post={post}
+                                key={post.refKey}
+                                click={() => updateActivePost(post)}
+                            />
                         )
                         })
                     }
-                </div>
+                </Grid>
                 
             </div>
         </div>
