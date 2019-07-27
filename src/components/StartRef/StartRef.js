@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { toJson } from "unsplash-js";
+import styled from "styled-components";
 
 import firebase from 'firebase';
-
-import '../../App.css';
 
 import Ref from '../Ref/Ref';
 import Scribble from '../Scribble/Scribble';
@@ -95,11 +94,9 @@ class StartRef extends Component {
     this.handleGenerateClick();
   }
 
-
-
   render() {
     return (
-      <div className="App">
+      <Main>
         <header className="App-header">
           <p>
             Finish the Scribble <br />
@@ -129,7 +126,7 @@ class StartRef extends Component {
         <p>
           <a href='https://medium.com/thelostcreatives/startrefio-d1781777dbb1' target="_blank" rel="noopener noreferrer">Learn More</a>
         </p>
-      </div>
+      </Main>
     );
   }
 }
@@ -141,3 +138,170 @@ function SaveButton(props) {
 }
 
 export default StartRef;
+
+const Main = styled.div`
+  :root{
+    --footer-height: 10%;
+  }
+
+  text-align: center;
+  padding-bottom:  var(--footer-height);
+  max-width: 100%;
+  overflow: hidden;
+  padding-top: 60px;
+
+
+  .App-logo {
+    /* animation: App-logo-spin infinite 20s linear; */
+    margin: 10px;
+    height: 80px;
+  }
+
+  .App-header {
+    color: black;
+    display: inline-block;
+    width: 100%;
+    height: content;
+  }
+
+  .App-title {
+    font-size: 2em;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  }
+
+  .App-intro {
+    font-size: large;
+  }
+
+  .ref-wrapper{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  .generate-btn {
+    /* -moz-box-shadow: 0px 0px 0px 0px #3dc21b;
+    -webkit-box-shadow: 0px 0px 0px 0px #3dc21b;
+    box-shadow: 0px 0px 0px 0px #3dc21b; */
+    background-color:#55e1d0;
+    -moz-border-radius:42px;
+    -webkit-border-radius:42px;
+    border-radius:42px;
+    display:inline-block;
+    cursor:pointer;
+    color:#000000;
+    font-family:Verdana;
+    font-size:14px;
+    padding:7px 11px;
+    text-decoration:none;
+    border: none;
+
+    height: 2.5em;
+    margin-top: 15px;
+    margin-bottom: 15px;
+  }
+  .generate-btn:hover {
+    background-color:#106367;
+    color: white;
+  }
+  .generate-btn:active {
+    position:relative;
+    top:1px;
+  }
+  .generate-btn:focus {
+    outline:0;
+  }
+
+  .option-btn {
+    /* -moz-box-shadow: 0px 0px 0px 0px #3dc21b;
+    -webkit-box-shadow: 0px 0px 0px 0px #3dc21b;
+    box-shadow: 0px 0px 0px 0px #3dc21b; */
+    // background-color:#465362;
+    -moz-border-radius:5px;
+    -webkit-border-radius:5px;
+    border-radius:5px;
+    display:inline-block;
+    cursor:pointer;
+    color:white;
+    font-family:Verdana;
+    font-size:14px;
+    padding:7px 11px;
+    text-decoration:none;
+    border: none;
+
+    height: 2.5em;
+    /* margin-bottom: 15px; */
+    margin: 5px;
+    margin-top: 0px;
+  }
+  .option-btn:hover {
+    background-color:#011936;
+  }
+  .option-btn:active {
+    position:relative;
+    top:1px;
+  }
+  .option-btn:focus {
+    outline:0;
+  }
+
+  li{
+    list-style: none;
+  }
+
+  a{
+    text-decoration: none;
+    color: 	#2e73b8;
+  }
+  a:active{
+    text-decoration: none;
+    color: black;
+  }
+
+  .form-input{
+    margin: 20px;
+    width: 25%;
+    height: 2em;
+    border: none;
+    border-radius: 5px;
+    padding: 5px;
+    background-color: #465362;
+    color: #FAFAFA;
+  }
+
+  .option-btn-active{
+    /* -moz-box-shadow: 0px 0px 0px 0px #3dc21b;
+    -webkit-box-shadow: 0px 0px 0px 0px #3dc21b;
+    box-shadow: 0px 0px 0px 0px #3dc21b; */
+    background-color:#C2EABD;
+    -moz-border-radius:5px;
+    -webkit-border-radius:5px;
+    border-radius:5px;
+    display:inline-block;
+    cursor:pointer;
+    color:black;
+    font-family:Verdana;
+    font-size:14px;
+    padding:7px 11px;
+    text-decoration:none;
+    border: none;
+
+    height: 2.5em;
+    /* margin-bottom: 15px; */
+    margin: 5px;
+    margin-top: 0px;
+  }
+
+  .option-btn-active:focus {
+    outline:0;
+  }
+
+  @media only screen and (min-width: 600px) {
+    padding-top: 80px;
+
+    .ref-wrapper{
+      flex-direction: row;
+    }
+  }
+`;
