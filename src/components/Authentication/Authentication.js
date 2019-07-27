@@ -1,15 +1,16 @@
-import React, { Component, useState, useEffect} from 'react';
+import React, {useEffect} from 'react';
+import {connect} from 'react-redux';
 
 import './Authentication.css';
 
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import firebase from 'firebase';
 
+import {savedata} from '../../actions';
+
 import UserProfile from '../UserProfile/UserProfile';
 
 const Authentication = (props) => {
-    
-    const [isSignedIn, updateIsSignedIn] = useState(localStorage.getItem('userData')); 
 
     // Configure FirebaseUI.
     const uiConfig = {
@@ -36,7 +37,7 @@ const Authentication = (props) => {
 
     return (
       <>
-        {isSignedIn ? 
+        {props.isAuthed ? 
             <div>
               <UserProfile/>
             </div>
@@ -61,10 +62,10 @@ const Authentication = (props) => {
                 if(user){
                     console.log(user)
                     localStorage.setItem('userData', JSON.stringify(user));
-                    updateIsSignedIn(true);
+                    props.savedata(user)
                 } else {
                     localStorage.removeItem('userData');
-                    updateIsSignedIn(false);
+                    // updateIsSignedIn(false);
                 }
             }
         );
@@ -73,4 +74,10 @@ const Authentication = (props) => {
     }
 }
 
-export default Authentication;
+const mstp = state => {
+  return {
+    isAuthed: state.auth.isAuthed
+  }
+}
+
+export default connect(mstp, {savedata})(Authentication);
