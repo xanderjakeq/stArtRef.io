@@ -5,7 +5,9 @@ import {Link, Route, withRouter} from 'react-router-dom';
 
 import {connect} from 'react-redux';
 
-import './UserProfile.css';
+import styled from 'styled-components';
+
+// import './UserProfile.css';
 
 import Post from '../Post/Post';
 
@@ -143,11 +145,11 @@ class UserProfile extends Component {
 
 
         return(
-            <div className = "profileWrapper">
+            <Profile>
                 {/* profile info */}
                 
                 <div className = "centerThisShit">
-                <header className = "profileCard">
+                <div className = "profileCard">
                     {/* div for prof pic */}
                     <div className = "profilePhoto">
                         <img src= {this.props.user.photoURL } alt ="profile"/>
@@ -161,7 +163,7 @@ class UserProfile extends Component {
 
                     {/* moved to Options.js */}
                     <Link to = {'settings'} id = "options"><span className = "navIcons" role = "img" aria-label = "settings">⚙️</span></Link>
-                </header>
+                </div>
 
                 <UploadButton content = "🎨🖌️" linkTo = "/upload"/>
 
@@ -176,7 +178,7 @@ class UserProfile extends Component {
                 </div>
 
                 {/* <Route path = {`${match.url}/options`} component = {Options}/> */}
-            </div>
+            </Profile>
         )
     }
 
@@ -191,3 +193,128 @@ const mstp = state => {
 }
 
 export default connect(mstp)(withRouter(UserProfile));
+
+const Profile = styled.div`
+    padding-top: 60px;
+
+    a {
+        text-decoration: none;
+    }
+
+    .profileCard{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        margin-left: 16px;
+        /* margin-right: 16px; */
+        margin-top: 30px;
+        margin-bottom: 24px;
+        width: -webkit-fill-available;
+    }
+
+    .profilePhoto{
+        margin-right: 28px;
+        flex-shrink: 0;
+    }
+
+    .centerThisShit{
+        display:flex;
+        flex-direction: column;
+        justify-content:center;
+        align-items:center;
+    }
+
+    .profilePhoto img{
+        border-radius: 50%;
+        height: 77px;
+        width: 77px;
+    }
+
+    .text-Info{
+        flex-basis: 0;
+        flex-grow: 1;
+        overflow: hidden;
+    }
+
+    .text-Info h1{
+        font-size: 22px;
+        line-height: 26px;
+        font-weight: 700;
+    }
+
+    .text-Info h4{
+        font-size: 14px;
+        line-height: 20px;
+    }
+
+    .text-Info *{
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+
+    .postsWrapper{
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    #uploadButton{
+        width: fit-content;
+        height: fit-content;
+        align-self: flex-end;
+    }
+
+    .uploadButtonIcons{
+        font-size: 20px;
+    }
+
+
+    @media only screen and (min-width: 600px) {
+        .profileWrapper{
+            padding-top: 80px;
+        }
+
+        .profileCard{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            margin-left: 16px;
+            margin-right: 16px;
+            margin-top: 30px;
+            margin-bottom: 44px;
+            
+        }
+        
+        .profilePhoto{
+            margin-right: 28px;
+            flex-shrink: 0;
+        }
+        
+        .profilePhoto img{
+            border-radius: 50%;
+            height: 77px;
+            width: 77px;
+        }
+        
+        .text-Info{
+            flex-basis: 0;
+            flex-grow: 1;
+        }
+        
+        .text-Info h2{
+            font-size: 22px;
+            line-height: 26px;
+        }
+        
+        .text-Info h4{
+            font-size: 14px;
+            line-height: 20px;
+        }
+        
+        .text-Info *{
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+    }
+`;
