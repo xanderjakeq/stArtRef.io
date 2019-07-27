@@ -1,4 +1,4 @@
-import React, { Component} from 'react';
+import React, {useState, useEffect} from 'react';
 import PropTypes from 'prop-types';
 import {Link, Route, withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
@@ -12,154 +12,128 @@ import PostOverlay from '../PostOverlay/PostOverlay'
 
 let database = firebaseApp.database().ref();
 
-class UserProfile extends Component {
+const UserProfile = (props) => {
 
-    constructor(props){
-        super(props)
+    const [activePost, updateActivePost] = useState('');
+    const [pageRefKey, updatePageRefKey] = useState('');
+    const [page, updatePage] = useState(0);
+    const [posts, updatePosts] = useState([]);
+    const [isEndReached, updateIsEndReached] = useState(false);
+    const [isScrolling, updateIsScrolling] = useState(false);
 
-        this.state = {
-            activePost: '',
-            pageRefKey: null,
-            posts:[],
-            perPage: 16,
-            endReached: false,
-            scrolling: false
+    const [perPage, updatePerPage] = useState(16);
+    
+    useEffect(() => {
+
+        if(!pageRefKey){
+            database.child('UserGroupedPosts/' + props.user.uid).orderByKey().limitToLast(1).on('value', (childSnapshot, prevChildKey) => {
+                if(childSnapshot.val()){
+                    let postsObjToArray = Object.keys(childSnapshot.val());
+
+                    updatePageRefKey(postsObjToArray[0]);
+                }
+            })
         }
 
-        this.handlePostClick = this.handlePostClick.bind(this)
-        this.loadPosts = this.loadPosts.bind(this)
+        loadMore();
+
+        window.addEventListener('scroll', handleScroll);
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        }
+
+    },[pageRefKey])
+     
+    return(
+        <Profile>
+            {/* profile info */}
+            
+            <div className = "centerThisShit">
+            <div className = "profileCard">
+                {/* div for prof pic */}
+                <div className = "profilePhoto">
+                    <img src= {props.user.photoURL } alt ="profile"/>
+                </div>
+
+                {/* div for name and stuff */}
+                <div className= "text-Info">
+                    <h1>{props.userData.username.length < 16 ? props.userData.username : props.userData.username.substring(0,13) + '...'}</h1>
+                    <a href={props.userData.website}>{props.userData.website.substring(props.userData.website.indexOf('.') + 1,props.userData.website.indexOf('/',props.userData.website.indexOf('//')+2))}</a>
+                </div>
+
+                {/* moved to Options.js */}
+                <Link to = {'settings'} id = "options"><span className = "navIcons" role = "img" aria-label = "settings">⚙️</span></Link>
+            </div>
+
+            <UploadButton content = "🎨🖌️" linkTo = "/upload"/>
+
+            </div>
+
+            <div className = "postsWrapper">
+                <Grid>  
+                {/* Posts Here */}
+                    {posts.map((post) => (
+                        <Post   
+                            url={`${props.match.url}/${post.refKey}`}
+                            post={post}
+                            key={post.refKey}
+                            click={handlePostClick}
+                        />
+                    ))}
+                </Grid>
+                <Route path= {`${props.match.url}/:postID`} component = {PostOverlay}  />
+            </div>
+
+            {/* <Route path = {`${match.url}/options`} component = {Options}/> */}
+        </Profile>
+    )
+
+    function handlePostClick(post){
+        updateActivePost(post);
     }
 
-    static propTypes = {
-        match: PropTypes.object.isRequired,
-        location: PropTypes.object.isRequired,
-        history: PropTypes.object.isRequired
-      }
+    function loadMore (){
+        updatePage(page => page + 1);
+        updateIsScrolling(true);
+        loadPosts();
+    }
 
-    componentWillMount(){
-        if(!this.state.pageRefKey){
-            database.child('UserGroupedPosts/' + this.props.user.uid).orderByKey().limitToLast(1).on('value', async (childSnapshot, prevChildKey) => {
+    function loadPosts(){
+        //prevent fetching if endisReached
+        if(isEndReached ){return}
+
+        database.child('UserGroupedPosts/' + props.user.uid).orderByKey().endAt(pageRefKey).limitToLast(perPage).on('value', (childSnapshot, prevChildKey) => {
             
-                if(childSnapshot.val()){
-    
+            if(childSnapshot.val()){
+
                 let postsObjToArray = Object.keys(childSnapshot.val()).map(function(key) {
+                    let itemKey = key;
                     return {refKey: key, data:childSnapshot.val()[key]};
                 });
-                // console.log(postsObjToArray.pop().refKey)
-                //can't call setState if component didn't mount yet (shouldn't)
-                this.setState({
-                    pageRefKey: await postsObjToArray.pop().refKey
-                }) 
+
+                postsObjToArray.reverse();
+                    
+                updatePageRefKey(postsObjToArray.length < perPage ? updateIsEndReached(true) : postsObjToArray.pop().refKey);
+                updatePosts([...posts, ...postsObjToArray]);
+                updateIsScrolling(false);
                 
-                this.loadMore()
-
             }
-            })
-        }
-
-        this.scrollListener = window.addEventListener('scroll', this.handleScroll)
-    }
-
-    componentWillUnmount(){
-        window.removeEventListener('scroll', this.handleScroll)
-    }
-
-    handlePostClick(post){
-        this.state.activePost = post
-
-        // this.setState({
-        //     activePost: post,
-        // })
-    }
-
-    handleScroll = () => {
-        const { scrolling, totalPages, page} = this.state
-        if (scrolling) return
-        if (totalPages <= page) return
-        var lastLi = document.querySelector('div.grid > div:last-child')
-        if(lastLi == null) return
-        var lastLiOffset = lastLi.offsetTop + lastLi.clientHeight
-        var pageOffset = window.pageYOffset + window.innerHeight
-        var bottomOffset = 20
-        if (pageOffset > lastLiOffset - bottomOffset) {
-          this.loadMore()
-        }
-        
-      }
-
-      loadPosts(){
-        //prevent fetching if endisReached
-        if(this.state.endReached){return}
-
-        database.child('UserGroupedPosts/' + this.props.user.uid).orderByKey().endAt(this.state.pageRefKey).limitToLast(this.state.perPage).on('value', (childSnapshot, prevChildKey) => {
-            
-            let postsObjToArray = Object.keys(childSnapshot.val()).map(function(key) {
-                return {refKey: key, data:childSnapshot.val()[key]};
-            });
-
-            postsObjToArray.reverse()
-            
-            this.setState({
-                //prevent updating pageRefKey if the current number of items is less than perPage
-                pageRefKey: postsObjToArray.length < this.state.perPage ? this.setState({endReached: true}) : postsObjToArray.pop().refKey, 
-                // posts:[...this.state.posts, ...postsObjToArray.reverse()]
-                posts:[...this.state.posts, ...postsObjToArray],
-                scrolling: false
-            })
         });
     }
 
-    loadMore = () => {
-        this.setState(prevState => ({
-          page: prevState.page+1,
-          scrolling: true,
-        }), this.loadPosts)
-      }
-
-    render(){
-        return(
-            <Profile>
-                {/* profile info */}
-                
-                <div className = "centerThisShit">
-                <div className = "profileCard">
-                    {/* div for prof pic */}
-                    <div className = "profilePhoto">
-                        <img src= {this.props.user.photoURL } alt ="profile"/>
-                    </div>
-
-                    {/* div for name and stuff */}
-                    <div className= "text-Info">
-                        <h1>{this.props.userData.username.length < 16 ? this.props.userData.username : this.props.userData.username.substring(0,13) + '...'}</h1>
-                        <a href={this.props.userData.website}>{this.props.userData.website.substring(this.props.userData.website.indexOf('.') + 1,this.props.userData.website.indexOf('/',this.props.userData.website.indexOf('//')+2))}</a>
-                    </div>
-
-                    {/* moved to Options.js */}
-                    <Link to = {'settings'} id = "options"><span className = "navIcons" role = "img" aria-label = "settings">⚙️</span></Link>
-                </div>
-
-                <UploadButton content = "🎨🖌️" linkTo = "/upload"/>
-
-                </div>
-
-                <div className = "postsWrapper">
-                    <Grid>  
-                    {/* Posts Here */}
-                        {this.state.posts.map((post) => (
-                            <Post   
-                                url={`${this.props.match.url}/${post.refKey}`}
-                                post={post}
-                                key={post.refKey}
-                                click={this.handlePostClick}
-                            />
-                        ))}
-                    </Grid>
-                    <Route path= {`${this.props.match.url}/:postID`} component = {PostOverlay}  />
-                </div>
-
-                {/* <Route path = {`${match.url}/options`} component = {Options}/> */}
-            </Profile>
-        )
+    function handleScroll() {
+        if (isScrolling) return
+        // if (totalPages <= page) return
+        var lastLi = document.querySelector('div.grid > div:last-child');
+        if(lastLi == null) return;
+        var lastLiOffset = lastLi.offsetTop + lastLi.clientHeight;
+        var pageOffset = window.pageYOffset + window.innerHeight;
+        var bottomOffset = 20;
+        if (pageOffset > lastLiOffset - bottomOffset) {
+            loadMore();
+        }
+        
     }
 }
 
