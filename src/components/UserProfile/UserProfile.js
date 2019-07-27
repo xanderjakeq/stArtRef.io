@@ -285,12 +285,15 @@ const Grid = styled.div`
         display: flex;
         flex-wrap: wrap;
 
-        /* row-reverse to keep posts in order till I fix the data fetch */
-        flex-direction: row-reverse;
-
-        width: 100%;
-        /* flex-end to start from left */
-        justify-content: flex-end; 
+        max-width: 330px;
+        justify-content: flex-start; 
         margin-top: 2%;
         margin-bottom: 2%;
+
+        @media only screen and (min-width: 700px) {
+            max-width: 660px;
+        }
+        @media only screen and (min-width: 1160px) {
+            max-width: 1105px;
+        }
 `;
