@@ -127,23 +127,6 @@ class UserProfile extends Component {
       }
 
     render(){
-
-        let postsArray = this.state.posts;
-        let postRendered = [];
-        if(postsArray != null){
-            postRendered =   postsArray.map((post) => {
-                return (
-                    // TODO: move postWrapper CSS to explore.css
-                    <div className = "postWrapper" key = {post.refKey}>
-                     <Link to = {`${this.props.match.url}/${post.refKey}`}>
-                        <Post post = {post} key = {post.refKey} onClick = {this.handlePostClick}/>
-                     </Link>
-                    </div>
-                )
-            });
-        }
-
-
         return(
             <Profile>
                 {/* profile info */}
@@ -172,7 +155,14 @@ class UserProfile extends Component {
                 <div className = "postsWrapper">
                     <div className = "grid">  
                     {/* Posts Here */}
-                        {postRendered}
+                        {this.state.posts.map((post) => (
+                            <Post   
+                                url={`${this.props.match.url}/${post.refKey}`}
+                                post={post}
+                                key={post.refKey}
+                                click={this.handlePostClick}
+                            />
+                        ))}
                     </div>
                     <Route path= {`${this.props.match.url}/:postID`} component = {PostOverlay}  />
                 </div>
@@ -181,8 +171,6 @@ class UserProfile extends Component {
             </Profile>
         )
     }
-
-
 }
 
 const mstp = state => {
@@ -252,11 +240,33 @@ const Profile = styled.div`
         margin-bottom: 0;
     }
 
+    .grid{
+        display: flex;
+        flex-wrap: wrap;
+
+        /* row-reverse to keep posts in order till I fix the data fetch */
+        flex-direction: row-reverse;
+
+        width: 100%;
+        /* flex-end to start from left */
+        justify-content: flex-end; 
+        margin-top: 2%;
+        margin-bottom: 2%;
+    }
+
     .postsWrapper{
         display: flex;
         flex-wrap: wrap;
         flex-direction: row;
         justify-content: center;
+    }
+
+    .postWrapper{
+        width: 33%;
+        /* margin: 1px; */
+        margin: 
+        // margin-left: 0.3%;
+        // margin-bottom: 0.3%;
     }
 
     #uploadButton{
