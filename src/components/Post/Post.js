@@ -23,8 +23,12 @@ Post.propTypes = {
 }
 
 const Wrapper = styled.div`
-    width: calc(100%/5);
-    margin: 10px; 
+    width: 100px;
+    margin: 5px; 
+    @media only screen and (min-width: 700px) {
+        width: 200px;
+        margin: 10px; 
+    }
 `;
 
 const Art = styled.img`
