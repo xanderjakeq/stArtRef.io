@@ -9,7 +9,8 @@ const initialState = {
 }
 
 const branchTable = {
-	[actions.LOGIN_SUCCESS]: (state, action) => {return {...state, userData: action.payload, isAuthed: true}}
+	[actions.LOGIN_SUCCESS]: (state, action) => {return {...state, userData: action.payload, isAuthed: true}},
+	[actions.SIGNOUT]: (state, action) => {return {...state, isAuthed: false}}
 }
 
 export default (state = initialState, action) => {
