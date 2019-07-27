@@ -1,11 +1,11 @@
 import {ERROR} from './index';
 
-export const SAVING_DATA = "SAVING_DATA";
+export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 
 // Listen to the Firebase Auth state and set the local state.
 export const savedata = data => {
 	return {
-		type: SAVING_DATA,
+		type: LOGIN_SUCCESS,
 		payload: data
 	}
 }
