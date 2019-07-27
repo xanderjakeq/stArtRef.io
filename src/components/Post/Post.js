@@ -8,7 +8,7 @@ const Post = (props) => {
     return( 
         <Wrapper>
             <Link to = {props.url}>
-                <Art src={props.post.data.artLink} onClick = {props.click(props.post)} alt = 'art'/>       
+                <Art src={props.post.data.artLink} onClick = {()=>props.click(props.post.data)} alt = 'art'/>       
             </Link>
         </Wrapper>
     )
