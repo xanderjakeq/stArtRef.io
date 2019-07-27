@@ -24,7 +24,11 @@ Post.propTypes = {
 
 const Wrapper = styled.div`
     width: 100px;
-    margin: 5px; 
+    margin: 1px; 
+
+    @media only screen and (min-width: 350px) {
+        margin: 5px; 
+    }
     @media only screen and (min-width: 700px) {
         width: 200px;
         margin: 10px; 
