@@ -1,24 +1,16 @@
 import React, { Component} from 'react';
 import PropTypes from 'prop-types';
-import firebase from 'firebase';
 import {Link, Route, withRouter} from 'react-router-dom';
-
 import {connect} from 'react-redux';
-
 import styled from 'styled-components';
-
-// import './UserProfile.css';
-
-import Post from '../Post/Post';
-
 
 import firebaseApp from '../config/firebaseApp'
 
 import UploadButton from '../UploadButton/UploadButton'
-
+import Post from '../Post/Post';
 import PostOverlay from '../PostOverlay/PostOverlay'
 
-let database = firebase.database().ref();
+let database = firebaseApp.database().ref();
 
 class UserProfile extends Component {
 
@@ -28,7 +20,6 @@ class UserProfile extends Component {
         this.state = {
             activePost: '',
             pageRefKey: null,
-            firebaseRef: firebase.database().ref(),
             posts:[],
             perPage: 16,
             endReached: false,
@@ -47,7 +38,7 @@ class UserProfile extends Component {
 
     componentWillMount(){
         if(!this.state.pageRefKey){
-            firebase.database().ref().child('UserGroupedPosts/' + this.props.user.uid).orderByKey().limitToLast(1).on('value', async (childSnapshot, prevChildKey) => {
+            database.child('UserGroupedPosts/' + this.props.user.uid).orderByKey().limitToLast(1).on('value', async (childSnapshot, prevChildKey) => {
             
                 if(childSnapshot.val()){
     
@@ -100,8 +91,7 @@ class UserProfile extends Component {
         //prevent fetching if endisReached
         if(this.state.endReached){return}
 
-        this.state.firebaseRef.child('UserGroupedPosts/' + this.props.user.uid).orderByKey().endAt(this.state.pageRefKey).limitToLast(this.state.perPage).on('value', (childSnapshot, prevChildKey) => {
-
+        database.child('UserGroupedPosts/' + this.props.user.uid).orderByKey().endAt(this.state.pageRefKey).limitToLast(this.state.perPage).on('value', (childSnapshot, prevChildKey) => {
             
             let postsObjToArray = Object.keys(childSnapshot.val()).map(function(key) {
                 return {refKey: key, data:childSnapshot.val()[key]};
