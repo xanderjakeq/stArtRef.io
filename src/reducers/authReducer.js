@@ -2,14 +2,18 @@ import * as actions from '../actions';
 
 const initialState = {
 	authenticating: false,
-	userData: {},
+	user: {},
+	userData: {
+		username: '(ಠ.ಠ) loading...',
+		website: ''
+	},
 	userMusicTaste: null,
 	isAuthed:  false, 
 	error: null
 }
 
 const branchTable = {
-	[actions.LOGIN_SUCCESS]: (state, action) => {return {...state, userData: action.payload, isAuthed: true}},
+	[actions.LOGIN_SUCCESS]: (state, action) => {return {...state, user: action.payload.user, userData: action.payload.userData, isAuthed: true}},
 	[actions.SIGNOUT]: (state, action) => {return {...state, isAuthed: false}}
 }
 
