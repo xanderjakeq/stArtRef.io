@@ -1,3 +1,4 @@
+import * as actions from '../actions';
 
 const initialState = {
 	authenticating: false,
@@ -7,12 +8,10 @@ const initialState = {
 	error: null
 }
 
-const AUTH_START = "AUTH_START";
-
 const branchTable = {
-	[AUTH_START]: (state) => {return {...state, authenticating: true, error: null}}
+	[actions.SAVING_DATA]: (state, action) => {return {...state, userData: action.payload, isAuthed: true}}
 }
 
 export default (state = initialState, action) => {
-	return branchTable[action.type](state)
+	return action.type in branchTable ? branchTable[action.type](state, action) : state;
 }
