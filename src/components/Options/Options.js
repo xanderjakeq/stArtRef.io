@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import firebase from 'firebase';
 import { Link} from 'react-router-dom';
+import {connect} from 'react-redux';
 
 import './Options.css';
+
+import {signout} from '../../actions';
 
 
 import firebaseApp from '../config/firebaseApp'
@@ -131,7 +134,7 @@ class Options extends Component {
                     </div>
                     {/* </div> */}
                         
-                    <Link to = '/profile' onClick={() => firebase.auth().signOut()}>Sign-out</Link>
+                    <Link to = '/profile' onClick={() => this.props.signout()}>Sign-out</Link>
 
                     <Link to = '/' className = "formItem" id = "deleteAccount">delete account</Link>
                 </div>
@@ -142,7 +145,11 @@ class Options extends Component {
     }
 }
 
+const mstp = state => {
+    return {
+
+    }
+}
 
 
-
-export default Options;
+export default connect(mstp, {signout})(Options);
