@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import firebase from 'firebase';
 import {Link, Route, withRouter} from 'react-router-dom';
 
+import {connect} from 'react-redux';
+
 import './UserProfile.css';
 
 import Post from '../Post/Post';
@@ -22,13 +24,6 @@ class UserProfile extends Component {
         super(props)
 
         this.state = {
-            user: JSON.parse(localStorage.getItem('userData')),
-            // userData: {},
-            // name: props.user.displayName,
-            username:'(ಠ.ಠ) loading...',
-            // photoURL: props.user.photoURL
-            website: '',
-
             activePost: '',
             pageRefKey: null,
             firebaseRef: firebase.database().ref(),
@@ -50,7 +45,7 @@ class UserProfile extends Component {
 
     componentWillMount(){
         if(!this.state.pageRefKey){
-            firebase.database().ref().child('UserGroupedPosts/' + this.state.user.uid).orderByKey().limitToLast(1).on('value', async (childSnapshot, prevChildKey) => {
+            firebase.database().ref().child('UserGroupedPosts/' + this.props.user.uid).orderByKey().limitToLast(1).on('value', async (childSnapshot, prevChildKey) => {
             
                 if(childSnapshot.val()){
     
@@ -68,18 +63,6 @@ class UserProfile extends Component {
             }
             })
         }
-
-        database.child('Users/' + this.state.user.uid).on('value', snap => {
-            console.log(snap.val())
-            let val = snap.val();
-            if(val !== null){
-                this.setState({
-                    userData: val,
-                    username: val.username,
-                    website: val.website
-                });
-            }
-        });
 
         this.scrollListener = window.addEventListener('scroll', this.handleScroll)
     }
@@ -115,7 +98,8 @@ class UserProfile extends Component {
         //prevent fetching if endisReached
         if(this.state.endReached){return}
 
-        this.state.firebaseRef.child('UserGroupedPosts/' + this.state.user.uid).orderByKey().endAt(this.state.pageRefKey).limitToLast(this.state.perPage).on('value', (childSnapshot, prevChildKey) => {
+        this.state.firebaseRef.child('UserGroupedPosts/' + this.props.user.uid).orderByKey().endAt(this.state.pageRefKey).limitToLast(this.state.perPage).on('value', (childSnapshot, prevChildKey) => {
+
             
             let postsObjToArray = Object.keys(childSnapshot.val()).map(function(key) {
                 return {refKey: key, data:childSnapshot.val()[key]};
@@ -166,13 +150,13 @@ class UserProfile extends Component {
                 <header className = "profileCard">
                     {/* div for prof pic */}
                     <div className = "profilePhoto">
-                        <img src= {this.state.user.photoURL || this.props.user.photoURL } alt ="profile"/>
+                        <img src= {this.props.user.photoURL } alt ="profile"/>
                     </div>
 
                     {/* div for name and stuff */}
                     <div className= "text-Info">
-                        <h1>{this.state.username.length < 16 ? this.state.username : this.state.username.substring(0,13) + '...'}</h1>
-                        <a href={this.state.website}>{this.state.website.substring(this.state.website.indexOf('.') + 1,this.state.website.indexOf('/',this.state.website.indexOf('//')+2))}</a>
+                        <h1>{this.props.userData.username.length < 16 ? this.props.userData.username : this.props.userData.username.substring(0,13) + '...'}</h1>
+                        <a href={this.props.userData.website}>{this.props.userData.website.substring(this.props.userData.website.indexOf('.') + 1,this.props.userData.website.indexOf('/',this.props.userData.website.indexOf('//')+2))}</a>
                     </div>
 
                     {/* moved to Options.js */}
@@ -199,4 +183,11 @@ class UserProfile extends Component {
 
 }
 
-export default withRouter(UserProfile);
+const mstp = state => {
+    return {
+        user: state.auth.user,
+        userData: state.auth.userData
+    }
+}
+
+export default connect(mstp)(withRouter(UserProfile));
