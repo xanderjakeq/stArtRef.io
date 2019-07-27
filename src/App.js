@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch} from "react-router-dom";
 
+import styled from 'styled-components';
 
 import * as firebase from 'firebase';
 
@@ -12,6 +13,7 @@ import Authentication from './components/Authentication/Authentication';
 import Options from './components/Options/Options';
 import Upload from './components/Upload/Upload'
 import UserSearch from './components/UserSearch/UserSearch'
+
 
 class App extends Component {
 
@@ -46,7 +48,7 @@ class App extends Component {
       <Router>
         <div>
           <NavBar isLoggedIn = {false} />
-          <div id = "MainWrapper">
+          <MainWrapper>
             <Switch>
               <Route exact ={true} path = {"/"} component = {StartRef} />
 
@@ -62,15 +64,18 @@ class App extends Component {
               
               <Route path = {"/:id"} component = {UserSearch}/>
             </Switch>
-          </div>
-          <Footer className = "footer"/>
+          </MainWrapper>
+          <Footer/>
         </div>
       </Router>
     );
   }
 }
 
-
-
-
 export default App;
+
+const MainWrapper = styled.div`
+  min-height: calc(100vh - 64px);
+  padding-left: 2%;
+  padding-right: 2%;
+`;
