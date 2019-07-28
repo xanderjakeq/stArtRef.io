@@ -9,7 +9,6 @@ import PostOverlay from '../PostOverlay/PostOverlay';
 
 const Explore = (props) => {
 
-    const [activePost, updateActivePost] = useState('');
     const [pageRefKey, updatePageRefKey] = useState('');
     const [page, updatePage] = useState(0);
     const [posts, updatePosts] = useState([]);
@@ -54,7 +53,6 @@ const Explore = (props) => {
                                 url={`${props.match.url}/${post.refKey}`}
                                 post={post}
                                 key={post.refKey}
-                                click={() => updateActivePost(post)}
                             />
                         )
                         })
@@ -64,10 +62,6 @@ const Explore = (props) => {
             </div>
         </div>
     )
-
-    function handlePostClick(post){
-        updateActivePost(post);
-    }
 
     function loadMore (){
         updatePage(page => page + 1);
