@@ -6,7 +6,6 @@ export const Ref = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 20px;
     width: 300px;
     height: min-content;
     a {
@@ -14,6 +13,9 @@ export const Ref = styled.div`
         img {
             width: 100%;
         }
+    }
+    @media only screen and (min-width:321px){
+        margin: 20px;
     }
 `;
 
