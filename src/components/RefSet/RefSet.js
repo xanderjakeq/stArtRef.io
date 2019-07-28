@@ -116,7 +116,7 @@ const HiddenInput = styled.input`
     display: none;
 `;
 
-const UploadBtn = styled.button`
+export const UploadBtn = styled.button`
 	outline: none;
 	background: transparent;
 	border: solid 1px #27a9e0;
