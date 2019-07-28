@@ -202,24 +202,6 @@ const Profile = styled.div`
         margin-bottom: 0;
     }
 
-    .postWrapper{
-        width: 33%;
-        /* margin: 1px; */
-        margin: 
-        // margin-left: 0.3%;
-        // margin-bottom: 0.3%;
-    }
-
-    #uploadButton{
-        width: fit-content;
-        height: fit-content;
-        align-self: flex-end;
-    }
-
-    .uploadButtonIcons{
-        font-size: 20px;
-    }
-
     @media only screen and (min-width: 600px) {
         .profileCard{
             display: flex;
