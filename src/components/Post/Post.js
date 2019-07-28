@@ -30,6 +30,7 @@ Post.propTypes = {
 
 export const Wrapper = styled.div`
     width: 100px;
+    height: 100px;
     margin: 1px; 
 
     &:hover{
@@ -41,10 +42,12 @@ export const Wrapper = styled.div`
     }
     @media only screen and (min-width: 700px) {
         width: 200px;
+        height: 200px;
         margin: 10px; 
     }
     ${props => props.size && css`
         width: ${props.size};
+        height: ${props.size};
         margin: 25px 0;
 
         @media only screen and (min-width: 350px) {
@@ -52,6 +55,7 @@ export const Wrapper = styled.div`
         }
         @media only screen and (min-width: 700px) {
             width: ${props.size};
+            height: ${props.size};
         }
     `}
 `;
