@@ -4,10 +4,10 @@ import firebase from 'firebase';
 import styled from 'styled-components';
 import { toJson } from "unsplash-js";
 
-import './RefSet.css';
-
 import Ref from '../Ref/Ref'
 import Scribble from '../Scribble/Scribble'
+
+import {RefSet as RefSetStyle} from "../StartRef/StartRef";
 
 const RefSet = (props) => {
 
@@ -41,11 +41,11 @@ const RefSet = (props) => {
                 </UploadBtn>
                 </div>
                 <div className = "refSetWrapper">
-                    <div className="refSet">
+                    <RefSetStyle>
                         <Ref photoInfo = {props.data[0]}/>
-                        <Ref photoInfo = {props.data[2]}/>
                         <Scribble scribbleUrl = {props.data[1]}/>
-                    </div>
+                        <Ref photoInfo = {props.data[2]}/>
+                    </RefSetStyle>
                 </div>
             </div>
         </>
