@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {Link} from "react-router-dom";
 import firebase from 'firebase';
-import styled from 'styled-components';
+import styled, {css} from 'styled-components';
 import { toJson } from "unsplash-js";
 import {connect} from "react-redux";
 
@@ -130,4 +130,12 @@ export const ShareBtn= styled.button`
 		cursor: pointer;
 		background: #FDF9F0;
 	}
+	${props => props.flexEnd && css`
+		width: fit-content;
+        height: fit-content;
+        align-self: flex-end;
+	`}
+	${props => props.fontSize && css`
+		font-size: ${props.fontSize}
+	`}
 `;
