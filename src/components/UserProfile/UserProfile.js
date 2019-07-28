@@ -4,53 +4,51 @@ import {Link, Route, withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
 import styled from 'styled-components';
 
-import firebaseApp from '../config/firebaseApp'
+import firebaseApp from '../config/firebaseApp';
 
-import UploadButton from '../UploadButton/UploadButton'
+import UploadButton from '../UploadButton/UploadButton';
 import Post from '../Post/Post';
-import PostOverlay from '../PostOverlay/PostOverlay'
+import PostOverlay from '../PostOverlay/PostOverlay';
 
 let database = firebaseApp.database().ref();
 
 const UserProfile = (props) => {
 
-    const [activePost, updateActivePost] = useState('');
     const [pageRefKey, setPageRefKey] = useState('');
-    const [page, updatePage] = useState(0);
     const [posts, setPosts] = useState([]);
     const [endReached, setEndReached] = useState(false);
     const [scrolling, setScrolling] = useState(false);
 
-    const [perPage, updatePerPage] = useState(16);
+    const [perPage] = useState(16);
     
     useEffect(() => {
         if(!pageRefKey){
             database.child('UserGroupedPosts/' + props.user.uid).orderByKey().limitToLast(1).on('value', (childSnapshot, prevChildKey) => {
             
                 if(childSnapshot.val()){
-    
-                let postsObjToArray = Object.keys(childSnapshot.val()).map(function(key) {
-                    return {refKey: key, data:childSnapshot.val()[key]};
-                });
-				setPageRefKey(postsObjToArray.pop().refKey)
-                
-                loadMore()
-            }
+                    let postsObjToArray = Object.keys(childSnapshot.val()).map(function(key) {
+                        return {refKey: key, data:childSnapshot.val()[key]};
+                    });
+
+                    setPageRefKey(postsObjToArray.pop().refKey);
+                    
+                    loadMore();
+                }
             })
         }
 
-        window.addEventListener('scroll', handleScroll)
+        window.addEventListener('scroll', handleScroll);
 
 		return () => {
-			window.removeEventListener('scroll', handleScroll)
+			window.removeEventListener('scroll', handleScroll);
 		}
-	},[])
+	},[]);
 
     useEffect(() => {
 		if (scrolling) {
-			loadPosts()
+			loadPosts();
 		}
-	},[scrolling])
+	},[scrolling]);
      
     return(
         <Profile>
@@ -85,29 +83,22 @@ const UserProfile = (props) => {
                             url={`${props.match.url}/${post.refKey}`}
                             post={post}
                             key={post.refKey}
-                            click={handlePostClick}
                         />
                     ))}
                 </Grid>
                 <Route path= {`${props.match.url}/:postID`} component = {PostOverlay}  />
             </div>
-
-            {/* <Route path = {`${match.url}/options`} component = {Options}/> */}
         </Profile>
-    )
-
-    function handlePostClick(post){
-        updateActivePost(post);
-    }
+    );
 
     function loadMore () {
-		setScrolling(true)
-      }
-      
-	
+        setScrolling(true);
+    }
 
     function loadPosts(){
-        if(endReached){return}
+        if(endReached){
+            return
+        }
 
         database.child('UserGroupedPosts/' + props.user.uid).orderByKey().endAt(pageRefKey).limitToLast(perPage).on('value', (childSnapshot, prevChildKey) => {
             
@@ -115,29 +106,29 @@ const UserProfile = (props) => {
                 return {refKey: key, data:childSnapshot.val()[key]};
             });
 
-            postsObjToArray.reverse()
+            postsObjToArray.reverse();
             
 			if (postsObjToArray.length < perPage) {
-				setEndReached(true)
+				setEndReached(true);
 			}
 			else {
-				setPageRefKey(postsObjToArray.pop().refKey)
+				setPageRefKey(postsObjToArray.pop().refKey);
 			}
-			setPosts([...posts, ...postsObjToArray])
-			setScrolling(false)
+			setPosts([...posts, ...postsObjToArray]);
+			setScrolling(false);
         });
     }
 
     function handleScroll () {
         if (scrolling) {
-            return
+            return;
         }
-        var lastLi = document.querySelector('#grid > div:last-child')
-        var lastLiOffset = lastLi.offsetTop + lastLi.clientHeight
-        var pageOffset = window.pageYOffset + window.innerHeight
-        var bottomOffset = 20
+        var lastLi = document.querySelector('#grid > div:last-child');
+        var lastLiOffset = lastLi.offsetTop + lastLi.clientHeight;
+        var pageOffset = window.pageYOffset + window.innerHeight;
+        var bottomOffset = 20;
         if (pageOffset > lastLiOffset - bottomOffset) {
-            loadMore()
+            loadMore();
         }
     }
 }
