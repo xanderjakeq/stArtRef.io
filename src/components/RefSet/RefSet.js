@@ -14,15 +14,9 @@ const storage = firebase.storage().ref();
 
 const RefSet = (props) => {
 
-    // const [user, setUser] = useState();
-    // const [username, setUserName] = useState('');
+    const [refKey] = useState(props.refKey);
     const [active, setActive] = useState(false);
     const [upload, setUpload] = useState(null);
-
-
-	// useEffect(() => {
-    //     setUser(firebase.auth().currentUser);
-	// },[])
 
     useEffect(()=>{
 		setUpload(document.getElementById('real-file'));
@@ -87,9 +81,9 @@ const RefSet = (props) => {
 				}
 				}, () => {
 					uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
-						console.log('File available at', downloadURL);
                         handleSubmit(downloadURL);
 					});
+					firebase.database().ref().child('UserGroupedRefs/' + props.user.uid + '/' + props.refKey).remove();
 				}
 			)
 		}else{
@@ -99,8 +93,7 @@ const RefSet = (props) => {
 		console.log(input.files)
 	}
 
-    async function handleSubmit(artUrl){
-        // let username = await firebase.database().ref().child('Users/' + user.uid).once('value').then((snap) => {return snap.val().username})
+    function handleSubmit(artUrl){
         let postKey = firebase.database().ref().child('UserGroupedPosts/' + props.user.uid).push({
             author: props.username,
             artLink: artUrl,
@@ -114,8 +107,6 @@ const RefSet = (props) => {
                 refLinks: props.data
             }
         })
-
-        firebase.database().ref().child('UserGroupedRefs/' + props.user.uid + '/' + props.refKey).remove()
     }
 }
 
