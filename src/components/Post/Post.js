@@ -1,7 +1,7 @@
 import React, { } from 'react';
 import {Link} from 'react-router-dom';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import styled, {css} from 'styled-components';
 import {connect} from "react-redux";
 
 import {setActivePost} from "../../actions";
@@ -28,9 +28,13 @@ Post.propTypes = {
     click: PropTypes.func.isRequired
 }
 
-const Wrapper = styled.div`
+export const Wrapper = styled.div`
     width: 100px;
     margin: 1px; 
+
+    &:hover{
+        cursor: pointer;
+    }
 
     @media only screen and (min-width: 350px) {
         margin: 5px; 
@@ -39,9 +43,20 @@ const Wrapper = styled.div`
         width: 200px;
         margin: 10px; 
     }
+    ${props => props.size && css`
+        width: ${props.size};
+        margin: 25px 0;
+
+        @media only screen and (min-width: 350px) {
+            margin: 25px 0; 
+        }
+        @media only screen and (min-width: 700px) {
+            width: ${props.size};
+        }
+    `}
 `;
 
-const Art = styled.img`
+export const Art = styled.img`
     display: block;
     width: 100%;
     height: 100%;
