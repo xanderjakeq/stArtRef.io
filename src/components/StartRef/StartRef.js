@@ -301,8 +301,7 @@ export const RefSet = styled.div`
   justify-content: center;
   flex-direction: column;
 
-  @media only screen and (min-width: 600px) {
-
+  @media only screen and (min-width: 1150px) {
     flex-direction: row;
   }
 `;
