@@ -1,20 +1,26 @@
 import React, { } from 'react';
 import {Link} from 'react-router-dom';
 import PropTypes from 'prop-types';
-
 import styled from 'styled-components';
+import {connect} from "react-redux";
+
+import {setActivePost} from "../../actions";
 
 const Post = (props) => {
     return( 
         <Wrapper>
             <Link to = {props.url}>
-                <Art src={props.post.data.artLink} onClick = {()=>props.click(props.post.data)} alt = 'art'/>       
+                <Art src={props.post.data.artLink} onClick = {()=>props.setActivePost(props.post.data)} alt = 'art'/>       
             </Link>
         </Wrapper>
     )
 }
 
-export default Post;
+const mstp = state => {
+    return {}
+}
+
+export default connect(mstp, {setActivePost})(Post);
 
 Post.propTypes = {
     url: PropTypes.string.isRequired,
