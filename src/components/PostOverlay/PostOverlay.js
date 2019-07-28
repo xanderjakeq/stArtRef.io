@@ -72,7 +72,7 @@ const ClosetBtn = styled.button`
     outline: none;
     color: #777;
     font: 14px/100% arial, sans-serif;
-    position: absolute;
+    position: fixed;
     right: 10px;
     top: 10px;
     text-decoration: none;
