@@ -4,6 +4,7 @@ import {connect} from "react-redux";
 
 import styled from "styled-components";
 import {Wrapper, Art} from "../Post/Post";
+import {RefSet} from "../StartRef/StartRef";
 
 import Ref from '../Ref/Ref'
 import Scribble from '../Scribble/Scribble'
@@ -26,17 +27,17 @@ const Overlay = (props) => {
     return post !== undefined ? (
         <OverlayWrapper>
             <ClosetBtn className="close-thin" onClick = {() => props.history.goBack()}/>
-            <div className = "imagesWrapper">
-                <Wrapper>
+            <CenteredColumnFlex>
+                <Wrapper size = "300px">
                     <Art src = {post.artLink} onClick = {() => props.history.push(`/${post.author}`)} alt = 'Art'/>
                 </Wrapper>
 
-                <div className="refSet">
+                <RefSet>
                     <Ref photoInfo = {post.refLinks[0]}/>
-                    <Ref photoInfo = {post.refLinks[2]}/>
                     <Scribble scribbleUrl = {post.refLinks[1]}/>
-                </div>
-            </div>
+                    <Ref photoInfo = {post.refLinks[2]}/>
+                </RefSet>
+            </CenteredColumnFlex>
         </OverlayWrapper>
     ) 
     :
@@ -52,18 +53,13 @@ const mstp = state => {
 export default connect(mstp,{})(Overlay);
 
 const OverlayWrapper = styled.div`
-    position: fixed; /* Sit on top of the page content */
-    /* display: none; Hidden by default */
-    width: 100vw; /* Full width (cover the whole page) */
-    height: 100vh; /* Full height (cover the whole page) */
+    position: absolute;
+    width: 100%;
+    min-height: 100vh;
     top: 0; 
     left: 0;
-    /* right: 0;  */
-    bottom: 0;
-    background-color:#55e1d0; /* Black background with opacity */
-    z-index: 10; /* Specify a stack order in case you're using a different order for other elements */
-    // cursor: pointer; /* Add a pointer on hover */
-    // margin-left: -10px;
+    background: #FDF9F0; 
+    z-index: 10;
 
     display: flex;
     justify-content: center;
@@ -82,4 +78,10 @@ const ClosetBtn = styled.div`
     &:after {
         content: '✖'; /* UTF-8 symbol */
     }
+`;
+
+const CenteredColumnFlex = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 `;
