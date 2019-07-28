@@ -7,8 +7,6 @@ import styled from "styled-components";
 import Ref from '../Ref/Ref'
 import Scribble from '../Scribble/Scribble'
 
-// import './PostOverlay.css';
-
 const Overlay = (props) => {
 
     const [post, setPost] = useState();
