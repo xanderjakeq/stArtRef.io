@@ -142,7 +142,11 @@ const mstp = state => {
 
 export default connect(mstp)(withRouter(UserProfile));
 
-export {Grid};
+export {
+    Profile, 
+    Grid, 
+    PostsWrapper
+};
 
 const Profile = styled.div`
     padding-top: 60px;
@@ -267,7 +271,7 @@ const Grid = styled.div`
         }
 `;
 
-export const PostsWrapper = styled.div`
+const PostsWrapper = styled.div`
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
