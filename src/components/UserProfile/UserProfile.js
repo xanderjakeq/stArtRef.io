@@ -54,7 +54,7 @@ const UserProfile = (props) => {
         <Profile>
             {/* profile info */}
             
-            <div className = "centerThisShit">
+            <div className = "center">
             <div className = "profileCard">
                 {/* div for prof pic */}
                 <div className = "profilePhoto">
@@ -75,7 +75,7 @@ const UserProfile = (props) => {
 
             </div>
 
-            <div className = "postsWrapper">
+            <PostsWrapper>
                 <Grid id = "grid">
                 {/* Posts Here */}
                     {posts.map((post) => (
@@ -87,7 +87,7 @@ const UserProfile = (props) => {
                     ))}
                 </Grid>
                 <Route path= {`${props.match.url}/:postID`} component = {PostOverlay}  />
-            </div>
+            </PostsWrapper>
         </Profile>
     );
 
@@ -167,7 +167,7 @@ const Profile = styled.div`
         flex-shrink: 0;
     }
 
-    .centerThisShit{
+    .center{
         display:flex;
         flex-direction: column;
         justify-content:center;
@@ -202,13 +202,6 @@ const Profile = styled.div`
         margin-bottom: 0;
     }
 
-    .postsWrapper{
-        display: flex;
-        flex-wrap: wrap;
-        flex-direction: row;
-        justify-content: center;
-    }
-
     .postWrapper{
         width: 33%;
         /* margin: 1px; */
@@ -227,12 +220,7 @@ const Profile = styled.div`
         font-size: 20px;
     }
 
-
     @media only screen and (min-width: 600px) {
-        .profileWrapper{
-            padding-top: 80px;
-        }
-
         .profileCard{
             display: flex;
             flex-direction: row;
@@ -296,3 +284,10 @@ const Grid = styled.div`
             max-width: 1105px;
         }
 `;
+
+export const PostsWrapper = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+`; 
