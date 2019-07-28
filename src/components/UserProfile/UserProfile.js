@@ -15,35 +15,42 @@ let database = firebaseApp.database().ref();
 const UserProfile = (props) => {
 
     const [activePost, updateActivePost] = useState('');
-    const [pageRefKey, updatePageRefKey] = useState('');
+    const [pageRefKey, setPageRefKey] = useState('');
     const [page, updatePage] = useState(0);
-    const [posts, updatePosts] = useState([]);
-    const [isEndReached, updateIsEndReached] = useState(false);
-    const [isScrolling, updateIsScrolling] = useState(false);
+    const [posts, setPosts] = useState([]);
+    const [endReached, setEndReached] = useState(false);
+    const [scrolling, setScrolling] = useState(false);
 
     const [perPage, updatePerPage] = useState(16);
     
     useEffect(() => {
-
         if(!pageRefKey){
             database.child('UserGroupedPosts/' + props.user.uid).orderByKey().limitToLast(1).on('value', (childSnapshot, prevChildKey) => {
+            
                 if(childSnapshot.val()){
-                    let postsObjToArray = Object.keys(childSnapshot.val());
-
-                    updatePageRefKey(postsObjToArray[0]);
-                }
+    
+                let postsObjToArray = Object.keys(childSnapshot.val()).map(function(key) {
+                    return {refKey: key, data:childSnapshot.val()[key]};
+                });
+				setPageRefKey(postsObjToArray.pop().refKey)
+                
+                loadMore()
+            }
             })
         }
 
-        loadMore();
+        window.addEventListener('scroll', handleScroll)
 
-        window.addEventListener('scroll', handleScroll);
+		return () => {
+			window.removeEventListener('scroll', handleScroll)
+		}
+	},[])
 
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-        }
-
-    },[pageRefKey])
+    useEffect(() => {
+		if (scrolling) {
+			loadPosts()
+		}
+	},[scrolling])
      
     return(
         <Profile>
@@ -71,7 +78,7 @@ const UserProfile = (props) => {
             </div>
 
             <div className = "postsWrapper">
-                <Grid>  
+                <Grid id = "grid">
                 {/* Posts Here */}
                     {posts.map((post) => (
                         <Post   
@@ -93,47 +100,45 @@ const UserProfile = (props) => {
         updateActivePost(post);
     }
 
-    function loadMore (){
-        updatePage(page => page + 1);
-        updateIsScrolling(true);
-        loadPosts();
-    }
+    function loadMore () {
+		setScrolling(true)
+      }
+      
+	
 
     function loadPosts(){
-        //prevent fetching if endisReached
-        if(isEndReached ){return}
+        if(endReached){return}
 
         database.child('UserGroupedPosts/' + props.user.uid).orderByKey().endAt(pageRefKey).limitToLast(perPage).on('value', (childSnapshot, prevChildKey) => {
             
-            if(childSnapshot.val()){
+            let postsObjToArray = Object.keys(childSnapshot.val()).map(function(key) {
+                return {refKey: key, data:childSnapshot.val()[key]};
+            });
 
-                let postsObjToArray = Object.keys(childSnapshot.val()).map(function(key) {
-                    let itemKey = key;
-                    return {refKey: key, data:childSnapshot.val()[key]};
-                });
-
-                postsObjToArray.reverse();
-                    
-                updatePageRefKey(postsObjToArray.length < perPage ? updateIsEndReached(true) : postsObjToArray.pop().refKey);
-                updatePosts([...posts, ...postsObjToArray]);
-                updateIsScrolling(false);
-                
-            }
+            postsObjToArray.reverse()
+            
+			if (postsObjToArray.length < perPage) {
+				setEndReached(true)
+			}
+			else {
+				setPageRefKey(postsObjToArray.pop().refKey)
+			}
+			setPosts([...posts, ...postsObjToArray])
+			setScrolling(false)
         });
     }
 
-    function handleScroll() {
-        if (isScrolling) return
-        // if (totalPages <= page) return
-        var lastLi = document.querySelector('div.grid > div:last-child');
-        if(lastLi == null) return;
-        var lastLiOffset = lastLi.offsetTop + lastLi.clientHeight;
-        var pageOffset = window.pageYOffset + window.innerHeight;
-        var bottomOffset = 20;
-        if (pageOffset > lastLiOffset - bottomOffset) {
-            loadMore();
+    function handleScroll () {
+        if (scrolling) {
+            return
         }
-        
+        var lastLi = document.querySelector('#grid > div:last-child')
+        var lastLiOffset = lastLi.offsetTop + lastLi.clientHeight
+        var pageOffset = window.pageYOffset + window.innerHeight
+        var bottomOffset = 20
+        if (pageOffset > lastLiOffset - bottomOffset) {
+            loadMore()
+        }
     }
 }
 
