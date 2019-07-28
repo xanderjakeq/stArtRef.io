@@ -1,12 +1,13 @@
 import React, { } from 'react';
 import {Link} from "react-router-dom";
-import './UploadButton.css';
+
+import {ShareBtn} from "../RefSet/RefSet";
 
 const UploadButton = (props) => {
     return(
-        <button id = "uploadButton" className = "generate-btn">
+        <ShareBtn flexEnd fontSize = "20px">
                 <Link to = {props.linkTo}><span className = "uploadButtonIcons">{props.content}</span></Link>
-        </button>
+        </ShareBtn>
     )
 }
 
