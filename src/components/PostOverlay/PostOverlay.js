@@ -3,6 +3,7 @@ import firebase from '../config/firebaseApp';
 import {connect} from "react-redux";
 
 import styled from "styled-components";
+import {Wrapper, Art} from "../Post/Post";
 
 import Ref from '../Ref/Ref'
 import Scribble from '../Scribble/Scribble'
@@ -26,8 +27,9 @@ const Overlay = (props) => {
         <OverlayWrapper>
             <ClosetBtn className="close-thin" onClick = {() => props.history.goBack()}/>
             <div className = "imagesWrapper">
-
-                <img src = {post.artLink} onClick = {() => props.history.push(`/${post.author}`)} alt = 'Art'/>
+                <Wrapper>
+                    <Art src = {post.artLink} onClick = {() => props.history.push(`/${post.author}`)} alt = 'Art'/>
+                </Wrapper>
 
                 <div className="refSet">
                     <Ref photoInfo = {post.refLinks[0]}/>
