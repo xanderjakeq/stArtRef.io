@@ -66,17 +66,29 @@ const OverlayWrapper = styled.div`
     align-items: center;
 `;
 
-const ClosetBtn = styled.div`
+const ClosetBtn = styled.button`
+    background: none;
+    border: none;
+    outline: none;
     color: #777;
     font: 14px/100% arial, sans-serif;
     position: absolute;
-    right: 5%;
+    right: 10px;
+    top: 10px;
     text-decoration: none;
     text-shadow: 0 1px 0 #fff;
-    top: 5px;
 
     &:after {
         content: '✖'; /* UTF-8 symbol */
+    }
+
+    &:hover {
+        cursor: pointer;
+    }
+
+    @media only screen and (min-width: 350px) {
+        right: 20px;
+        top: 20px;
     }
 `;
 
