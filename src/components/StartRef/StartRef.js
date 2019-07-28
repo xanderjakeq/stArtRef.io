@@ -110,11 +110,11 @@ class StartRef extends Component {
         <br />
 
         <button onClick={this.handleGenerateClick} className="generate-btn">generate</button>
-        <div className="ref-wrapper">
+        <RefSet>
           <Ref photoInfo={this.state.unsplashPhotos[0]} />
           <Scribble scribbleUrl={this.state.scribble} />
           <Ref photoInfo={this.state.unsplashPhotos[2]} />
-        </div>
+        </RefSet>
 
         <SaveButton onClick={this.handleSaveClick} />
 
@@ -171,13 +171,6 @@ const Main = styled.div`
 
   .App-intro {
     font-size: large;
-  }
-
-  .ref-wrapper{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
   }
 
   .generate-btn {
@@ -299,9 +292,17 @@ const Main = styled.div`
 
   @media only screen and (min-width: 600px) {
     padding-top: 80px;
+  }
+`;
 
-    .ref-wrapper{
-      flex-direction: row;
-    }
+export const RefSet = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  @media only screen and (min-width: 600px) {
+
+    flex-direction: row;
   }
 `;
