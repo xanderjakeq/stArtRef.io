@@ -1,12 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import firebase from 'firebase';
 import {withRouter, Redirect} from 'react-router-dom';
-    
 import {connect} from "react-redux";
-
-import './Upload.css';
+import styled from "styled-components";
 
 import RefSet from '../RefSet/RefSet';
+import {PostsWrapper} from "../UserProfile/UserProfile";
 
 let database = firebase.database().ref();
 
@@ -19,13 +18,13 @@ const Upload = (props) => {
     },[]);
 
     return(
-        <div className = "profileWrapper">
-            <div className = "postsWrapper">
+        <UploadWrapper>
+            <PostsWrapper>
                 {savedRefs != null ? savedRefs.map((ref) => <RefSet data = {ref.data} key = {ref.refKey} refKey = {ref.refKey}/>) : 
                     <h1>save refs to post</h1>
                 }
-            </div>
-        </div>
+            </PostsWrapper>
+        </UploadWrapper>
     );
 
     function initialize() {
@@ -49,3 +48,7 @@ const mstp = state => {
 }
 
 export default connect(mstp)(withRouter(Upload));
+
+export const UploadWrapper = styled.div`
+    padding-top: 80px;
+`;
