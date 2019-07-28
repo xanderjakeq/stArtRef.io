@@ -59,13 +59,8 @@ const Authentication = (props) => {
         const unregisterAuthObserver = firebase.auth().onAuthStateChanged(
             (user) => {
                 if(user){
-                    console.log(user)
-                    localStorage.setItem('userData', JSON.stringify(user));
                     props.savedata(user)
-                } else {
-                    localStorage.removeItem('userData');
-                    // updateIsSignedIn(false);
-                }
+                } 
             }
         );
         // Make sure we un-register Firebase observers when the component unmounts.
