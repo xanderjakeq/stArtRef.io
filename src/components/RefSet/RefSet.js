@@ -11,20 +11,13 @@ import Scribble from '../Scribble/Scribble'
 import {RefSet as RefSetStyle} from "../StartRef/StartRef";
 
 const storage = firebase.storage().ref();
+const database = firebase.database().ref();
 
 const RefSet = (props) => {
 
-    const [refKey] = useState(props.refKey);
-    const [active, setActive] = useState(false);
-    const [upload, setUpload] = useState(null);
-
-    useEffect(()=>{
-		setUpload(document.getElementById('real-file'));
-    },[]);
-
     return(
         <>
-            <HiddenInput type = 'file' id = 'real-file' hidden = 'hidden' onChange = {handleFile}/>
+            <HiddenInput type = 'file' id = {props.refKey} hidden = 'hidden' onChange = {handleFile}/>
             <div>
                 <UploadBtn onClick = {handleClick}>Share Art</UploadBtn>
                 <div className = "refSetWrapper">
@@ -39,7 +32,7 @@ const RefSet = (props) => {
     )
 
     function handleClick(e){
-		upload.click();
+		document.getElementById(`${props.refKey}`).click();
 	}
 
 	// referenced https://firebase.google.com/docs/storage/web/upload-files
@@ -83,7 +76,7 @@ const RefSet = (props) => {
 					uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
                         handleSubmit(downloadURL);
 					});
-					firebase.database().ref().child('UserGroupedRefs/' + props.user.uid + '/' + props.refKey).remove();
+					database.child('UserGroupedRefs/' + props.user.uid + '/' + props.refKey).remove();
 				}
 			)
 		}else{
@@ -94,19 +87,19 @@ const RefSet = (props) => {
 	}
 
     function handleSubmit(artUrl){
-        let postKey = firebase.database().ref().child('UserGroupedPosts/' + props.user.uid).push({
+        let postKey = database.child('UserGroupedPosts/' + props.user.uid).push({
             author: props.username,
             artLink: artUrl,
             refLinks: props.data
-        }).key
+        }).key;
 
-        firebase.database().ref().child('Posts/').update({
+        database.child('Posts/').update({
             [postKey]: {
                 author: props.username,
                 artLink: artUrl,
                 refLinks: props.data
             }
-        })
+        });
     }
 }
 
