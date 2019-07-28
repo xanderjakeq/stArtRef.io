@@ -1,7 +1,6 @@
 import React, {useEffect} from 'react';
 import {connect} from 'react-redux';
-
-import './Authentication.css';
+import styled from "styled-components";
 
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import firebase from 'firebase';
@@ -42,7 +41,7 @@ const Authentication = (props) => {
               <UserProfile/>
             </div>
             :
-            <div id= "login-form-container">
+            <LoginContainer>
               <h1>stArtRef</h1>
               <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()}/>
               <p>If its the first time, an account will be created for u</p>
@@ -50,7 +49,7 @@ const Authentication = (props) => {
               <p>Dunno how to comply to GDPR so uhh.. if u make an account, u agree that u will not sue me.</p>
               <br/>
               <h1>( ˘ ³˘)❤</h1>
-            </div>
+            </LoginContainer>
         }
       </>
     );
@@ -81,3 +80,8 @@ const mstp = state => {
 }
 
 export default connect(mstp, {savedata})(Authentication);
+
+const LoginContainer = styled.div`
+  padding-top: 30vh;
+  text-align: center;
+`;
