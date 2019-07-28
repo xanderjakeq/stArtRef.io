@@ -1,39 +1,32 @@
 import React from 'react';
-import firebase from 'firebase';
+import {connect} from "react-redux";
 
-import Ref from '../Ref/Ref'
-import Scribble from '../Scribble/Scribble'
+import Ref from '../Ref/Ref';
+import Scribble from '../Scribble/Scribble';
 
 import './PostOverlay.css';
 
-
 const Overlay = (props) => {
-
-    let postData = {};
-    firebase.database().ref().child('Posts/' + props.match.params.postID).once('value', snap => {
-        postData = snap.val()
-        return postData =  snap.val()
-    })
-
-    // Put this on TOP of Everything and add an exit button
     return (
-        
         <div className = "overlayWrapper">
-
             <h1 className="close-thin" onClick = {() => props.history.goBack()}></h1>
-            
             <div className = "imagesWrapper">
-                
-                <img src = {postData.artLink} onClick = {() => props.history.push(`/${postData.author}`)} alt = 'Art'/>
+                <img src = {props.post.artLink} onClick = {() => props.history.push(`/${props.post.author}`)} alt = 'Art'/>
 
                 <div className="refSet">
-                    <Ref photoInfo = {postData.refLinks[0]}/>
-                    <Ref photoInfo = {postData.refLinks[2]}/>
-                    <Scribble scribbleUrl = {postData.refLinks[1]}/>
+                    <Ref photoInfo = {props.post.refLinks[0]}/>
+                    <Ref photoInfo = {props.post.refLinks[2]}/>
+                    <Scribble scribbleUrl = {props.post.refLinks[1]}/>
                 </div>
             </div>
         </div>
-    );
+    ) 
 }
 
-export default Overlay;
+const mstp = state => {
+    return {
+        post: state.posts.activePost
+    }
+}
+
+export default connect(mstp,{})(Overlay);
