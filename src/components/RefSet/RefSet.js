@@ -3,28 +3,30 @@ import {Link} from "react-router-dom";
 import firebase from '../config/firebaseApp';
 import styled from 'styled-components';
 import { toJson } from "unsplash-js";
+import {connect} from "react-redux";
 
 import Ref from '../Ref/Ref'
 import Scribble from '../Scribble/Scribble'
 
 import {RefSet as RefSetStyle} from "../StartRef/StartRef";
 
+const storage = firebase.storage().ref();
+
 const RefSet = (props) => {
 
-    const [user, setUser] = useState();
-    const [username, setUserName] = useState('');
+    // const [user, setUser] = useState();
+    // const [username, setUserName] = useState('');
     const [active, setActive] = useState(false);
     const [upload, setUpload] = useState(null);
 
-	const storageRef = firebase.storage().ref();
 
-	useEffect(() => {
-        setUser(firebase.auth().currentUser);
-	},[])
+	// useEffect(() => {
+    //     setUser(firebase.auth().currentUser);
+	// },[])
 
     useEffect(()=>{
 		setUpload(document.getElementById('real-file'));
-    },[user]);
+    },[]);
 
     return(
         <>
@@ -51,7 +53,7 @@ const RefSet = (props) => {
 		const input = e.target;
 		const file = input.files[0];
 		if(file.name.includes('.png')){
-			const uploadTask = storageRef.child(`audio/${file.name}`).put(file);
+			const uploadTask = storage.child(`art/${file.name}`).put(file);
 			uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, 
 				(snapshot) => {
 					// Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
@@ -98,26 +100,33 @@ const RefSet = (props) => {
 	}
 
     async function handleSubmit(artUrl){
-        let username = await firebase.database().ref().child('Users/' + user.uid).once('value').then((snap) => {return snap.val().username})
-        let postKey = firebase.database().ref().child('UserGroupedPosts/' + user.uid).push({
-            author: username,
+        // let username = await firebase.database().ref().child('Users/' + user.uid).once('value').then((snap) => {return snap.val().username})
+        let postKey = firebase.database().ref().child('UserGroupedPosts/' + props.user.uid).push({
+            author: props.username,
             artLink: artUrl,
             refLinks: props.data
         }).key
 
         firebase.database().ref().child('Posts/').update({
             [postKey]: {
-                author: username,
+                author: props.username,
                 artLink: artUrl,
                 refLinks: props.data
             }
         })
 
-        firebase.database().ref().child('UserGroupedRefs/' + user.uid + '/' + props.refKey).remove()
+        firebase.database().ref().child('UserGroupedRefs/' + props.user.uid + '/' + props.refKey).remove()
     }
 }
 
-export default RefSet;
+const mstp = state => {
+	return {
+		user: state.auth.user,
+		username: state.auth.userData.username
+	}
+}
+
+export default connect(mstp, {})(RefSet);
 
 const HiddenInput = styled.input`
     display: none;
