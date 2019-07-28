@@ -19,7 +19,7 @@ const RefSet = (props) => {
         <>
             <HiddenInput type = 'file' id = {props.refKey} hidden = 'hidden' onChange = {handleFile}/>
             <div>
-                <UploadBtn onClick = {handleClick}>Share Art</UploadBtn>
+                <ShareBtn onClick = {handleClick}>Share Art</ShareBtn>
                 <div className = "refSetWrapper">
                     <RefSetStyle>
                         <Ref photoInfo = {props.data[0]}/>
@@ -116,7 +116,7 @@ const HiddenInput = styled.input`
     display: none;
 `;
 
-export const UploadBtn = styled.button`
+export const ShareBtn= styled.button`
 	outline: none;
 	background: transparent;
 	border: solid 1px #27a9e0;
