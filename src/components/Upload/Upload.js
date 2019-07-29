@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import firebase from 'firebase';
 import {withRouter, Redirect} from 'react-router-dom';
 import {connect} from "react-redux";
-import styled from "styled-components";
+import styled, {css} from "styled-components";
 
 import RefSet from '../RefSet/RefSet';
 import {PostsWrapper} from "../UserProfile/UserProfile";
@@ -18,13 +18,13 @@ const Upload = (props) => {
     },[]);
 
     return(
-        <UploadWrapper>
+        <PaddingTop>
             <PostsWrapper>
                 {savedRefs != null ? savedRefs.map((ref) => <RefSet data = {ref.data} key = {ref.refKey} refKey = {ref.refKey}/>) : 
                     <h1>save refs to post</h1>
                 }
             </PostsWrapper>
-        </UploadWrapper>
+        </PaddingTop>
     );
 
     function initialize() {
@@ -49,6 +49,10 @@ const mstp = state => {
 
 export default connect(mstp)(withRouter(Upload));
 
-export const UploadWrapper = styled.div`
+export const PaddingTop = styled.div`
     padding-top: 80px;
+
+    ${props => props.padding && css`
+        padding-top: ${props.padding}
+    `}
 `;
