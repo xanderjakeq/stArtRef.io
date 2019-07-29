@@ -2,7 +2,8 @@ import React, { Component, useState, useEffect } from 'react';
 import {Route, Link} from 'react-router-dom';
 import firebase from '../config/firebaseApp';
 
-import {Grid} from '../UserProfile/UserProfile';
+import {Grid, PostsWrapper} from '../UserProfile/UserProfile';
+import {PaddingTop} from "../Upload/Upload";
 
 import Post from '../Post/Post';
 import PostOverlay from '../PostOverlay/PostOverlay';
@@ -48,11 +49,9 @@ const Explore = (props) => {
 	},[scrolling]);
 
     return(
-        <div className = "profileWrapper">               
-            <div className = "postsWrapper">
-                
-            <Route path= {`${props.match.url}/:postID`} component = {PostOverlay}  />
-
+        <PaddingTop>               
+            <PostsWrapper>
+                <Route path= {`${props.match.url}/:postID`} component = {PostOverlay}  />
                 <Grid id = "grid">
                     {posts.length === 0 ? 'loading' :  posts.map((post) => {
                         return (
@@ -65,9 +64,8 @@ const Explore = (props) => {
                         })
                     }
                 </Grid>
-                
-            </div>
-        </div>
+            </PostsWrapper>
+        </PaddingTop>
     )
 
     function loadMore () {
