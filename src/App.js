@@ -11,8 +11,9 @@ import NavBar from "./components/NavBar/NavBar";
 import Footer from './components/Footer/Footer';
 import Authentication from './components/Authentication/Authentication';
 import Options from './components/Options/Options';
-import Upload from './components/Upload/Upload'
-import UserSearch from './components/UserSearch/UserSearch'
+import Upload from './components/Upload/Upload';
+import UserSearch from './components/UserSearch/UserSearch';
+import PostOverlay from "./components/PostOverlay/PostOverlay";
 
 
 class App extends Component {
@@ -53,14 +54,16 @@ class App extends Component {
               <Route exact ={true} path = {"/"} component = {StartRef} />
 
               {/* If not Logged in Show Login Button instead of profile */}
-              <Route exact path = {"/profile"} component = {Authentication}/>
+              <Route path = {"/profile"} component = {Authentication}/>
               
-              <Route exact path = {"/explore"} component = {Explore} />
+              <Route path = {"/explore"} component = {Explore} />
 
               {/* Fix ArtWithRef  overlay later*/}
               <Route exact path = {'/settings'} component = {Options} />
 
               <Route exact path = {'/upload'} component = {Upload} />
+
+              <Route exact path = {'/art/:postID'} component = {PostOverlay} />
               
               <Route path = {"/:id"} component = {UserSearch}/>
             </Switch>
