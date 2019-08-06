@@ -1,6 +1,6 @@
 import React, { Component, useState, useEffect} from 'react';
 import firebase from 'firebase';
-import { Link} from 'react-router-dom';
+import {Link, Redirect} from 'react-router-dom';
 import {connect} from 'react-redux';
 import styled from "styled-components";
 
@@ -28,7 +28,7 @@ const Options = (props) => {
         });
     },[user])
 
-    return(
+    return user ? (
         <OptionsWrapper>
             <Form>
             <InputWrapper>
@@ -68,7 +68,8 @@ const Options = (props) => {
         </Form>
         
         </OptionsWrapper>
-    )
+
+    ) : <Redirect to = "/profile"/>
 
     function checkUsername(usernameCandidate){
         let username = usernameCandidate.toLowerCase()
