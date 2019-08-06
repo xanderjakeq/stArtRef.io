@@ -10,15 +10,8 @@ import firebaseApp from './config/firebaseApp'
 
 let database = firebase.database().ref();
 
-
 const Options = (props) => {
-
-    // this.state = {
-    //     user: firebase.auth().currentUser,
-    //     username: '',
-    //     website: '',
-        
-    // }
+    
     const [user] = useState(firebase.auth().currentUser);
     const [username, setUserName] = useState('');
     const [website, setWebsite] = useState('');
@@ -37,7 +30,6 @@ const Options = (props) => {
 
     return(
         <OptionsWrapper>
-            {/* <h5 onClick = {this.handleClick}>Form</h5> */}
             <Form>
             <InputWrapper>
 
@@ -62,9 +54,7 @@ const Options = (props) => {
                 onChange={handleInputChange} 
                 className = 'formItem'
                 />
-            
             </InputWrapper>
-            
             
             {/* <div className = 'inputWrapper'> */}
             <div className = 'formItem'>
@@ -145,8 +135,6 @@ const mstp = state => {
 
 
 export default connect(mstp, {signout})(Options);
-
-
 
 const OptionsWrapper = styled.div`
     padding-top: 100px;
