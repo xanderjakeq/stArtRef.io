@@ -4,10 +4,10 @@ import styled from "styled-components";
 
 import firebase from 'firebase';
 
-import Ref from '../Ref/Ref';
-import Scribble from '../Scribble/Scribble';
+import Ref from './Ref';
+import Scribble from './Scribble';
 
-import seedJson from '../../seed';
+import seedJson from '../seed';
 
 const rootUrl = "https://strtrf-backend.herokuapp.com/";
 

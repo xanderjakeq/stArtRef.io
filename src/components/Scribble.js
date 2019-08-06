@@ -1,8 +1,8 @@
 import React from 'react';
 
-import {Ref} from '../Ref/Ref';
+import {Ref} from './Ref';
 
-import loading from "../../loading.png";
+import loading from "../loading.png";
 
 const Scribble = (props) => {
 

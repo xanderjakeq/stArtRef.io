@@ -1,12 +1,12 @@
 import React, { Component, useState, useEffect } from 'react';
 import {Route, Link} from 'react-router-dom';
-import firebase from '../config/firebaseApp';
+import firebase from './config/firebaseApp';
 
-import {Grid, PostsWrapper} from '../UserProfile/UserProfile';
-import {PaddingTop} from "../Upload/Upload";
+import {Grid, PostsWrapper} from './UserProfile';
+import {PaddingTop} from "./Upload";
 
-import Post from '../Post/Post';
-import PostOverlay from '../PostOverlay/PostOverlay';
+import Post from './Post';
+import PostOverlay from './PostOverlay';
 
 const database = firebase.database().ref();
 

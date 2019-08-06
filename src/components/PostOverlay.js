@@ -1,13 +1,13 @@
 import React, {useState, useEffect} from 'react';
-import firebase from '../config/firebaseApp';
+import firebase from './config/firebaseApp';
 import {connect} from "react-redux";
 
 import styled from "styled-components";
-import {Wrapper, Art} from "../Post/Post";
-import {RefSet} from "../StartRef/StartRef";
+import {Wrapper, Art} from "./Post";
+import {RefSet} from "./StartRef";
 
-import Ref from '../Ref/Ref'
-import Scribble from '../Scribble/Scribble'
+import Ref from './Ref'
+import Scribble from './Scribble'
 
 const Overlay = (props) => {
 

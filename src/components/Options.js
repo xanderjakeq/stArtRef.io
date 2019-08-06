@@ -3,12 +3,9 @@ import firebase from 'firebase';
 import { Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 
-import './Options.css';
+import {signout} from '../actions';
 
-import {signout} from '../../actions';
-
-
-import firebaseApp from '../config/firebaseApp'
+import firebaseApp from './config/firebaseApp'
 
 let database = firebase.database().ref();
 

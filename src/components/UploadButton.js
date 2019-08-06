@@ -1,7 +1,7 @@
 import React, { } from 'react';
 import {Link} from "react-router-dom";
 
-import {ShareBtn} from "../RefSet/RefSet";
+import {ShareBtn} from "./RefSet";
 
 const UploadButton = (props) => {
     return(

@@ -7,7 +7,7 @@ import firebase from 'firebase';
 
 import {savedata} from '../actions';
 
-import UserProfile from './UserProfile/UserProfile';
+import UserProfile from './UserProfile';
 
 const Authentication = (props) => {
 

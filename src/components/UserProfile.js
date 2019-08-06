@@ -4,11 +4,11 @@ import {Link, Route, withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
 import styled from 'styled-components';
 
-import firebaseApp from '../config/firebaseApp';
+import firebaseApp from './config/firebaseApp';
 
-import UploadButton from '../UploadButton/UploadButton';
-import Post from '../Post/Post';
-import PostOverlay from '../PostOverlay/PostOverlay';
+import UploadButton from './UploadButton';
+import Post from './Post';
+import PostOverlay from './PostOverlay';
 
 let database = firebaseApp.database().ref();
 

@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import firebase from 'firebase';
 import { Link, Route, withRouter} from 'react-router-dom';
 
-import Post from '../Post/Post';
-import PostOverlay from '../PostOverlay/PostOverlay'
+import Post from './Post';
+import PostOverlay from './PostOverlay'
 
-import {PostsWrapper, Grid, Profile} from "../UserProfile/UserProfile";
+import {PostsWrapper, Grid, Profile} from "./UserProfile";
 
 let database = firebase.database().ref();
 

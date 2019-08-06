@@ -5,10 +5,10 @@ import styled, {css} from 'styled-components';
 import { toJson } from "unsplash-js";
 import {connect} from "react-redux";
 
-import Ref from '../Ref/Ref'
-import Scribble from '../Scribble/Scribble'
+import Ref from './Ref';
+import Scribble from './Scribble';
 
-import {RefSet as RefSetStyle} from "../StartRef/StartRef";
+import {RefSet as RefSetStyle} from "./StartRef";
 
 const storage = firebase.storage().ref();
 const database = firebase.database().ref();

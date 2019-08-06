@@ -2,7 +2,7 @@ import React from 'react';
 
 import styled from 'styled-components';
 
-import loading from '../../loading.png';
+import loading from '../loading.png';
 
 export const Ref = styled.div`
     display: flex;

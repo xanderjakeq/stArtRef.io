@@ -4,8 +4,8 @@ import {withRouter, Redirect} from 'react-router-dom';
 import {connect} from "react-redux";
 import styled, {css} from "styled-components";
 
-import RefSet from '../RefSet/RefSet';
-import {PostsWrapper} from "../UserProfile/UserProfile";
+import RefSet from './RefSet';
+import {PostsWrapper} from "./UserProfile";
 
 let database = firebase.database().ref();
 
