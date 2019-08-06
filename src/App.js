@@ -5,15 +5,15 @@ import styled from 'styled-components';
 
 import * as firebase from 'firebase';
 
-import StartRef from "./components/StartRef/StartRef";
-import Explore from "./components/Explore/Explore";
-import NavBar from "./components/NavBar/NavBar";
-import Footer from './components/Footer/Footer';
-import Authentication from './components/Authentication/Authentication';
-import Options from './components/Options/Options';
-import Upload from './components/Upload/Upload';
-import UserSearch from './components/UserSearch/UserSearch';
-import PostOverlay from "./components/PostOverlay/PostOverlay";
+import StartRef from "./components/StartRef";
+import Explore from "./components/Explore";
+import NavBar from "./components/Navbar";
+import Footer from './components/Footer';
+import Authentication from './components/Authentication';
+import Options from './components/Options';
+import Upload from './components/Upload';
+import UserSearch from './components/UserSearch';
+import PostOverlay from "./components/PostOverlay";
 
 
 class App extends Component {
