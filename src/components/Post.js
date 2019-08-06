@@ -25,7 +25,6 @@ export default connect(mstp, {setActivePost})(Post);
 Post.propTypes = {
     url: PropTypes.string.isRequired,
     post: PropTypes.object.isRequired,
-    click: PropTypes.func.isRequired
 }
 
 export const Wrapper = styled.div`
