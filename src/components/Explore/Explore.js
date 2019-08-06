@@ -51,12 +51,11 @@ const Explore = (props) => {
     return(
         <PaddingTop>               
             <PostsWrapper>
-                <Route path= {`${props.match.url}/:postID`} component = {PostOverlay}  />
                 <Grid id = "grid">
                     {posts.length === 0 ? 'loading' :  posts.map((post) => {
                         return (
                             <Post   
-                                url={`${props.match.url}/${post.refKey}`}
+                                url={`art/${post.refKey}`}
                                 post={post}
                                 key={post.refKey}
                             />
