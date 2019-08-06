@@ -5,9 +5,9 @@ import styled from "styled-components";
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import firebase from 'firebase';
 
-import {savedata} from '../../actions';
+import {savedata} from '../actions';
 
-import UserProfile from '../UserProfile/UserProfile';
+import UserProfile from './UserProfile/UserProfile';
 
 const Authentication = (props) => {
 
