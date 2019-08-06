@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useState, useEffect} from 'react';
 import firebase from 'firebase';
 import { Link} from 'react-router-dom';
 import {connect} from 'react-redux';
@@ -11,29 +11,81 @@ import firebaseApp from './config/firebaseApp'
 let database = firebase.database().ref();
 
 
-class Options extends Component {
+const Options = (props) => {
 
-    constructor(props){
-        super(props)
+    // this.state = {
+    //     user: firebase.auth().currentUser,
+    //     username: '',
+    //     website: '',
+        
+    // }
+    const [user] = useState(firebase.auth().currentUser);
+    const [username, setUserName] = useState('');
+    const [website, setWebsite] = useState('');
+    const [isUsernameAvailable, setIsUsernameAvailable] = useState(false);
 
+    useEffect(() => {
+        if (!user) return
+        database.child('Users/' + user.uid).on('value', snap => {
+            let val = snap.val();
+            if(val !== null){
+                setUserName(val.username);
+                setWebsite(val.website);
+            }
+        });
+    },[user])
 
-        this.state = {
-            user: firebase.auth().currentUser,
-            username: '',
-            website: '',
+    return(
+        <OptionsWrapper>
+            {/* <h5 onClick = {this.handleClick}>Form</h5> */}
+            <Form>
+            <InputWrapper>
+
+            <label className = "formItem" >username</label>
+            <input
+                name="username"
+                type="text"
+                value={username}
+                onChange={handleInputChange} 
+                
+                className = {`formItem ${isUsernameAvailable || isUsernameAvailable == null  ? 'available': 'notAvailable'}`}
+                />
             
-        }
+            </InputWrapper>
+            <InputWrapper>
 
-        this.handleInputChange = this.handleInputChange.bind(this)
-        this.handleSave = this.handleSave.bind(this)
-    }
+                <label className = 'formItem'>website</label>
+            <input
+                name="website"
+                type="text"
+                value = {website}
+                onChange={handleInputChange} 
+                className = 'formItem'
+                />
+            
+            </InputWrapper>
+            
+            
+            {/* <div className = 'inputWrapper'> */}
+            <div className = 'formItem'>
+                <button id = "saveButton" type="button" onClick = {handleSave} >Save</button>
+            </div>
+            {/* </div> */}
+                
+            <Link to = '/profile' onClick={() => this.props.signout()}>Sign-out</Link>
 
-    checkUsername = (usernameCandidate) =>{
+            <Link to = '/' className = "formItem" id = "deleteAccount">delete account</Link>
+        </Form>
+        
+        </OptionsWrapper>
+    )
+
+    function checkUsername(usernameCandidate){
         let username = usernameCandidate.toLowerCase()
         return database.child(`Usernames/`).orderByValue().equalTo(username)
     }
 
-    handleInputChange(event) {
+    function handleInputChange(event) {
         const target = event.target;
         let value;
         
@@ -43,7 +95,7 @@ class Options extends Component {
 
             // check availability
             // TODO: make this to separate method?
-            this.checkUsername(value).once('value', snap => { 
+            checkUsername(value).once('value', snap => { 
                 if(snap.val()) {
                     this.setState({
                         isUsernameAvailable: false
@@ -59,98 +111,42 @@ class Options extends Component {
             value = target.value.substring(0, 30);
         }
         const name = target.name;
-    
-        this.setState({
-          [name]: value
-        });
+        
+        if (name === "username"){
+            setUserName(value);
+        }
+        else {
+            setWebsite(value);
+        }
       }
 
-    handleSave(){
+    function handleSave(){
 
-        if(this.state.isUsernameAvailable){
-            database.child('Users/' + this.state.user.uid).update({ 
-                username: this.state.username,
-                website: this.state.website
+        if(isUsernameAvailable){
+            database.child('Users/' + user.uid).update({ 
+                username: username,
+                website: website
             })
 
             database.child('Usernames/').update({
-                 [this.state.user.uid]: this.state.username
+                 [user.uid]: username
             })
         }else{
             alert('somebody took it \n (｡•́︿•̀｡)')
         }
     }
-
-
-    componentDidMount(){
-        database.child('Users/' + this.state.user.uid).on('value', snap => {
-            let val = snap.val();
-            if(val !== null){
-                this.setState({
-                    username: val.username,
-                    website: val.website
-                });
-            }
-        });
-    }
-
-    render(){
-            return(
-                <OptionsWrapper>
-                  {/* <h5 onClick = {this.handleClick}>Form</h5> */}
-                  <Form>
-                    <InputWrapper>
-
-                    <label className = "formItem" >username</label>
-                    <input
-                        name="username"
-                        type="text"
-                        value={this.state.username}
-                        onChange={this.handleInputChange} 
-                       
-                        className = {`formItem ${this.state.isUsernameAvailable || this.state.isUsernameAvailable == null  ? 'available': 'notAvailable'}`}
-                        />
-                    
-                    </InputWrapper>
-                    <InputWrapper>
-
-                     <label className = 'formItem'>website</label>
-                    <input
-                        name="website"
-                        type="text"
-                        value = {this.state.website}
-                        onChange={this.handleInputChange} 
-                        className = 'formItem'
-                        />
-                    
-                    </InputWrapper>
-                    
-                    
-                    {/* <div className = 'inputWrapper'> */}
-                    <div className = 'formItem'>
-                        <button id = "saveButton" type="button" onClick = {this.handleSave} >Save</button>
-                    </div>
-                    {/* </div> */}
-                        
-                    <Link to = '/profile' onClick={() => this.props.signout()}>Sign-out</Link>
-
-                    <Link to = '/' className = "formItem" id = "deleteAccount">delete account</Link>
-                </Form>
-
-                
-                </OptionsWrapper>
-            )
-    }
 }
 
 const mstp = state => {
     return {
-
+        user: state.auth.user
     }
 }
 
 
 export default connect(mstp, {signout})(Options);
+
+
 
 const OptionsWrapper = styled.div`
     padding-top: 100px;
