@@ -205,6 +205,10 @@ const Profile = styled.div`
         margin-bottom: 0;
     }
 
+    .navIcons{
+        font-size: 40px;
+    }
+
     @media only screen and (min-width: 600px) {
         .profileCard{
             display: flex;
