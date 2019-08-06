@@ -80,13 +80,12 @@ const UserProfile = (props) => {
                 {/* Posts Here */}
                     {posts.map((post) => (
                         <Post   
-                            url={`${props.match.url}/${post.refKey}`}
+                            url={`art/${post.refKey}`}
                             post={post}
                             key={post.refKey}
                         />
                     ))}
                 </Grid>
-                <Route path= {`${props.match.url}/:postID`} component = {PostOverlay}  />
             </PostsWrapper>
         </Profile>
     );
