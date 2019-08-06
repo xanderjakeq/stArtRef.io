@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import firebase from 'firebase';
 import { Link} from 'react-router-dom';
 import {connect} from 'react-redux';
+import styled from "styled-components";
 
 import {signout} from '../actions';
 
@@ -95,10 +96,10 @@ class Options extends Component {
 
     render(){
             return(
-                <div className = "optionsWrapper">
+                <OptionsWrapper>
                   {/* <h5 onClick = {this.handleClick}>Form</h5> */}
-                  <div className = "pseudoForm">
-                    <div className = 'inputWrapper'>
+                  <Form>
+                    <InputWrapper>
 
                     <label className = "formItem" >username</label>
                     <input
@@ -110,8 +111,8 @@ class Options extends Component {
                         className = {`formItem ${this.state.isUsernameAvailable || this.state.isUsernameAvailable == null  ? 'available': 'notAvailable'}`}
                         />
                     
-                    </div>
-                    <div className = 'inputWrapper'>
+                    </InputWrapper>
+                    <InputWrapper>
 
                      <label className = 'formItem'>website</label>
                     <input
@@ -122,7 +123,7 @@ class Options extends Component {
                         className = 'formItem'
                         />
                     
-                    </div>
+                    </InputWrapper>
                     
                     
                     {/* <div className = 'inputWrapper'> */}
@@ -134,10 +135,10 @@ class Options extends Component {
                     <Link to = '/profile' onClick={() => this.props.signout()}>Sign-out</Link>
 
                     <Link to = '/' className = "formItem" id = "deleteAccount">delete account</Link>
-                </div>
+                </Form>
 
                 
-                </div>
+                </OptionsWrapper>
             )
     }
 }
@@ -150,3 +151,21 @@ const mstp = state => {
 
 
 export default connect(mstp, {signout})(Options);
+
+const OptionsWrapper = styled.div`
+    padding-top: 100px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`;
+
+const Form = styled.div`
+    display: flex;
+    flex-direction: column;
+`;
+
+const InputWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+`;
