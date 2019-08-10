@@ -62,7 +62,7 @@ const Options = (props) => {
             </div>
             {/* </div> */}
                 
-            <Link to = '/profile' onClick={() => this.props.signout()}>Sign-out</Link>
+            <Link to = '/profile' onClick={() => props.signout()}>Sign-out</Link>
 
             <Link to = '/' className = "formItem" id = "deleteAccount">delete account</Link>
         </Form>
