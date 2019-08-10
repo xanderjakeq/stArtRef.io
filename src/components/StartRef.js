@@ -49,6 +49,7 @@ const StartRef = (props) => {
 
       <SaveButton onClick={() => {
         props.saveRefs(props.user.uid, [props.unsplashPhotos[0], props.scribble, props.unsplashPhotos[2]])
+        props.history.push("/upload")
       }} />
 
       <h5>Photos are from <a href="https://unsplash.com/?utm_source=startref&utm_medium=referral">Unsplash</a></h5>
