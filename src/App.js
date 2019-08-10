@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch} from "react-router-dom";
+import {connect} from 'react-redux';
+import {savedata} from './actions';
+
 
 import styled from 'styled-components';
 
-import * as firebase from 'firebase';
+import firebase from './components/config/firebaseApp';
 
 import StartRef from "./components/StartRef";
 import Explore from "./components/Explore";
@@ -15,6 +18,7 @@ import Upload from './components/Upload';
 import UserSearch from './components/UserSearch';
 import PostOverlay from "./components/PostOverlay";
 
+const database = firebase.database().ref();
 
 class App extends Component {
 
@@ -31,6 +35,16 @@ class App extends Component {
 
   getUsername(username){
     this.setState({username: username})
+  }
+
+  componentDidMount(){
+    firebase.auth().onAuthStateChanged(
+      (user) => {
+        if (user) {
+          this.props.savedata(user);
+        }
+      }
+    )
   }
 
   render(){
@@ -75,7 +89,13 @@ class App extends Component {
   }
 }
 
-export default App;
+const mstp = state => {
+  return {
+
+  }
+}
+
+export default connect(mstp, {savedata})(App);
 
 const MainWrapper = styled.div`
   min-height: calc(100vh - 64px);
