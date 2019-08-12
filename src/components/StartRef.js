@@ -66,12 +66,6 @@ const StartRef = (props) => {
   );
 }
 
-function SaveButton(props) {
-  return (
-    <button onClick={props.onClick} className="generate-btn">👌</button>
-  )
-}
-
 const mstp = state => {
   return {
     user: state.auth.user,
