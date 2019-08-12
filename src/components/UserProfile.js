@@ -71,13 +71,11 @@ const UserProfile = (props) => {
                 <Link to = {'settings'} id = "options"><span className = "navIcons" role = "img" aria-label = "settings">⚙️</span></Link>
             </div>
 
-            <UploadButton content = "🎨🖌️" linkTo = "/upload"/>
-
             </div>
 
             <PostsWrapper>
                 <Grid id = "grid">
-                {/* Posts Here */}
+                    <UploadButton linkTo = "/upload"/>
                     {posts.map((post) => (
                         <Post   
                             url={`art/${post.refKey}`}
