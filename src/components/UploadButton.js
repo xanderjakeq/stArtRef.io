@@ -1,13 +1,16 @@
-import React, { } from 'react';
+import React from 'react';
 import {Link} from "react-router-dom";
+import {Plus} from "react-feather";
 
-import {ShareBtn} from "./RefSet";
+import {Wrapper} from "./Post";
 
 const UploadButton = (props) => {
     return(
-        <ShareBtn flexEnd fontSize = "20px">
-                <Link to = {props.linkTo}><span className = "uploadButtonIcons">{props.content}</span></Link>
-        </ShareBtn>
+        <Link to = {props.linkTo}>
+            <Wrapper>
+                <Plus color = "black" size = {30}/>
+            </Wrapper>
+        </Link>
     )
 }
 
