@@ -6,6 +6,7 @@ import firebase from './config/firebaseApp';
 
 import Ref from './Ref';
 import Scribble from './Scribble';
+import Button from "./minor/Button";
 
 import seedJson from '../seed';
 import {getUnsplashPhotos, getScribble, saveRefs} from '../actions';
@@ -36,18 +37,19 @@ const StartRef = (props) => {
           </h3>
 
       <br />
-
-      <button onClick={() => {
-        props.getUnsplashPhotos();
-        props.getScribble();
-      }} className="generate-btn">generate</button>
+      
       <RefSet>
         <Ref photoInfo={props.unsplashPhotos[0]} />
         <Scribble scribbleUrl={props.scribble} />
         <Ref photoInfo={props.unsplashPhotos[2]} />
       </RefSet>
 
-      <SaveButton onClick={() => {
+      <Button content = "generate" title = "generate" click={() => {
+        props.getUnsplashPhotos();
+        props.getScribble();
+      }}/>
+
+      <Button content = "👌" title = "save" click={() => {
         props.saveRefs(props.user.uid, [props.unsplashPhotos[0], props.scribble, props.unsplashPhotos[2]])
         props.history.push("/upload")
       }} />
