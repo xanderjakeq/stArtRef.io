@@ -12,7 +12,7 @@ functions/node_modules
 /build
 
 #firebase config
-/config
+src/components/config/config.js
 
 
 # misc

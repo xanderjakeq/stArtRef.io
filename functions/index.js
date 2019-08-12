@@ -18,7 +18,7 @@ const database = firebase.database();
 
 app.get('/*', (request, response) => {
     console.log('main');
-    response.sendFile(__dirname + '/views/index.html');
+    response.sendFile(__dirname + '/build/index.html');
 })
 app.get('/account', (request, response) => {
     console.log('account');
