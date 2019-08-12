@@ -31,6 +31,10 @@ export const Wrapper = styled.div`
     width: 100px;
     height: 100px;
     margin: 1px; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: beige;
 
     &:hover{
         cursor: pointer;
