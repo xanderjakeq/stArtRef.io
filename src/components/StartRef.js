@@ -112,39 +112,6 @@ const Main = styled.div`
     font-size: large;
   }
 
-  .generate-btn {
-    /* -moz-box-shadow: 0px 0px 0px 0px #3dc21b;
-    -webkit-box-shadow: 0px 0px 0px 0px #3dc21b;
-    box-shadow: 0px 0px 0px 0px #3dc21b; */
-    background-color:#55e1d0;
-    -moz-border-radius:42px;
-    -webkit-border-radius:42px;
-    border-radius:42px;
-    display:inline-block;
-    cursor:pointer;
-    color:#000000;
-    font-family:Verdana;
-    font-size:14px;
-    padding:7px 11px;
-    text-decoration:none;
-    border: none;
-
-    height: 2.5em;
-    margin-top: 15px;
-    margin-bottom: 15px;
-  }
-  .generate-btn:hover {
-    background-color:#106367;
-    color: white;
-  }
-  .generate-btn:active {
-    position:relative;
-    top:1px;
-  }
-  .generate-btn:focus {
-    outline:0;
-  }
-
   .option-btn {
     /* -moz-box-shadow: 0px 0px 0px 0px #3dc21b;
     -webkit-box-shadow: 0px 0px 0px 0px #3dc21b;
