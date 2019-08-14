@@ -12,13 +12,13 @@
     "public": "build",
     "rewrites":[
       {
-        "source": "**",
-        "destination": "/index.html"
-      }, 
-      {
         "source": "/api{,/**}",
         "function": "api"
-      }
+      },
+      {
+        "source": "**",
+        "destination": "/index.html"
+      } 
     ],
     "ignore": [
       "firebase.json",
