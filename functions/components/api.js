@@ -1,18 +1,10 @@
 const functions = require('firebase-functions');
-const firebase = require('firebase-admin')
+const firebase = require('../config');
 const express = require('express');
-
-
-//not needed
-
-const firebaseApp = firebase.initializeApp(
-    functions.config().firebase
-);
 
 
 const app = express();
 const database = firebase.database();
-
 
 app.get('/', (request, response) => {
 	res.json({message: "welcome to the startref api"})
@@ -27,4 +19,4 @@ app.use(function (req, res, next) {
     res.status(404).sendFile(__dirname + '/views/404.html');
   })
 
-export default functions.https.onRequest(app);
+module.exports = functions.https.onRequest(app);
