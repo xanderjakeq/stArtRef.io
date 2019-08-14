@@ -1,9 +1,6 @@
 const functions = require('firebase-functions');
 const firebase = require('firebase-admin')
 const express = require('express');
-const Unsplash = require('unsplash-js').default;
-const engines = require('consolidate');
-
 
 //not needed
 
