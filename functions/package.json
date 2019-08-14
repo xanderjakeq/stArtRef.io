@@ -18,5 +18,8 @@
     "unsplash-js": "^4.8.0",
     "url-parse": "^1.4.3"
   },
-  "private": true
+  "private": true,
+  "engines": {
+    "node": "8"
+  }
 }
