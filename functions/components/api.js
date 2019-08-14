@@ -2,14 +2,13 @@ const functions = require('firebase-functions');
 const firebase = require('../config');
 const express = require('express');
 
-
 const app = express();
 const database = firebase.database();
 
-app.get('/', (request, response) => {
+app.get('/', (req, res) => {
 	res.json({message: "welcome to the startref api"})
 })
-app.get('/account', (request, response) => {
+app.get('/account', (req, res) => {
     console.log('account');
     response.sendFile( __dirname + '/views/userProfile.html');
 })
