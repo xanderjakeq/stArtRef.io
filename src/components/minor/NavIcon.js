@@ -12,7 +12,7 @@ const NavIcon = (props) => {
 				{props.logo ? 
 					<img src={props.logo} alt="startref logo" />
 					:
-					<Icon color = {isActive ? "#1DD3B0" : "black"} size = {isActive ? 40 : 30}/>
+					<Icon color = "black" size = {isActive ? 40 : 30}/>
 				}
 			</Link>
 		</NavIconWrapper>
