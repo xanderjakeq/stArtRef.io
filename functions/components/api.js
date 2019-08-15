@@ -2,14 +2,9 @@ const functions = require('firebase-functions');
 const express = require('express');
 const axios = require('axios');
 const querystring = require('querystring');
-const url = require('url');
-const patreon = require('patreon');
 
 const firebase = require('../config');
 const env = require('../env');
-
-const patreonAPI = patreon.patreon
-const patreonOAuth = patreon.oauth
 
 
 const app = express();
