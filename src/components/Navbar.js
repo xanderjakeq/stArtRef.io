@@ -21,7 +21,7 @@ const NavBar = (props) => {
 
 export default NavBar;
 
-const Nav = styled.div`
+const Nav = styled.nav`
     position: fixed;
     top:0;
     z-index: 10;
