@@ -1,22 +1,27 @@
-import React, {  } from 'react';
-import {Link} from "react-router-dom";
+import React, {useState, useEffect} from 'react';
+import {Compass, User} from "react-feather";
 
-import styled from 'styled-components';
+import styled from "styled-components";
 
-import logo from '../logo.svg';
+import logo from "../logo.svg";
+import NavIcon from "./minor/NavIcon";
 
 const NavBar = (props) => {
+    const [activeIcon, setActiveIcon] = useState(window.location.href.split('/')[3]);
+
     return(
         <Nav>
-            <Link to = "/">        
-                <img src={logo} alt="startref logo" />
-            </Link>
+            <NavIcon to = "/" logo = {logo} id = {0} active = {activeIcon} click = {changeActiveIcon}/>
             <div className="startref_icons">
-                <Link to = "/explore"><span role = "img" className = "navIcons" aria-label = "explore">🖼️</span></Link>
-                <Link to = "/profile"><span role = "img" className = "navIcons" aria-label = "profile">🙈</span></Link>
+                <NavIcon to = "/explore" icon = {Compass} id = {1} active = {activeIcon} click = {changeActiveIcon}/>
+                <NavIcon to = "/profile" icon = {User} id = {2} active = {activeIcon} click = {changeActiveIcon}/>
             </div>
         </Nav>
     )
+
+    function changeActiveIcon(iconId) {
+       setActiveIcon(iconId)
+    }
 }
 
 export default NavBar;
@@ -55,6 +60,12 @@ const Nav = styled.nav`
         font-size: 30px;
         vertical-align: middle;
         line-height: 2;
+    }
+
+    .startref_icons{
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
     }
 
     @media only screen and (min-width: 600px) {
