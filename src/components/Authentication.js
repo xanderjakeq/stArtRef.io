@@ -42,13 +42,14 @@ const Authentication = (props) => {
             </div>
             :
             <LoginContainer>
-              <h1>stArtRef</h1>
-              <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()}/>
+              <h1>stArtRef is invite only (for now)</h1>
+              <p>join <a href = "https://discord.gg/492Nqfg">discord</a> for details.</p>
+              {/* <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()}/>
               <p>If its the first time, an account will be created for u</p>
               <hr/>
               <p>Dunno how to comply to GDPR so uhh.. if u make an account, u agree that u will not sue me.</p>
               <br/>
-              <h1>( ˘ ³˘)❤</h1>
+              <h1>( ˘ ³˘)❤</h1> */}
             </LoginContainer>
         }
       </>
