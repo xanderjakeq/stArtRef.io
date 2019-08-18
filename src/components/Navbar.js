@@ -33,7 +33,8 @@ const Nav = styled.nav`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 100%;
+    width: fill-available;
+    padding: 0 5%;
     height: 60px;
     background-color: #fff;
     font-size: 25px;
@@ -57,7 +58,7 @@ const Nav = styled.nav`
     }
 
     @media only screen and (min-width: 600px) {
-        padding: 5px 0;
+        padding: 5px 15%;
         border-bottom: 1px solid rgba(0,0,0,.0975);
         
         .navIcons{
