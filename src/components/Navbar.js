@@ -3,7 +3,7 @@ import {Compass, User} from "react-feather";
 
 import styled from "styled-components";
 
-import logo from "../logo.svg";
+import logo from "../assets/logo1.svg";
 import NavIcon from "./minor/NavIcon";
 
 const NavBar = (props) => {
@@ -40,20 +40,8 @@ const Nav = styled.nav`
 
     border-bottom: 1px solid rgba(0,0,0,.0975);
   
-    img {
-        width: 50px;
-        /* to push left border */
-        padding-left: 20%;
-    }
-    
     .insta_text {
         padding-left: 10px;
-    }
-    
-    a{
-        text-decoration: none;
-        display: inline;
-        padding-right: 10px;
     }
 
     .navIcons{
@@ -71,9 +59,7 @@ const Nav = styled.nav`
     @media only screen and (min-width: 600px) {
         padding: 5px 0;
         border-bottom: 1px solid rgba(0,0,0,.0975);
-        img {
-            width: 100px;
-        }
+        
         .navIcons{
             font-size: 50px;
         }
