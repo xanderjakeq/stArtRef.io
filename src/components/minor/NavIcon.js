@@ -10,7 +10,7 @@ const NavIcon = (props) => {
 		<NavIconWrapper active = {page === props.active}>
 			<Link to = {props.to} onClick = {() => props.click(page)}>
 				{props.logo ? 
-					<img src={props.logo} alt="startref logo" />
+					<img src={props.logo} alt="startref logo" width = {isActive ? "60px" : "50px"}/>
 					:
 					<Icon color = "black" size = {isActive ? 40 : 30}/>
 				}
@@ -22,7 +22,16 @@ const NavIcon = (props) => {
 export default NavIcon;
 
 const NavIconWrapper = styled.div`
-	svg{
+	svg, img{
 		transition-duration: .5s;
 	}
+	a{
+		display: flex;
+		font-size: 40px;
+        text-decoration: none;
+		margin: 0 10px;
+		&:active{
+			background:none;
+		}
+    }
 `;
