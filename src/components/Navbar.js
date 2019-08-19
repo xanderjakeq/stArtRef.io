@@ -39,7 +39,7 @@ const Nav = styled.nav`
     align-items: center;
     width: fill-available;
     padding: 0 5%;
-    height: 60px;
+    height: 55px;
     background-color: #fff;
     font-size: 25px;
 
