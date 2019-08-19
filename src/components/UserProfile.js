@@ -267,9 +267,9 @@ const Grid = styled.div`
         @media only screen and (min-width: 700px) {
             max-width: 660px;
         }
-        @media only screen and (min-width: 1160px) {
-            max-width: 1105px;
-        }
+        // @media only screen and (min-width: 1160px) {
+        //     max-width: 1105px;
+        // }
 `;
 
 const PostsWrapper = styled.div`
