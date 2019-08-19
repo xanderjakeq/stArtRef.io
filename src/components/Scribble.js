@@ -2,7 +2,7 @@ import React from 'react';
 
 import {Ref} from './Ref';
 
-import loading from "../loading.png";
+import loading from "../assets/loading.png";
 
 const Scribble = (props) => {
 
