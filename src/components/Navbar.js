@@ -4,6 +4,8 @@ import {Compass, User} from "react-feather";
 import styled from "styled-components";
 
 import logo from "../assets/logo1.svg";
+import explore from "../assets/explore_icon.svg";
+import profile from "../assets/profile_icon.svg";
 import NavIcon from "./minor/NavIcon";
 
 const NavBar = (props) => {
@@ -13,8 +15,10 @@ const NavBar = (props) => {
         <Nav>
             <NavIcon to = "/" logo = {logo} id = {0} active = {activeIcon} click = {changeActiveIcon}/>
             <div className="startref_icons">
-                <NavIcon to = "/explore" icon = {Compass} id = {1} active = {activeIcon} click = {changeActiveIcon}/>
-                <NavIcon to = "/profile" icon = {User} id = {2} active = {activeIcon} click = {changeActiveIcon}/>
+                <NavIcon to = "/explore" svg = {explore} id = {0} active = {activeIcon} click = {changeActiveIcon}/>
+                <NavIcon to = "/profile" svg = {profile} id = {0} active = {activeIcon} click = {changeActiveIcon}/>
+                {/* <NavIcon to = "/explore" icon = {Compass} id = {1} active = {activeIcon} click = {changeActiveIcon}/>
+                <NavIcon to = "/profile" icon = {User} id = {2} active = {activeIcon} click = {changeActiveIcon}/> */}
             </div>
         </Nav>
     )
