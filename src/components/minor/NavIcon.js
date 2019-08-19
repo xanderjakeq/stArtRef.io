@@ -1,6 +1,6 @@
 import React from "react";
 import {Link} from "react-router-dom";
-import styled from "styled-components";
+import styled, {css} from "styled-components";
 
 const NavIcon = (props) => {
 	const {icon: Icon} = props;
@@ -10,9 +10,12 @@ const NavIcon = (props) => {
 		<NavIconWrapper active = {page === props.active}>
 			<Link to = {props.to} onClick = {() => props.click(page)}>
 				{props.logo ? 
-					<img src={props.logo} alt="startref logo" width = {isActive ? "60px" : "50px"}/>
+					<img src={props.logo} alt="startref logo" width = "50px"/>
 					:
-					<Icon color = "black" size = {isActive ? 40 : 30}/>
+					props.svg ? 
+						<img src={props.svg} alt="icon" width = "30px"/>
+						:
+						<Icon color = "black" size = {40}/>
 				}
 			</Link>
 		</NavIconWrapper>
@@ -22,6 +25,23 @@ const NavIcon = (props) => {
 export default NavIcon;
 
 const NavIconWrapper = styled.div`
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	height: 50px;
+	&::after{
+		content: "";
+		display: block;
+		padding-top: 5px;
+		width: 0;
+		border-bottom: 1px solid black;
+		transition: .5s;
+		${props => props.active && css`
+				width: 100%;
+		`}
+	}
+	
 	svg, img{
 		transition-duration: .5s;
 	}
