@@ -99,6 +99,5 @@ export default connect(mstp, {savedata})(App);
 
 const MainWrapper = styled.div`
   min-height: calc(100vh - 64px);
-  padding-left: 2%;
-  padding-right: 2%;
+  padding: 0 15%;
 `;
