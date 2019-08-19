@@ -35,8 +35,9 @@ const NavIconWrapper = styled.div`
 		display: block;
 		padding-top: 5px;
 		width: 0;
-		border-bottom: 1px solid black;
+		border-bottom: 2px solid black;
 		transition: .5s;
+		transition-property: width;
 		${props => props.active && css`
 				width: 100%;
 		`}
