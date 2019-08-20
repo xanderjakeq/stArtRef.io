@@ -100,7 +100,7 @@ export default connect(mstp, {savedata})(App);
 const MainWrapper = styled.div`
   min-height: calc(100vh - 64px);
   padding: 0 2%;
-  @media only screen and (min-width: 376px){
+  @media only screen and (min-width: 600px){
     padding: 0 15%;
   }
 `;

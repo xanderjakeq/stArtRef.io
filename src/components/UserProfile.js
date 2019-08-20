@@ -265,7 +265,7 @@ const Grid = styled.div`
             max-width: 330px;
         }
         @media only screen and (min-width: 700px) {
-            max-width: 660px;
+            min-width: 660px;
         }
         // @media only screen and (min-width: 1160px) {
         //     max-width: 1105px;
