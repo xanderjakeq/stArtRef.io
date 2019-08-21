@@ -88,7 +88,7 @@ const UserSearch = (props) => {
                 {/* Posts Here */}
                     {posts.map((post) => (
                         <Post   
-                            url={`${props.match.url}/${post.refKey}`}
+                            url={`art/${post.refKey}`}
                             post={post}
                             key={post.refKey}
                         />
